@@ -69,19 +69,16 @@ public class main extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
 
         jD_Archivo.setMinimumSize(new java.awt.Dimension(400, 400));
-        jD_Archivo.getContentPane().setLayout(null);
+        jD_Archivo.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnArchivoAbrir.setText("Abrir archivo");
-        jD_Archivo.getContentPane().add(btnArchivoAbrir);
-        btnArchivoAbrir.setBounds(10, 131, 93, 23);
+        jD_Archivo.getContentPane().add(btnArchivoAbrir, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 131, -1, -1));
 
         btnArchivoSalvar.setText("Salvar archivo");
-        jD_Archivo.getContentPane().add(btnArchivoSalvar);
-        btnArchivoSalvar.setBounds(10, 172, 101, 23);
+        jD_Archivo.getContentPane().add(btnArchivoSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 172, -1, -1));
 
         btnArchivoCerrar.setText("Cerrar archivo");
-        jD_Archivo.getContentPane().add(btnArchivoCerrar);
-        btnArchivoCerrar.setBounds(10, 213, 101, 23);
+        jD_Archivo.getContentPane().add(btnArchivoCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 213, -1, -1));
 
         btnArchivoSalir.setText("Salir");
         btnArchivoSalir.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -89,22 +86,18 @@ public class main extends javax.swing.JFrame {
                 btnArchivoSalirMouseClicked(evt);
             }
         });
-        jD_Archivo.getContentPane().add(btnArchivoSalir);
-        btnArchivoSalir.setBounds(337, 366, 53, 23);
+        jD_Archivo.getContentPane().add(btnArchivoSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(337, 366, -1, -1));
 
         btnArchivoNuevo.setText("Nuevo archivo");
-        jD_Archivo.getContentPane().add(btnArchivoNuevo);
-        btnArchivoNuevo.setBounds(10, 90, 101, 23);
+        jD_Archivo.getContentPane().add(btnArchivoNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Archivo");
-        jD_Archivo.getContentPane().add(jLabel2);
-        jLabel2.setBounds(10, 11, 118, 44);
+        jD_Archivo.getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, -1));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoestructuradatos2/imgs/bgproyecto.jpg"))); // NOI18N
-        jD_Archivo.getContentPane().add(jLabel7);
-        jLabel7.setBounds(-26, -10, 460, 440);
+        jD_Archivo.getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(-26, -20, 480, 450));
 
         jD_Campos.setMinimumSize(new java.awt.Dimension(400, 400));
 
