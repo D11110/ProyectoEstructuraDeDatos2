@@ -34,6 +34,7 @@ public class main extends javax.swing.JFrame {
         btnArchivoSalir = new javax.swing.JButton();
         btnArchivoNuevo = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         jD_Campos = new javax.swing.JDialog();
         btnCamposCrear = new javax.swing.JButton();
         btnCamposListar = new javax.swing.JButton();
@@ -68,12 +69,19 @@ public class main extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
 
         jD_Archivo.setMinimumSize(new java.awt.Dimension(400, 400));
+        jD_Archivo.getContentPane().setLayout(null);
 
         btnArchivoAbrir.setText("Abrir archivo");
+        jD_Archivo.getContentPane().add(btnArchivoAbrir);
+        btnArchivoAbrir.setBounds(10, 131, 93, 23);
 
         btnArchivoSalvar.setText("Salvar archivo");
+        jD_Archivo.getContentPane().add(btnArchivoSalvar);
+        btnArchivoSalvar.setBounds(10, 172, 101, 23);
 
         btnArchivoCerrar.setText("Cerrar archivo");
+        jD_Archivo.getContentPane().add(btnArchivoCerrar);
+        btnArchivoCerrar.setBounds(10, 213, 101, 23);
 
         btnArchivoSalir.setText("Salir");
         btnArchivoSalir.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -81,49 +89,22 @@ public class main extends javax.swing.JFrame {
                 btnArchivoSalirMouseClicked(evt);
             }
         });
+        jD_Archivo.getContentPane().add(btnArchivoSalir);
+        btnArchivoSalir.setBounds(337, 366, 53, 23);
 
         btnArchivoNuevo.setText("Nuevo archivo");
+        jD_Archivo.getContentPane().add(btnArchivoNuevo);
+        btnArchivoNuevo.setBounds(10, 90, 101, 23);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Archivo");
+        jD_Archivo.getContentPane().add(jLabel2);
+        jLabel2.setBounds(10, 11, 118, 44);
 
-        javax.swing.GroupLayout jD_ArchivoLayout = new javax.swing.GroupLayout(jD_Archivo.getContentPane());
-        jD_Archivo.getContentPane().setLayout(jD_ArchivoLayout);
-        jD_ArchivoLayout.setHorizontalGroup(
-            jD_ArchivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jD_ArchivoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jD_ArchivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jD_ArchivoLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnArchivoSalir))
-                    .addGroup(jD_ArchivoLayout.createSequentialGroup()
-                        .addGroup(jD_ArchivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnArchivoNuevo)
-                            .addComponent(btnArchivoAbrir)
-                            .addComponent(btnArchivoSalvar)
-                            .addComponent(btnArchivoCerrar)
-                            .addComponent(jLabel2))
-                        .addGap(0, 262, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jD_ArchivoLayout.setVerticalGroup(
-            jD_ArchivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jD_ArchivoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addGap(35, 35, 35)
-                .addComponent(btnArchivoNuevo)
-                .addGap(18, 18, 18)
-                .addComponent(btnArchivoAbrir)
-                .addGap(18, 18, 18)
-                .addComponent(btnArchivoSalvar)
-                .addGap(18, 18, 18)
-                .addComponent(btnArchivoCerrar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
-                .addComponent(btnArchivoSalir)
-                .addContainerGap())
-        );
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoestructuradatos2/imgs/bgproyecto.jpg"))); // NOI18N
+        jD_Archivo.getContentPane().add(jLabel7);
+        jLabel7.setBounds(-26, -10, 460, 440);
 
         jD_Campos.setMinimumSize(new java.awt.Dimension(400, 400));
 
@@ -562,5 +543,6 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     // End of variables declaration//GEN-END:variables
 }
