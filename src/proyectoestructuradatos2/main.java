@@ -27,21 +27,506 @@ public class main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jD_Archivo = new javax.swing.JDialog();
+        btnArchivoAbrir = new javax.swing.JButton();
+        btnArchivoSalvar = new javax.swing.JButton();
+        btnArchivoCerrar = new javax.swing.JButton();
+        btnArchivoSalir = new javax.swing.JButton();
+        btnArchivoNuevo = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jD_Campos = new javax.swing.JDialog();
+        btnCamposCrear = new javax.swing.JButton();
+        btnCamposListar = new javax.swing.JButton();
+        btnCamposModificar = new javax.swing.JButton();
+        btnCamposBorrar = new javax.swing.JButton();
+        btnCamposSalir = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jD_Registros = new javax.swing.JDialog();
+        btnRegistrosIntroducir = new javax.swing.JButton();
+        btnRegistrosModificar = new javax.swing.JButton();
+        btnRegistrosBuscar = new javax.swing.JButton();
+        btnRegistrosBorrar = new javax.swing.JButton();
+        btnRegistrosListar = new javax.swing.JButton();
+        btnRegistrosSalir = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jD_Indices = new javax.swing.JDialog();
+        btnIndicesCrear = new javax.swing.JButton();
+        btnIndicesIndexar = new javax.swing.JButton();
+        btnIndicesSalir = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jD_Estandarizacion = new javax.swing.JDialog();
+        btnEstandExportExcel = new javax.swing.JButton();
+        btnEstandXMLSchema = new javax.swing.JButton();
+        btnEstandSalir = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        btnMainMenuArchivo = new javax.swing.JButton();
+        btnMainMenuCampos = new javax.swing.JButton();
+        btnMainMenuRegistros = new javax.swing.JButton();
+        btnMainMenuIndices = new javax.swing.JButton();
+        btnMainMenuEstandarizacion = new javax.swing.JButton();
+        btnMainMenuSalir = new javax.swing.JButton();
+
+        jD_Archivo.setMinimumSize(new java.awt.Dimension(400, 400));
+        jD_Archivo.setPreferredSize(new java.awt.Dimension(400, 400));
+
+        btnArchivoAbrir.setText("Abrir archivo");
+
+        btnArchivoSalvar.setText("Salvar archivo");
+
+        btnArchivoCerrar.setText("Cerrar archivo");
+
+        btnArchivoSalir.setText("Salir");
+        btnArchivoSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnArchivoSalirMouseClicked(evt);
+            }
+        });
+
+        btnArchivoNuevo.setText("Nuevo archivo");
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel2.setText("Archivo");
+
+        javax.swing.GroupLayout jD_ArchivoLayout = new javax.swing.GroupLayout(jD_Archivo.getContentPane());
+        jD_Archivo.getContentPane().setLayout(jD_ArchivoLayout);
+        jD_ArchivoLayout.setHorizontalGroup(
+            jD_ArchivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jD_ArchivoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jD_ArchivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jD_ArchivoLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnArchivoSalir))
+                    .addGroup(jD_ArchivoLayout.createSequentialGroup()
+                        .addGroup(jD_ArchivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnArchivoNuevo)
+                            .addComponent(btnArchivoAbrir)
+                            .addComponent(btnArchivoSalvar)
+                            .addComponent(btnArchivoCerrar)
+                            .addComponent(jLabel2))
+                        .addGap(0, 262, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jD_ArchivoLayout.setVerticalGroup(
+            jD_ArchivoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jD_ArchivoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addGap(35, 35, 35)
+                .addComponent(btnArchivoNuevo)
+                .addGap(18, 18, 18)
+                .addComponent(btnArchivoAbrir)
+                .addGap(18, 18, 18)
+                .addComponent(btnArchivoSalvar)
+                .addGap(18, 18, 18)
+                .addComponent(btnArchivoCerrar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
+                .addComponent(btnArchivoSalir)
+                .addContainerGap())
+        );
+
+        jD_Campos.setMinimumSize(new java.awt.Dimension(400, 400));
+        jD_Campos.setPreferredSize(new java.awt.Dimension(400, 400));
+
+        btnCamposCrear.setText("Crear campos");
+
+        btnCamposListar.setText("Listar campos");
+
+        btnCamposModificar.setText("Modificar campos");
+
+        btnCamposBorrar.setText("Borrar campos");
+
+        btnCamposSalir.setText("Salir");
+        btnCamposSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCamposSalirMouseClicked(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel1.setText("Campos");
+
+        javax.swing.GroupLayout jD_CamposLayout = new javax.swing.GroupLayout(jD_Campos.getContentPane());
+        jD_Campos.getContentPane().setLayout(jD_CamposLayout);
+        jD_CamposLayout.setHorizontalGroup(
+            jD_CamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jD_CamposLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jD_CamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jD_CamposLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnCamposSalir))
+                    .addGroup(jD_CamposLayout.createSequentialGroup()
+                        .addGroup(jD_CamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnCamposCrear)
+                            .addComponent(btnCamposListar)
+                            .addComponent(btnCamposModificar)
+                            .addComponent(btnCamposBorrar)
+                            .addComponent(jLabel1))
+                        .addGap(0, 253, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jD_CamposLayout.setVerticalGroup(
+            jD_CamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jD_CamposLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(btnCamposCrear)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCamposListar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCamposModificar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCamposBorrar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 168, Short.MAX_VALUE)
+                .addComponent(btnCamposSalir)
+                .addContainerGap())
+        );
+
+        jD_Registros.setMinimumSize(new java.awt.Dimension(400, 400));
+        jD_Registros.setPreferredSize(new java.awt.Dimension(400, 400));
+
+        btnRegistrosIntroducir.setText("Introducir registros");
+
+        btnRegistrosModificar.setText("Modificar registros");
+
+        btnRegistrosBuscar.setText("Buscar registros");
+
+        btnRegistrosBorrar.setText("Borrar registros");
+
+        btnRegistrosListar.setText("Listar registros");
+
+        btnRegistrosSalir.setText("Salir");
+        btnRegistrosSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnRegistrosSalirMouseClicked(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel3.setText("Registros");
+
+        javax.swing.GroupLayout jD_RegistrosLayout = new javax.swing.GroupLayout(jD_Registros.getContentPane());
+        jD_Registros.getContentPane().setLayout(jD_RegistrosLayout);
+        jD_RegistrosLayout.setHorizontalGroup(
+            jD_RegistrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jD_RegistrosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jD_RegistrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jD_RegistrosLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnRegistrosSalir))
+                    .addGroup(jD_RegistrosLayout.createSequentialGroup()
+                        .addGroup(jD_RegistrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnRegistrosIntroducir)
+                            .addComponent(btnRegistrosModificar)
+                            .addComponent(btnRegistrosBuscar)
+                            .addComponent(btnRegistrosBorrar)
+                            .addComponent(btnRegistrosListar)
+                            .addComponent(jLabel3))
+                        .addGap(0, 234, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jD_RegistrosLayout.setVerticalGroup(
+            jD_RegistrosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jD_RegistrosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addGap(29, 29, 29)
+                .addComponent(btnRegistrosIntroducir)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnRegistrosModificar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnRegistrosBuscar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnRegistrosBorrar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnRegistrosListar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 123, Short.MAX_VALUE)
+                .addComponent(btnRegistrosSalir)
+                .addContainerGap())
+        );
+
+        jD_Indices.setMinimumSize(new java.awt.Dimension(400, 400));
+        jD_Indices.setPreferredSize(new java.awt.Dimension(400, 400));
+
+        btnIndicesCrear.setText("Crear indices");
+
+        btnIndicesIndexar.setText("Re-indexar indices");
+
+        btnIndicesSalir.setText("Salir");
+        btnIndicesSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnIndicesSalirMouseClicked(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel4.setText("Indices");
+
+        javax.swing.GroupLayout jD_IndicesLayout = new javax.swing.GroupLayout(jD_Indices.getContentPane());
+        jD_Indices.getContentPane().setLayout(jD_IndicesLayout);
+        jD_IndicesLayout.setHorizontalGroup(
+            jD_IndicesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jD_IndicesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jD_IndicesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jD_IndicesLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnIndicesSalir))
+                    .addGroup(jD_IndicesLayout.createSequentialGroup()
+                        .addGroup(jD_IndicesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnIndicesCrear)
+                            .addComponent(btnIndicesIndexar)
+                            .addComponent(jLabel4))
+                        .addGap(0, 259, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jD_IndicesLayout.setVerticalGroup(
+            jD_IndicesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jD_IndicesLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4)
+                .addGap(23, 23, 23)
+                .addComponent(btnIndicesCrear)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnIndicesIndexar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 231, Short.MAX_VALUE)
+                .addComponent(btnIndicesSalir)
+                .addContainerGap())
+        );
+
+        jD_Estandarizacion.setMinimumSize(new java.awt.Dimension(400, 400));
+        jD_Estandarizacion.setPreferredSize(new java.awt.Dimension(400, 400));
+
+        btnEstandExportExcel.setText("Exportar excel");
+
+        btnEstandXMLSchema.setText("Exportar XML con Schema");
+
+        btnEstandSalir.setText("Salir");
+        btnEstandSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEstandSalirMouseClicked(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabel5.setText("Estandarizacion");
+
+        javax.swing.GroupLayout jD_EstandarizacionLayout = new javax.swing.GroupLayout(jD_Estandarizacion.getContentPane());
+        jD_Estandarizacion.getContentPane().setLayout(jD_EstandarizacionLayout);
+        jD_EstandarizacionLayout.setHorizontalGroup(
+            jD_EstandarizacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jD_EstandarizacionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jD_EstandarizacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jD_EstandarizacionLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnEstandSalir))
+                    .addGroup(jD_EstandarizacionLayout.createSequentialGroup()
+                        .addGroup(jD_EstandarizacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnEstandExportExcel)
+                            .addComponent(btnEstandXMLSchema)
+                            .addComponent(jLabel5))
+                        .addGap(0, 133, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jD_EstandarizacionLayout.setVerticalGroup(
+            jD_EstandarizacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jD_EstandarizacionLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel5)
+                .addGap(20, 20, 20)
+                .addComponent(btnEstandExportExcel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEstandXMLSchema)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 239, Short.MAX_VALUE)
+                .addComponent(btnEstandSalir)
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(600, 600));
+
+        btnMainMenuArchivo.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        btnMainMenuArchivo.setText("Archivo");
+        btnMainMenuArchivo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMainMenuArchivoMouseClicked(evt);
+            }
+        });
+
+        btnMainMenuCampos.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        btnMainMenuCampos.setText("Campos");
+        btnMainMenuCampos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMainMenuCamposMouseClicked(evt);
+            }
+        });
+
+        btnMainMenuRegistros.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        btnMainMenuRegistros.setText("Registros");
+        btnMainMenuRegistros.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMainMenuRegistrosMouseClicked(evt);
+            }
+        });
+
+        btnMainMenuIndices.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        btnMainMenuIndices.setText("Indices");
+        btnMainMenuIndices.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMainMenuIndicesMouseClicked(evt);
+            }
+        });
+
+        btnMainMenuEstandarizacion.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        btnMainMenuEstandarizacion.setText("Estandarizacion");
+        btnMainMenuEstandarizacion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMainMenuEstandarizacionMouseClicked(evt);
+            }
+        });
+
+        btnMainMenuSalir.setText("Salir");
+        btnMainMenuSalir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnMainMenuSalirMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnMainMenuRegistros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnMainMenuArchivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnMainMenuCampos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnMainMenuIndices, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(54, 54, 54)
+                                .addComponent(btnMainMenuEstandarizacion)))
+                        .addGap(0, 224, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnMainMenuSalir)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(64, 64, 64)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnMainMenuArchivo)
+                    .addComponent(btnMainMenuCampos))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnMainMenuRegistros)
+                    .addComponent(btnMainMenuIndices))
+                .addGap(18, 18, 18)
+                .addComponent(btnMainMenuEstandarizacion)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 307, Short.MAX_VALUE)
+                .addComponent(btnMainMenuSalir)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnMainMenuArchivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMainMenuArchivoMouseClicked
+        // TODO add your handling code here:
+        jD_Archivo.pack();
+        jD_Archivo.setLocationRelativeTo(this);
+        jD_Archivo.setVisible(true);
+        setVisible(false);
+    }//GEN-LAST:event_btnMainMenuArchivoMouseClicked
+
+    private void btnMainMenuSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMainMenuSalirMouseClicked
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_btnMainMenuSalirMouseClicked
+
+    private void btnArchivoSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnArchivoSalirMouseClicked
+        // TODO add your handling code here:
+        jD_Archivo.pack();
+        jD_Archivo.setLocationRelativeTo(this);
+        jD_Archivo.setVisible(false);
+        setVisible(true);
+    }//GEN-LAST:event_btnArchivoSalirMouseClicked
+
+    private void btnMainMenuCamposMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMainMenuCamposMouseClicked
+        // TODO add your handling code here:
+        jD_Campos.pack();
+        jD_Campos.setLocationRelativeTo(this);
+        jD_Campos.setVisible(true);
+        setVisible(false);
+    }//GEN-LAST:event_btnMainMenuCamposMouseClicked
+
+    private void btnCamposSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCamposSalirMouseClicked
+        // TODO add your handling code here:
+        jD_Campos.pack();
+        jD_Campos.setLocationRelativeTo(this);
+        jD_Campos.setVisible(false);
+        setVisible(true);
+    }//GEN-LAST:event_btnCamposSalirMouseClicked
+
+    private void btnMainMenuRegistrosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMainMenuRegistrosMouseClicked
+        // TODO add your handling code here:
+        jD_Registros.pack();
+        jD_Registros.setLocationRelativeTo(this);
+        jD_Registros.setVisible(true);
+        setVisible(false);
+    }//GEN-LAST:event_btnMainMenuRegistrosMouseClicked
+
+    private void btnRegistrosSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRegistrosSalirMouseClicked
+        // TODO add your handling code here:
+        jD_Registros.pack();
+        jD_Registros.setLocationRelativeTo(this);
+        jD_Registros.setVisible(false);
+        setVisible(true);
+    }//GEN-LAST:event_btnRegistrosSalirMouseClicked
+
+    private void btnMainMenuIndicesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMainMenuIndicesMouseClicked
+        // TODO add your handling code here:
+        jD_Indices.pack();
+        jD_Indices.setLocationRelativeTo(this);
+        jD_Indices.setVisible(true);
+        setVisible(false);
+    }//GEN-LAST:event_btnMainMenuIndicesMouseClicked
+
+    private void btnIndicesSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIndicesSalirMouseClicked
+        // TODO add your handling code here:
+        jD_Indices.pack();
+        jD_Indices.setLocationRelativeTo(this);
+        jD_Indices.setVisible(false);
+        setVisible(true);
+    }//GEN-LAST:event_btnIndicesSalirMouseClicked
+
+    private void btnMainMenuEstandarizacionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMainMenuEstandarizacionMouseClicked
+        // TODO add your handling code here:
+        jD_Estandarizacion.pack();
+        jD_Estandarizacion.setLocationRelativeTo(this);
+        jD_Estandarizacion.setVisible(true);
+        setVisible(false);
+    }//GEN-LAST:event_btnMainMenuEstandarizacionMouseClicked
+
+    private void btnEstandSalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEstandSalirMouseClicked
+        // TODO add your handling code here:
+        jD_Estandarizacion.pack();
+        jD_Estandarizacion.setLocationRelativeTo(this);
+        jD_Estandarizacion.setVisible(false);
+        setVisible(true);
+    }//GEN-LAST:event_btnEstandSalirMouseClicked
 
     /**
      * @param args the command line arguments
@@ -79,5 +564,43 @@ public class main extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnArchivoAbrir;
+    private javax.swing.JButton btnArchivoCerrar;
+    private javax.swing.JButton btnArchivoNuevo;
+    private javax.swing.JButton btnArchivoSalir;
+    private javax.swing.JButton btnArchivoSalvar;
+    private javax.swing.JButton btnCamposBorrar;
+    private javax.swing.JButton btnCamposCrear;
+    private javax.swing.JButton btnCamposListar;
+    private javax.swing.JButton btnCamposModificar;
+    private javax.swing.JButton btnCamposSalir;
+    private javax.swing.JButton btnEstandExportExcel;
+    private javax.swing.JButton btnEstandSalir;
+    private javax.swing.JButton btnEstandXMLSchema;
+    private javax.swing.JButton btnIndicesCrear;
+    private javax.swing.JButton btnIndicesIndexar;
+    private javax.swing.JButton btnIndicesSalir;
+    private javax.swing.JButton btnMainMenuArchivo;
+    private javax.swing.JButton btnMainMenuCampos;
+    private javax.swing.JButton btnMainMenuEstandarizacion;
+    private javax.swing.JButton btnMainMenuIndices;
+    private javax.swing.JButton btnMainMenuRegistros;
+    private javax.swing.JButton btnMainMenuSalir;
+    private javax.swing.JButton btnRegistrosBorrar;
+    private javax.swing.JButton btnRegistrosBuscar;
+    private javax.swing.JButton btnRegistrosIntroducir;
+    private javax.swing.JButton btnRegistrosListar;
+    private javax.swing.JButton btnRegistrosModificar;
+    private javax.swing.JButton btnRegistrosSalir;
+    private javax.swing.JDialog jD_Archivo;
+    private javax.swing.JDialog jD_Campos;
+    private javax.swing.JDialog jD_Estandarizacion;
+    private javax.swing.JDialog jD_Indices;
+    private javax.swing.JDialog jD_Registros;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     // End of variables declaration//GEN-END:variables
 }
