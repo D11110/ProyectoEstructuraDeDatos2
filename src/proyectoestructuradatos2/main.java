@@ -89,6 +89,11 @@ public class main extends javax.swing.JFrame {
         jD_Archivo.getContentPane().add(btnArchivoSalir, new org.netbeans.lib.awtextra.AbsoluteConstraints(337, 366, -1, -1));
 
         btnArchivoNuevo.setText("Nuevo archivo");
+        btnArchivoNuevo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnArchivoNuevoMouseClicked(evt);
+            }
+        });
         jD_Archivo.getContentPane().add(btnArchivoNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, -1, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
@@ -460,6 +465,11 @@ public class main extends javax.swing.JFrame {
         jD_Estandarizacion.setVisible(false);
         setVisible(true);
     }//GEN-LAST:event_btnEstandSalirMouseClicked
+
+    private void btnArchivoNuevoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnArchivoNuevoMouseClicked
+        // TODO add your handling code here:
+        //dlasdasudlhdas
+    }//GEN-LAST:event_btnArchivoNuevoMouseClicked
 
     /**
      * @param args the command line arguments
