@@ -1,0 +1,2 @@
+METADATA,header example,5/22/2021 9:19 PM,15,
+PersonID|int|6|true|#PersonName|char|20|false|#PersonAge|int|3|false|#CityID|int|2|false|,
