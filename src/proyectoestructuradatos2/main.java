@@ -434,7 +434,7 @@ public class main extends javax.swing.JFrame {
         //NUEVO ARCHIVO        mostrar JOptionPane para ingresar nombre del archivo
         //String nombre = JOptionPane.showInputDialog("Ingresa nombre del archivo: ");
         String nombreArchivo;
-        
+
         JFileChooser jfc = new JFileChooser("./");
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de Texto", "txt");
         jfc.addChoosableFileFilter(filtro);
@@ -446,16 +446,16 @@ public class main extends javax.swing.JFrame {
                 File fichero = null;
                 if (jfc.getFileFilter().getDescription().equals("Archivos de Texto")) {
                     nombreArchivo = jfc.getSelectedFile().getName();// .getPath();
-                    fichero = new File(jfc.getSelectedFile().getPath()+".txt");
-                    
-                }else{
+                    fichero = new File(jfc.getSelectedFile().getPath() + ".txt");
+
+                } else {
                     nombreArchivo = jfc.getSelectedFile().getName(); //.getPath();
-                    fichero = new File(jfc.getSelectedFile().getPath()+".txt");
+                    fichero = new File(jfc.getSelectedFile().getPath() + ".txt");
                     //fichero = jfc.getSelectedFile();
                 }
                 fw = new FileWriter(fichero);
                 bw = new BufferedWriter(fw);
-                
+
                 /*for (Vehiculo v : vehiculos) {        PRIMERA FORMA CON EL ARRAYLIST* NO FUNCIONA DEL TODO
                     bw.write(v.getCodigo() + ";");
                     bw.write(v.getMarca()+ ";");
@@ -471,50 +471,48 @@ public class main extends javax.swing.JFrame {
 //                    bw.write((String) tabla_vehiculos.getValueAt(i, 3)+";");
 //                    bw.write((String) tabla_vehiculos.getValueAt(i, 4)+";"+"\n");
 //                }
-                
+
 //                DefaultTableModel modelo = (DefaultTableModel) tabla_vehiculos1.getModel();
 //                tabla_vehiculos.setModel(modelo);   //limpio la table
                 //ta_1.setText("");
-                
                 bw.flush();
-                JOptionPane.showMessageDialog(this, "Archivo guardado excitosamente en "+fichero.toString());
+                JOptionPane.showMessageDialog(this, "Archivo guardado excitosamente en " + fichero.toString());
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            
+
             try {
                 bw.close();
                 fw.close();
             } catch (IOException ex) {
-            }   
+            }
         }
     }//GEN-LAST:event_btnArchivoNuevoMouseClicked
 
     private void btnArchivoAbrirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnArchivoAbrirMouseClicked
         // TODO add your handling code here:
         //ARBIR ARCHIVO
-        File fichero = null; 
+        File fichero = null;
         FileReader fr = null;
         BufferedReader br = null;
-        
+
 //        DefaultTableModel modelo = (DefaultTableModel) tabla_vehiculos1.getModel();
 //        tabla_vehiculos.setModel(modelo);   //limpio la table
-        
         try {
             JFileChooser jfc = new JFileChooser("./");
             FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de Texto", "txt");
-            FileNameExtensionFilter filtro2 = new FileNameExtensionFilter("Imagenes", "jpg","png","bmp");
+            FileNameExtensionFilter filtro2 = new FileNameExtensionFilter("Imagenes", "jpg", "png", "bmp");
             jfc.setFileFilter(filtro);
             jfc.addChoosableFileFilter(filtro2);
             int seleccion = jfc.showOpenDialog(this);
-            if (seleccion==JFileChooser.APPROVE_OPTION) {
+            if (seleccion == JFileChooser.APPROVE_OPTION) {
                 fichero = jfc.getSelectedFile();
                 fr = new FileReader(fichero);
                 br = new BufferedReader(fr);
                 String linea;
 //                tabla_vehiculos.setModel(modelo);   //limpio la table
 //                fillTextArea();
-                
+
 //                DefaultTableModel modeloSetear = (DefaultTableModel) tabla_vehiculos.getModel();    //capturo el modelo, que debería de estar vacío
 //                while((linea=br.readLine())!=null){
 //                    String t[] = linea.split(";");      //TOKENS separados por ;
@@ -529,7 +527,7 @@ public class main extends javax.swing.JFrame {
 //                    modeloSetear.addRow(newrow);  
 //                }
 //                tabla_vehiculos.setModel(modeloSetear);     //le seteo el modelo q contiene todas las nuevas rows
-                int numLinea=0;
+                int numLinea = 0;
                 ArrayList<String> nombreCampos = new ArrayList<String>();
                 ArrayList<String> tipoDeCampo = new ArrayList<String>();
                 ArrayList<Integer> tamañoCampo = new ArrayList<Integer>();
@@ -540,43 +538,47 @@ public class main extends javax.swing.JFrame {
                 System.out.println(campos.get(1));
                 System.out.println(campos.get(0).getClass().getSimpleName());
                 System.out.println(campos.get(1).getClass().getSimpleName());
-                
-                if(campos.get(1) instanceof Integer){
+
+                if (campos.get(1) instanceof Integer) {
                     System.out.println("es entero");
                 }
                 //campos.get(1).getClass().getSimpleName();
-                
-                while((linea=br.readLine())!=null){
+
+                while ((linea = br.readLine()) != null) {
                     String t[] = linea.split(",");
                     for (int i = 0; i < t.length; i++) {
-                        
-                        if(numLinea==1){
+
+                        if (numLinea == 1) {
                             String p[] = t[i].split("#");
                             for (int j = 0; j < p.length; j++) {
                                 String q[] = p[j].split("\\|");
                                 for (int k = 0; k < q.length; k++) {
-                                    if(k==0)
+                                    if (k == 0) {
                                         nombreCampos.add(q[k]);
-                                    if(k==1)
+                                    }
+                                    if (k == 1) {
                                         tipoDeCampo.add(q[k]);
-                                    if(k==2)
+                                    }
+                                    if (k == 2) {
                                         tamañoCampo.add(Integer.valueOf(q[k]));
+                                    }
                                 }
                             }
-                        } else
+                        } else {
                             System.out.println(t[i]);
+                        }
                     }
-                    
+
                     numLinea++;
                 }
                 for (int i = 0; i < nombreCampos.size(); i++) {
-                    System.out.println("Campo "+nombreCampos.get(i)+" de tipo "+tipoDeCampo.get(i)+" con tamaño máx de "+tamañoCampo.get(i));
+                    System.out.println("Campo " + nombreCampos.get(i) + " de tipo " + tipoDeCampo.get(i) + " con tamaño máx de " + tamañoCampo.get(i));
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         try {
             br.close();
             fr.close();
@@ -585,35 +587,50 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_btnArchivoAbrirMouseClicked
 
     String camposDeterminados;
-    
+    int indiceLlavePrimariaDecodificado;
+
     private void btnCamposCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCamposCrearMouseClicked
         // TODO add your handling code here:
         camposDeterminados = "";
         String numCamposInput = JOptionPane.showInputDialog(this, "Ingrese la cantidad de campos:");
         int numCampos = Integer.parseInt(numCamposInput);
-        ArrayList<String> nombresCampos = new ArrayList<String>();
-        ArrayList<String> tipoCampos = new ArrayList<String>();
-        ArrayList<Integer> longitudCampos = new ArrayList<Integer>();
+
         int campoLlavePrimaria;
-        
+
         for (int i = 0; i < numCampos; i++) {
-            String nombreCampoTemp = JOptionPane.showInputDialog(this, "Ingrese el nombre para el campo " + i +  " ");
-            nombresCampos.add(nombreCampoTemp);
-        }
-        
-        for (int i = 0; i < numCampos; i++) {
-            String tipoCampoTemp = JOptionPane.showInputDialog(this, "Ingrese el tipo de campo para el campo " + nombresCampos.get(i));
-            tipoCampos.add(tipoCampoTemp);
-        }
-        
-        for (int i = 0; i < numCampos; i++) {
-            String longitudCampoTemp = JOptionPane.showInputDialog(this, "Ingrese la longitud de campo para el campo " + nombresCampos.get(i));
+            String nombreCampoTemp = JOptionPane.showInputDialog(this, "Ingrese el nombre para el campo " + (i + 1) + " ");
+
+            String tipoCampoTemp = JOptionPane.showInputDialog(this, "Ingrese el tipo de campo para el campo " + nombreCampoTemp + "\n 1 = int,2 = String, 3 = double, 4 = boolean");
+            int tipoCampoDecodificado = Integer.parseInt(tipoCampoTemp);
+            String tipoDeCampoDefinitivo = "";
+            if (tipoCampoDecodificado == 1) {
+                tipoDeCampoDefinitivo = "int";
+            } else if (tipoCampoDecodificado == 2) {
+                tipoDeCampoDefinitivo = "char";
+            } else if (tipoCampoDecodificado == 3) {
+                tipoDeCampoDefinitivo = "double";
+            } else if (tipoCampoDecodificado == 4) {
+                tipoDeCampoDefinitivo = "boolean";
+            } else {
+                tipoCampoTemp = JOptionPane.showInputDialog(this, "Ingrese el tipo correcto de campo para el campo " + nombreCampoTemp + "\n 1 = int,2 = String, 3 = double, 4 = boolean");
+            }
+
+            String longitudCampoTemp = JOptionPane.showInputDialog(this, "Ingrese la longitud de campo para el campo (de 0 en adelante)" + nombreCampoTemp);
             int longitudCampoIntTemp = Integer.parseInt(longitudCampoTemp);
-            longitudCampos.add(longitudCampoIntTemp);
+            while (longitudCampoIntTemp <= 0) {
+                longitudCampoTemp = JOptionPane.showInputDialog(this, "Ingrese la longitud de campo para el campo (de 0 en adelante)" + nombreCampoTemp);
+                longitudCampoIntTemp = Integer.parseInt(longitudCampoTemp);
+            }
+
+            camposDeterminados += nombreCampoTemp + "|" + tipoDeCampoDefinitivo + "|" + longitudCampoIntTemp + "|#";
+
         }
-        
-        
-        
+        camposDeterminados += ",";
+
+        String indiceLlavePrimaria = JOptionPane.showInputDialog(this, "Ingrese un num desde 1 hasta " + numCampos);
+        indiceLlavePrimariaDecodificado = Integer.parseInt(indiceLlavePrimaria);
+
+
     }//GEN-LAST:event_btnCamposCrearMouseClicked
 
     /**
@@ -630,16 +647,24 @@ public class main extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(main.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
