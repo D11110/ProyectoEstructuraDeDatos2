@@ -85,9 +85,7 @@ public class main extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
 
-        jD_Archivo.setMaximumSize(new java.awt.Dimension(450, 450));
         jD_Archivo.setMinimumSize(new java.awt.Dimension(450, 450));
-        jD_Archivo.setPreferredSize(new java.awt.Dimension(450, 450));
         jD_Archivo.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnArchivoAbrir.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
@@ -144,6 +142,11 @@ public class main extends javax.swing.JFrame {
 
         btnCamposCrear.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
         btnCamposCrear.setText("Crear campos");
+        btnCamposCrear.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCamposCrearMouseClicked(evt);
+            }
+        });
         jD_Campos.getContentPane().add(btnCamposCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 170, -1));
 
         btnCamposListar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
@@ -580,6 +583,38 @@ public class main extends javax.swing.JFrame {
         } catch (IOException ex) {
         }
     }//GEN-LAST:event_btnArchivoAbrirMouseClicked
+
+    String camposDeterminados;
+    
+    private void btnCamposCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCamposCrearMouseClicked
+        // TODO add your handling code here:
+        camposDeterminados = "";
+        String numCamposInput = JOptionPane.showInputDialog(this, "Ingrese la cantidad de campos:");
+        int numCampos = Integer.parseInt(numCamposInput);
+        ArrayList<String> nombresCampos = new ArrayList<String>();
+        ArrayList<String> tipoCampos = new ArrayList<String>();
+        ArrayList<Integer> longitudCampos = new ArrayList<Integer>();
+        int campoLlavePrimaria;
+        
+        for (int i = 0; i < numCampos; i++) {
+            String nombreCampoTemp = JOptionPane.showInputDialog(this, "Ingrese el nombre para el campo " + i +  " ");
+            nombresCampos.add(nombreCampoTemp);
+        }
+        
+        for (int i = 0; i < numCampos; i++) {
+            String tipoCampoTemp = JOptionPane.showInputDialog(this, "Ingrese el tipo de campo para el campo " + nombresCampos.get(i));
+            tipoCampos.add(tipoCampoTemp);
+        }
+        
+        for (int i = 0; i < numCampos; i++) {
+            String longitudCampoTemp = JOptionPane.showInputDialog(this, "Ingrese la longitud de campo para el campo " + nombresCampos.get(i));
+            int longitudCampoIntTemp = Integer.parseInt(longitudCampoTemp);
+            longitudCampos.add(longitudCampoIntTemp);
+        }
+        
+        
+        
+    }//GEN-LAST:event_btnCamposCrearMouseClicked
 
     /**
      * @param args the command line arguments
