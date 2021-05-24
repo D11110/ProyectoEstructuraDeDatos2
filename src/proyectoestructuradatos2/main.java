@@ -151,6 +151,11 @@ public class main extends javax.swing.JFrame {
 
         btnCamposListar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
         btnCamposListar.setText("Listar campos");
+        btnCamposListar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCamposListarMouseClicked(evt);
+            }
+        });
         jD_Campos.getContentPane().add(btnCamposListar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 170, -1));
 
         btnCamposModificar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
@@ -434,6 +439,8 @@ public class main extends javax.swing.JFrame {
         //NUEVO ARCHIVO        mostrar JOptionPane para ingresar nombre del archivo
         //String nombre = JOptionPane.showInputDialog("Ingresa nombre del archivo: ");
         String nombreArchivo;
+        camposDeterminados = "";
+        listarCampos = "";
 
         JFileChooser jfc = new JFileChooser("./");
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de Texto", "txt");
@@ -492,6 +499,8 @@ public class main extends javax.swing.JFrame {
     private void btnArchivoAbrirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnArchivoAbrirMouseClicked
         // TODO add your handling code here:
         //ARBIR ARCHIVO
+        camposDeterminados = "";
+        listarCampos = "";
         File fichero = null;
         FileReader fr = null;
         BufferedReader br = null;
@@ -573,7 +582,10 @@ public class main extends javax.swing.JFrame {
                 }
                 for (int i = 0; i < nombreCampos.size(); i++) {
                     System.out.println("Campo " + nombreCampos.get(i) + " de tipo " + tipoDeCampo.get(i) + " con tamaño máx de " + tamañoCampo.get(i));
+                    listarCampos += "Campo " + nombreCampos.get(i) + " de tipo " + tipoDeCampo.get(i) + " con tamaño máx de " + tamañoCampo.get(i) + "\n";
+                    actualizarCampos(nombreCampos.get(i), tipoDeCampo.get(i), tamañoCampo.get(i));
                 }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -584,18 +596,23 @@ public class main extends javax.swing.JFrame {
             fr.close();
         } catch (IOException ex) {
         }
+        System.out.println(camposDeterminados);
     }//GEN-LAST:event_btnArchivoAbrirMouseClicked
 
-    String camposDeterminados;
+    String camposDeterminados = "";
+    String listarCampos = "";
     int indiceLlavePrimariaDecodificado;
+
+    public void actualizarCampos(String nombreCampo, String tipoCampo, int longitudCampo) {
+        camposDeterminados += nombreCampo + "|" + tipoCampo + "|" + longitudCampo + "|#";
+    }
 
     private void btnCamposCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCamposCrearMouseClicked
         // TODO add your handling code here:
         camposDeterminados = "";
+        listarCampos = "";
         String numCamposInput = JOptionPane.showInputDialog(this, "Ingrese la cantidad de campos:");
         int numCampos = Integer.parseInt(numCamposInput);
-
-        int campoLlavePrimaria;
 
         for (int i = 0; i < numCampos; i++) {
             String nombreCampoTemp = JOptionPane.showInputDialog(this, "Ingrese el nombre para el campo " + (i + 1) + " ");
@@ -623,6 +640,7 @@ public class main extends javax.swing.JFrame {
             }
 
             camposDeterminados += nombreCampoTemp + "|" + tipoDeCampoDefinitivo + "|" + longitudCampoIntTemp + "|#";
+            listarCampos += "Campo " + nombreCampoTemp + " de tipo " + tipoDeCampoDefinitivo + " con tamaño máx de " + longitudCampoIntTemp + "\n";
 
         }
         camposDeterminados += ",";
@@ -632,6 +650,11 @@ public class main extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_btnCamposCrearMouseClicked
+
+    private void btnCamposListarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCamposListarMouseClicked
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, listarCampos);
+    }//GEN-LAST:event_btnCamposListarMouseClicked
 
     /**
      * @param args the command line arguments
