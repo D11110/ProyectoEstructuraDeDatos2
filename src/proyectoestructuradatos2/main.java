@@ -102,6 +102,11 @@ public class main extends javax.swing.JFrame {
 
         btnArchivoSalvar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
         btnArchivoSalvar.setText("Salvar archivo");
+        btnArchivoSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnArchivoSalvarMouseClicked(evt);
+            }
+        });
         jD_Archivo.getContentPane().add(btnArchivoSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 172, 180, 30));
 
         btnArchivoCerrar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
@@ -160,6 +165,11 @@ public class main extends javax.swing.JFrame {
 
         btnCamposModificar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
         btnCamposModificar.setText("Modificar campos");
+        btnCamposModificar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCamposModificarMouseClicked(evt);
+            }
+        });
         jD_Campos.getContentPane().add(btnCamposModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 170, -1));
 
         btnCamposBorrar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
@@ -470,7 +480,7 @@ public class main extends javax.swing.JFrame {
                     bw.write(v.getAno()+ ";");
                     bw.write(v.getPrecio()+ ";"+"\n");
                 }*/
-                bw.write("METADATA " + nombreArchivo);
+                bw.write("METADATA," + nombreArchivo+",");
 //                for (int i = 0; i < tabla_vehiculos.getRowCount(); i++) {
 //                    bw.write((String) tabla_vehiculos.getValueAt(i, 0)+";");
 //                    bw.write((String) tabla_vehiculos.getValueAt(i, 1)+";");
@@ -496,9 +506,12 @@ public class main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnArchivoNuevoMouseClicked
 
+    String metadata="";
+    
     private void btnArchivoAbrirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnArchivoAbrirMouseClicked
         // TODO add your handling code here:
         //ARBIR ARCHIVO
+        metadata="";
         camposDeterminados = "";
         listarCampos = "";
         File fichero = null;
@@ -540,24 +553,28 @@ public class main extends javax.swing.JFrame {
                 ArrayList<String> nombreCampos = new ArrayList<String>();
                 ArrayList<String> tipoDeCampo = new ArrayList<String>();
                 ArrayList<Integer> tamañoCampo = new ArrayList<Integer>();
-                ArrayList<Object> campos = new ArrayList<Object>();
-                campos.add("hola");
-                campos.add(7);
-                System.out.println(campos.get(0));
-                System.out.println(campos.get(1));
-                System.out.println(campos.get(0).getClass().getSimpleName());
-                System.out.println(campos.get(1).getClass().getSimpleName());
-
-                if (campos.get(1) instanceof Integer) {
-                    System.out.println("es entero");
-                }
+//                ArrayList<Object> campos = new ArrayList<Object>();
+//                campos.add("hola");
+//                campos.add(7);
+//                System.out.println(campos.get(0));
+//                System.out.println(campos.get(1));
+//                System.out.println(campos.get(0).getClass().getSimpleName());
+//                System.out.println(campos.get(1).getClass().getSimpleName());
+//
+//                if (campos.get(1) instanceof Integer) {
+//                    System.out.println("es entero");
+//                }
                 //campos.get(1).getClass().getSimpleName();
 
                 while ((linea = br.readLine()) != null) {
                     String t[] = linea.split(",");
                     for (int i = 0; i < t.length; i++) {
-
-                        if (numLinea == 1) {
+                        
+                        if(numLinea == 0){                  //METADATA
+                            metadata = linea;
+                            indiceLlavePrimariaDecodificado = Integer.parseInt(t[2]);
+                        }
+                        if (numLinea == 1) {                //CAMPOS
                             String p[] = t[i].split("#");
                             for (int j = 0; j < p.length; j++) {
                                 String q[] = p[j].split("\\|");
@@ -597,6 +614,7 @@ public class main extends javax.swing.JFrame {
         } catch (IOException ex) {
         }
         System.out.println(camposDeterminados);
+        System.out.println("La metadata es: "+ metadata);
     }//GEN-LAST:event_btnArchivoAbrirMouseClicked
 
     String camposDeterminados = "";
@@ -655,6 +673,73 @@ public class main extends javax.swing.JFrame {
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(this, listarCampos);
     }//GEN-LAST:event_btnCamposListarMouseClicked
+
+    private void btnArchivoSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnArchivoSalvarMouseClicked
+        //SALVAR ARCHIVO
+        String nombreArchivo="";
+        JFileChooser jfc = new JFileChooser("./");
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de Texto", "txt");
+        jfc.addChoosableFileFilter(filtro);
+        int seleccion = jfc.showSaveDialog(this);
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            try {
+                File fichero = null;
+                if (jfc.getFileFilter().getDescription().equals("Archivos de Texto")) {
+                    nombreArchivo = jfc.getSelectedFile().getName();// .getPath();
+                    fichero = new File(jfc.getSelectedFile().getPath());
+
+                } else {
+                    nombreArchivo = jfc.getSelectedFile().getName(); //.getPath();
+                    fichero = new File(jfc.getSelectedFile().getPath());
+                    //fichero = jfc.getSelectedFile();
+                }
+                fw = new FileWriter(fichero, true);
+                bw = new BufferedWriter(fw);
+
+                /*for (Vehiculo v : vehiculos) {        PRIMERA FORMA CON EL ARRAYLIST* NO FUNCIONA DEL TODO
+                    bw.write(v.getCodigo() + ";");
+                    bw.write(v.getMarca()+ ";");
+                    bw.write(v.getModelo()+ ";");
+                    bw.write(v.getAno()+ ";");
+                    bw.write(v.getPrecio()+ ";"+"\n");
+                }*/
+                bw.write(metadata+indiceLlavePrimariaDecodificado+","+"\n");
+                bw.write(camposDeterminados);
+//                METADATA,header example,5/22/2021 9:19 PM,1,
+//                PersonID|int|6|true|#PersonName|char|20|false|#PersonAge|int|3|false|#CityID|int|2|false|,
+//                for (int i = 0; i < tabla_vehiculos.getRowCount(); i++) {
+//                    bw.write((String) tabla_vehiculos.getValueAt(i, 0)+";");
+//                    bw.write((String) tabla_vehiculos.getValueAt(i, 1)+";");
+//                    bw.write((String) tabla_vehiculos.getValueAt(i, 2)+";");
+//                    bw.write((String) tabla_vehiculos.getValueAt(i, 3)+";");
+//                    bw.write((String) tabla_vehiculos.getValueAt(i, 4)+";"+"\n");
+//                }
+
+//                DefaultTableModel modelo = (DefaultTableModel) tabla_vehiculos1.getModel();
+//                tabla_vehiculos.setModel(modelo);   //limpio la table
+                //ta_1.setText("");
+                bw.flush();
+                JOptionPane.showMessageDialog(this, "Archivo guardado excitosamente en " + fichero.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                bw.close();
+                fw.close();
+            } catch (IOException ex) {
+            }
+        }
+    }//GEN-LAST:event_btnArchivoSalvarMouseClicked
+
+    private void btnCamposModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCamposModificarMouseClicked
+        //MODIFICAR CAMPOS
+        System.out.println(metadata);
+        System.out.println(camposDeterminados);
+        System.out.println(indiceLlavePrimariaDecodificado);
+    }//GEN-LAST:event_btnCamposModificarMouseClicked
 
     /**
      * @param args the command line arguments

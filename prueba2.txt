@@ -1,0 +1,2 @@
+METADATA,prueba2,2,
+nombreEstudiante|char|6|#numCuenta|int|6|#,

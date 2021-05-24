@@ -1,0 +1,2 @@
+METADATA,prueba,1,
+placa|int|5|#,
