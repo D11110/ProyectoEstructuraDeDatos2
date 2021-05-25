@@ -111,6 +111,11 @@ public class main extends javax.swing.JFrame {
 
         btnArchivoCerrar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
         btnArchivoCerrar.setText("Cerrar archivo");
+        btnArchivoCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnArchivoCerrarMouseClicked(evt);
+            }
+        });
         jD_Archivo.getContentPane().add(btnArchivoCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 213, 180, 30));
 
         btnArchivoSalir.setFont(new java.awt.Font("Eras Light ITC", 0, 14)); // NOI18N
@@ -174,6 +179,11 @@ public class main extends javax.swing.JFrame {
 
         btnCamposBorrar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
         btnCamposBorrar.setText("Borrar campos");
+        btnCamposBorrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCamposBorrarMouseClicked(evt);
+            }
+        });
         jD_Campos.getContentPane().add(btnCamposBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 170, -1));
 
         btnCamposSalir.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
@@ -480,7 +490,8 @@ public class main extends javax.swing.JFrame {
                     bw.write(v.getAno()+ ";");
                     bw.write(v.getPrecio()+ ";"+"\n");
                 }*/
-                bw.write("METADATA," + nombreArchivo+",");
+                //bw.write("METADATA," + nombreArchivo+",");                  //ESTA LINEA
+                metadata="METADATA," + nombreArchivo+",";
 //                for (int i = 0; i < tabla_vehiculos.getRowCount(); i++) {
 //                    bw.write((String) tabla_vehiculos.getValueAt(i, 0)+";");
 //                    bw.write((String) tabla_vehiculos.getValueAt(i, 1)+";");
@@ -591,7 +602,7 @@ public class main extends javax.swing.JFrame {
                                 }
                             }
                         } else {
-                            System.out.println(t[i]);
+                            //System.out.println(t[i]);
                         }
                     }
 
@@ -623,6 +634,23 @@ public class main extends javax.swing.JFrame {
 
     public void actualizarCampos(String nombreCampo, String tipoCampo, int longitudCampo) {
         camposDeterminados += nombreCampo + "|" + tipoCampo + "|" + longitudCampo + "|#";
+    }
+    
+    public void listaCampos(String camposConcatenados){
+        if(camposConcatenados.contains(",")){
+            camposConcatenados = camposConcatenados.replaceAll(",", "");
+        }
+        String listaCampo="";
+        String p[] = camposConcatenados.split("#");
+        for (int j = 0; j < p.length; j++) {
+            String q[] = p[j].split("\\|");
+//            for (int k = 0; k < q.length; k++) {
+//                listaCampos += "Campo " + q[0] + " de tipo " + q[1] + " con tamaño máx de " + q[2] + "\n";
+//            }
+            listaCampo += "Campo " + q[0] + " de tipo " + q[1] + " con tamaño máx de " + q[2] + "\n";
+        }
+        //System.out.println(listaCampos);
+        listarCampos = listaCampo;
     }
 
     private void btnCamposCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCamposCrearMouseClicked
@@ -665,7 +693,7 @@ public class main extends javax.swing.JFrame {
 
         String indiceLlavePrimaria = JOptionPane.showInputDialog(this, "Ingrese un num desde 1 hasta " + numCampos);
         indiceLlavePrimariaDecodificado = Integer.parseInt(indiceLlavePrimaria);
-
+        metadata += indiceLlavePrimaria+",";
 
     }//GEN-LAST:event_btnCamposCrearMouseClicked
 
@@ -695,7 +723,8 @@ public class main extends javax.swing.JFrame {
                     fichero = new File(jfc.getSelectedFile().getPath());
                     //fichero = jfc.getSelectedFile();
                 }
-                fw = new FileWriter(fichero, true);
+                //fw = new FileWriter(fichero, true);
+                fw = new FileWriter(fichero);
                 bw = new BufferedWriter(fw);
 
                 /*for (Vehiculo v : vehiculos) {        PRIMERA FORMA CON EL ARRAYLIST* NO FUNCIONA DEL TODO
@@ -705,7 +734,7 @@ public class main extends javax.swing.JFrame {
                     bw.write(v.getAno()+ ";");
                     bw.write(v.getPrecio()+ ";"+"\n");
                 }*/
-                bw.write(metadata+indiceLlavePrimariaDecodificado+","+"\n");
+                bw.write(metadata+"\n");
                 bw.write(camposDeterminados);
 //                METADATA,header example,5/22/2021 9:19 PM,1,
 //                PersonID|int|6|true|#PersonName|char|20|false|#PersonAge|int|3|false|#CityID|int|2|false|,
@@ -739,7 +768,54 @@ public class main extends javax.swing.JFrame {
         System.out.println(metadata);
         System.out.println(camposDeterminados);
         System.out.println(indiceLlavePrimariaDecodificado);
+        
+        int numCampoModificar = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingresa número de campo a modificar: "));          //VALIDAR
+        int opcionModificar = Integer.parseInt(JOptionPane.showInputDialog(this, "Qué vas a modificar?: \n 1: Nombre campo\n 2: Tipo variable\n 3: Longitud campo"));          //VALIDAR
+        String nuevoParametro="";
+        if(opcionModificar==1){
+            nuevoParametro = JOptionPane.showInputDialog(this, "Ingresa nuevo nombre de campo: ");
+        } else if(opcionModificar==2){
+            nuevoParametro = JOptionPane.showInputDialog(this, "Ingresa nuevo tipo variable de campo: ");
+        } else if(opcionModificar==3){
+            nuevoParametro = JOptionPane.showInputDialog(this, "Ingresa nueva longitud de campo: ");
+        }
+        
+        
+        
+        
+        String campos[] = camposDeterminados.split("#");
+        String parametrosCampo[] = campos[numCampoModificar-1].split("\\|");
+        camposDeterminados = camposDeterminados.replace(parametrosCampo[opcionModificar-1], nuevoParametro);
+        
+        camposDeterminados += ",";
+        System.out.println("Campos quedan "+camposDeterminados);
+        listaCampos(camposDeterminados);            //modifica el listarCampos
+        
     }//GEN-LAST:event_btnCamposModificarMouseClicked
+
+    private void btnArchivoCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnArchivoCerrarMouseClicked
+        //CERRAR ARCHIVO
+        metadata="";
+        camposDeterminados="";
+        listarCampos="";
+        indiceLlavePrimariaDecodificado=0;
+    }//GEN-LAST:event_btnArchivoCerrarMouseClicked
+
+    private void btnCamposBorrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCamposBorrarMouseClicked
+        //BORRAR CAMPO
+        //System.out.println("llave es "+indiceLlavePrimariaDecodificado);
+        int numCampoBorrar = numCampoBorrar = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingresa número de campo a eliminar: "));
+        while(numCampoBorrar==indiceLlavePrimariaDecodificado){
+            numCampoBorrar = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingresa número de campo a eliminar (distinto al que representa la llave): "));
+        }
+        String campos[] = camposDeterminados.split("#");
+        camposDeterminados = camposDeterminados.replace(campos[numCampoBorrar-1], "");
+        camposDeterminados = camposDeterminados.replaceFirst("#", "");
+        //camposDeterminados += ",";
+        System.out.println(camposDeterminados);
+        
+        listaCampos(camposDeterminados);
+    }//GEN-LAST:event_btnCamposBorrarMouseClicked
 
     /**
      * @param args the command line arguments

@@ -1,0 +1,2 @@
+METADATA,bachata,1,
+nombre|char|14|#duracion|int|3|#,
