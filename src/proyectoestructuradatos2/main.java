@@ -470,7 +470,7 @@ public class main extends javax.swing.JFrame {
         BufferedWriter bw = null;
         if (seleccion == JFileChooser.APPROVE_OPTION) {
             try {
-                File fichero = null;
+                //File fichero = null;
                 if (jfc.getFileFilter().getDescription().equals("Archivos de Texto")) {
                     nombreArchivo = jfc.getSelectedFile().getName();// .getPath();
                     fichero = new File(jfc.getSelectedFile().getPath() + ".txt");
@@ -527,7 +527,8 @@ public class main extends javax.swing.JFrame {
         camposDeterminados = "";
         listarCampos = "";
         archivoFueAbierto = true;
-        File fichero = null;
+        fichero = null;
+        File ficheroAbrir = null;
         FileReader fr = null;
         BufferedReader br = null;
 
@@ -541,8 +542,9 @@ public class main extends javax.swing.JFrame {
             jfc.addChoosableFileFilter(filtro2);
             int seleccion = jfc.showOpenDialog(this);
             if (seleccion == JFileChooser.APPROVE_OPTION) {
-                fichero = jfc.getSelectedFile();
-                fr = new FileReader(fichero);
+                ficheroAbrir = jfc.getSelectedFile();
+                fichero = ficheroAbrir;                             //se actualiza que el nuevo fichero global es este
+                fr = new FileReader(ficheroAbrir);
                 br = new BufferedReader(fr);
                 String linea;
 //                tabla_vehiculos.setModel(modelo);   //limpio la table
@@ -585,7 +587,8 @@ public class main extends javax.swing.JFrame {
 
                         if (numLinea == 0) {                  //METADATA
                             metadata = linea;
-                            indiceLlavePrimariaDecodificado = Integer.parseInt(t[2]);
+                            if(t.length>2)
+                                indiceLlavePrimariaDecodificado = Integer.parseInt(t[2]);
                         }
                         if (numLinea == 1) {                //CAMPOS
                             String p[] = t[i].split("#");
@@ -629,11 +632,6 @@ public class main extends javax.swing.JFrame {
         System.out.println(camposDeterminados);
         System.out.println("La metadata es: " + metadata);
     }//GEN-LAST:event_btnArchivoAbrirMouseClicked
-
-    String camposDeterminados = "";
-    String listarCampos = "";
-    int indiceLlavePrimariaDecodificado;
-    int numCampos=0;
 
     public void actualizarCampos(String nombreCampo, String tipoCampo, int longitudCampo) {
         camposDeterminados += nombreCampo + "|" + tipoCampo + "|" + longitudCampo + "|#";
@@ -714,63 +712,68 @@ public class main extends javax.swing.JFrame {
 
     private void btnArchivoSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnArchivoSalvarMouseClicked
         //SALVAR ARCHIVO
-        String nombreArchivo = "";
-        JFileChooser jfc = new JFileChooser("./");
-        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de Texto", "txt");
-        jfc.addChoosableFileFilter(filtro);
-        int seleccion = jfc.showSaveDialog(this);
-        FileWriter fw = null;
-        BufferedWriter bw = null;
-        if (seleccion == JFileChooser.APPROVE_OPTION) {
-            try {
-                File fichero = null;
-                if (jfc.getFileFilter().getDescription().equals("Archivos de Texto")) {
-                    nombreArchivo = jfc.getSelectedFile().getName();// .getPath();
-                    fichero = new File(jfc.getSelectedFile().getPath());
+        if(fichero!=null){
+//            String nombreArchivo = "";
+    //        JFileChooser jfc = new JFileChooser("./");
+    //        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de Texto", "txt");
+    //        jfc.addChoosableFileFilter(filtro);
+    //        int seleccion = jfc.showSaveDialog(this);
+            FileWriter fw = null;
+            BufferedWriter bw = null;
+            //if (seleccion == JFileChooser.APPROVE_OPTION) {
+                try {
+                    //File fichero = null;
+    //                if (jfc.getFileFilter().getDescription().equals("Archivos de Texto")) {
+    //                    nombreArchivo = jfc.getSelectedFile().getName();// .getPath();
+    //                    //fichero = new File(jfc.getSelectedFile().getPath());
+    //
+    //                } else {
+    //                    nombreArchivo = jfc.getSelectedFile().getName(); //.getPath();
+    //                    //fichero = new File(jfc.getSelectedFile().getPath());
+    //                    //fichero = jfc.getSelectedFile();
+    //                }
+                    //fw = new FileWriter(fichero, true);
+                    fw = new FileWriter(fichero);
+                    bw = new BufferedWriter(fw);
 
-                } else {
-                    nombreArchivo = jfc.getSelectedFile().getName(); //.getPath();
-                    fichero = new File(jfc.getSelectedFile().getPath());
-                    //fichero = jfc.getSelectedFile();
+                    /*for (Vehiculo v : vehiculos) {        PRIMERA FORMA CON EL ARRAYLIST* NO FUNCIONA DEL TODO
+                        bw.write(v.getCodigo() + ";");
+                        bw.write(v.getMarca()+ ";");
+                        bw.write(v.getModelo()+ ";");
+                        bw.write(v.getAno()+ ";");
+                        bw.write(v.getPrecio()+ ";"+"\n");
+                    }*/
+                    bw.write(metadata + "\n");
+                    if(!camposDeterminados.contains(","))
+                        camposDeterminados +=",";
+                    bw.write(camposDeterminados);
+    //                METADATA,header example,5/22/2021 9:19 PM,1,
+    //                PersonID|int|6|true|#PersonName|char|20|false|#PersonAge|int|3|false|#CityID|int|2|false|,
+    //                for (int i = 0; i < tabla_vehiculos.getRowCount(); i++) {
+    //                    bw.write((String) tabla_vehiculos.getValueAt(i, 0)+";");
+    //                    bw.write((String) tabla_vehiculos.getValueAt(i, 1)+";");
+    //                    bw.write((String) tabla_vehiculos.getValueAt(i, 2)+";");
+    //                    bw.write((String) tabla_vehiculos.getValueAt(i, 3)+";");
+    //                    bw.write((String) tabla_vehiculos.getValueAt(i, 4)+";"+"\n");
+    //                }
+
+    //                DefaultTableModel modelo = (DefaultTableModel) tabla_vehiculos1.getModel();
+    //                tabla_vehiculos.setModel(modelo);   //limpio la table
+                    //ta_1.setText("");
+                    bw.flush();
+                    JOptionPane.showMessageDialog(this, "Archivo guardado exitosamente en " + fichero.toString());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                //fw = new FileWriter(fichero, true);
-                fw = new FileWriter(fichero);
-                bw = new BufferedWriter(fw);
 
-                /*for (Vehiculo v : vehiculos) {        PRIMERA FORMA CON EL ARRAYLIST* NO FUNCIONA DEL TODO
-                    bw.write(v.getCodigo() + ";");
-                    bw.write(v.getMarca()+ ";");
-                    bw.write(v.getModelo()+ ";");
-                    bw.write(v.getAno()+ ";");
-                    bw.write(v.getPrecio()+ ";"+"\n");
-                }*/
-                bw.write(metadata + "\n");
-                bw.write(camposDeterminados);
-//                METADATA,header example,5/22/2021 9:19 PM,1,
-//                PersonID|int|6|true|#PersonName|char|20|false|#PersonAge|int|3|false|#CityID|int|2|false|,
-//                for (int i = 0; i < tabla_vehiculos.getRowCount(); i++) {
-//                    bw.write((String) tabla_vehiculos.getValueAt(i, 0)+";");
-//                    bw.write((String) tabla_vehiculos.getValueAt(i, 1)+";");
-//                    bw.write((String) tabla_vehiculos.getValueAt(i, 2)+";");
-//                    bw.write((String) tabla_vehiculos.getValueAt(i, 3)+";");
-//                    bw.write((String) tabla_vehiculos.getValueAt(i, 4)+";"+"\n");
-//                }
-
-//                DefaultTableModel modelo = (DefaultTableModel) tabla_vehiculos1.getModel();
-//                tabla_vehiculos.setModel(modelo);   //limpio la table
-                //ta_1.setText("");
-                bw.flush();
-                JOptionPane.showMessageDialog(this, "Archivo guardado exitosamente en " + fichero.toString());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            try {
-                bw.close();
-                fw.close();
-            } catch (IOException ex) {
-            }
-        }
+                try {
+                    bw.close();
+                    fw.close();
+                } catch (IOException ex) {
+                }
+            //}
+        } else
+            JOptionPane.showMessageDialog(this, "No has abierto un archivo. Intenta nuevamente");
     }//GEN-LAST:event_btnArchivoSalvarMouseClicked
 
     private void btnCamposModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCamposModificarMouseClicked
@@ -802,11 +805,52 @@ public class main extends javax.swing.JFrame {
 
     private void btnArchivoCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnArchivoCerrarMouseClicked
         //CERRAR ARCHIVO
-        metadata = "";
-        camposDeterminados = "";
-        listarCampos = "";
-        indiceLlavePrimariaDecodificado = 0;
-        numCampos=0;
+        int opcion = JOptionPane.showConfirmDialog(this, "¿Guardar Archivo?");
+        if(opcion==0 && fichero!=null){                                          //0:Sí quiere guargar
+            
+            //GUARDAR ARCHIVO
+            FileWriter fw = null;
+            BufferedWriter bw = null;
+            try {
+            fw = new FileWriter(fichero);
+            bw = new BufferedWriter(fw);
+            bw.write(metadata + "\n");
+            if(!camposDeterminados.contains(","))
+                        camposDeterminados +=",";
+            bw.write(camposDeterminados);
+            bw.flush();
+            JOptionPane.showMessageDialog(this, "Archivo guardado exitosamente en " + fichero.toString());
+            } catch (Exception e) {
+                    e.printStackTrace();
+            }
+            try {
+                    bw.close();
+                    fw.close();
+            } catch (IOException ex) {
+            }
+            
+            //REINICIAR VARIABLES GLOBALES
+            metadata = "";
+            camposDeterminados = "";
+            listarCampos = "";
+            indiceLlavePrimariaDecodificado = 0;
+            numCampos=0;
+            fichero = null;
+        } else if(opcion==0 && fichero==null){                                      //0: Si quiere guardar pero no ha abierto un archivo
+            JOptionPane.showMessageDialog(this, "Primero debes abrir un archivo");
+        } else if(opcion==1){                                                       //1:No quiere guardar
+            //REINICIAR VARIABLES GLOBALES
+            metadata = "";
+            camposDeterminados = "";
+            listarCampos = "";
+            indiceLlavePrimariaDecodificado = 0;
+            numCampos=0;
+            fichero = null;
+        }
+        if(opcion!=2 && fichero!=null){                                                              //2:Cancelar
+            JOptionPane.showMessageDialog(this, "Archivo cerrado");
+        }
+        
     }//GEN-LAST:event_btnArchivoCerrarMouseClicked
 
     private void btnCamposBorrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCamposBorrarMouseClicked
@@ -817,14 +861,19 @@ public class main extends javax.swing.JFrame {
             numCampoBorrar = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingresa número de campo a eliminar (distinto al que representa la llave): "));
         }
         String campos[] = camposDeterminados.split("#");
-        camposDeterminados = camposDeterminados.replace(campos[numCampoBorrar - 1], "");
-        camposDeterminados = camposDeterminados.replaceFirst("#", "");
+        camposDeterminados = camposDeterminados.replace(campos[numCampoBorrar - 1]+"#", "");
         //camposDeterminados += ",";
         System.out.println(camposDeterminados);
 
         listaCampos(camposDeterminados);
     }//GEN-LAST:event_btnCamposBorrarMouseClicked
-
+    
+    String camposDeterminados = "";
+    String listarCampos = "";
+    int indiceLlavePrimariaDecodificado;
+    int numCampos=0;
+    File fichero = null;
+    
     /**
      * @param args the command line arguments
      */

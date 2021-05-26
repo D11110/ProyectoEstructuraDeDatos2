@@ -1,2 +1,2 @@
 METADATA,prueba2,2,
-nombreEstudiante|char|6|#numCuenta|int|6|#edad|int|2|#noIdentidad|int|13|#,
+nombreEstudiante|char|8|#numCuenta|int|8|#noIdentidad|int|13|#graduado|boolean|2|#,
