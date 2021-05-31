@@ -28,6 +28,7 @@ public class main extends javax.swing.JFrame {
      */
     public main() {
         initComponents();
+        archivoCerrado();
     }
 
     /**
@@ -85,7 +86,8 @@ public class main extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
 
-        jD_Archivo.setMinimumSize(new java.awt.Dimension(450, 450));
+        jD_Archivo.setMinimumSize(new java.awt.Dimension(489, 450));
+        jD_Archivo.setPreferredSize(new java.awt.Dimension(489, 450));
         jD_Archivo.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnArchivoAbrir.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
@@ -93,27 +95,27 @@ public class main extends javax.swing.JFrame {
         btnArchivoAbrir.setMaximumSize(new java.awt.Dimension(100, 20));
         btnArchivoAbrir.setMinimumSize(new java.awt.Dimension(100, 20));
         btnArchivoAbrir.setPreferredSize(new java.awt.Dimension(100, 20));
-        btnArchivoAbrir.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnArchivoAbrirMouseClicked(evt);
+        btnArchivoAbrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnArchivoAbrirActionPerformed(evt);
             }
         });
         jD_Archivo.getContentPane().add(btnArchivoAbrir, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 131, 180, 30));
 
         btnArchivoSalvar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
         btnArchivoSalvar.setText("Salvar archivo");
-        btnArchivoSalvar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnArchivoSalvarMouseClicked(evt);
+        btnArchivoSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnArchivoSalvarActionPerformed(evt);
             }
         });
         jD_Archivo.getContentPane().add(btnArchivoSalvar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 172, 180, 30));
 
         btnArchivoCerrar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
         btnArchivoCerrar.setText("Cerrar archivo");
-        btnArchivoCerrar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnArchivoCerrarMouseClicked(evt);
+        btnArchivoCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnArchivoCerrarActionPerformed(evt);
             }
         });
         jD_Archivo.getContentPane().add(btnArchivoCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 213, 180, 30));
@@ -132,9 +134,9 @@ public class main extends javax.swing.JFrame {
         btnArchivoNuevo.setMaximumSize(new java.awt.Dimension(100, 20));
         btnArchivoNuevo.setMinimumSize(new java.awt.Dimension(100, 20));
         btnArchivoNuevo.setPreferredSize(new java.awt.Dimension(100, 20));
-        btnArchivoNuevo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnArchivoNuevoMouseClicked(evt);
+        btnArchivoNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnArchivoNuevoActionPerformed(evt);
             }
         });
         jD_Archivo.getContentPane().add(btnArchivoNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 180, 30));
@@ -145,43 +147,46 @@ public class main extends javax.swing.JFrame {
         jD_Archivo.getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, -1));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoestructuradatos2/imgs/gradientarchivebg.png"))); // NOI18N
-        jD_Archivo.getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, -110, 530, 630));
+        jLabel7.setMaximumSize(new java.awt.Dimension(489, 416));
+        jLabel7.setMinimumSize(new java.awt.Dimension(489, 416));
+        jLabel7.setPreferredSize(new java.awt.Dimension(489, 416));
+        jD_Archivo.getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -100, 530, 630));
 
         jD_Campos.setMinimumSize(new java.awt.Dimension(400, 400));
         jD_Campos.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnCamposCrear.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
         btnCamposCrear.setText("Crear campos");
-        btnCamposCrear.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnCamposCrearMouseClicked(evt);
+        btnCamposCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCamposCrearActionPerformed(evt);
             }
         });
         jD_Campos.getContentPane().add(btnCamposCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 170, -1));
 
         btnCamposListar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
         btnCamposListar.setText("Listar campos");
-        btnCamposListar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnCamposListarMouseClicked(evt);
+        btnCamposListar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCamposListarActionPerformed(evt);
             }
         });
         jD_Campos.getContentPane().add(btnCamposListar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 170, -1));
 
         btnCamposModificar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
         btnCamposModificar.setText("Modificar campos");
-        btnCamposModificar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnCamposModificarMouseClicked(evt);
+        btnCamposModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCamposModificarActionPerformed(evt);
             }
         });
         jD_Campos.getContentPane().add(btnCamposModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 170, 170, -1));
 
         btnCamposBorrar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
         btnCamposBorrar.setText("Borrar campos");
-        btnCamposBorrar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnCamposBorrarMouseClicked(evt);
+        btnCamposBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCamposBorrarActionPerformed(evt);
             }
         });
         jD_Campos.getContentPane().add(btnCamposBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 170, -1));
@@ -369,6 +374,28 @@ public class main extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void archivoCerrado() {
+        btnArchivoAbrir.setEnabled(true);
+        btnArchivoNuevo.setEnabled(true);
+        btnCamposCrear.setEnabled(false);
+        btnCamposModificar.setEnabled(false);
+        btnCamposBorrar.setEnabled(false);
+        btnCamposListar.setEnabled(false);
+        btnArchivoSalvar.setEnabled(false);
+        btnArchivoCerrar.setEnabled(false);
+    }
+
+    public void archivoAbierto() {
+        btnArchivoAbrir.setEnabled(false);
+        btnArchivoNuevo.setEnabled(false);
+        btnCamposCrear.setEnabled(true);
+        btnCamposModificar.setEnabled(true);
+        btnCamposBorrar.setEnabled(true);
+        btnCamposListar.setEnabled(true);
+        btnArchivoSalvar.setEnabled(true);
+        btnArchivoCerrar.setEnabled(true);
+    }
+
     private void btnMainMenuArchivoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMainMenuArchivoMouseClicked
         // TODO add your handling code here:
         jD_Archivo.pack();
@@ -454,10 +481,131 @@ public class main extends javax.swing.JFrame {
         setVisible(true);
     }//GEN-LAST:event_btnEstandSalirMouseClicked
 
-    private void btnArchivoNuevoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnArchivoNuevoMouseClicked
+    String metadata = "";
+    boolean archivoFueAbierto = false;
+
+    public void actualizarCampos(String nombreCampo, String tipoCampo, int longitudCampo) {
+        camposDeterminados += nombreCampo + "|" + tipoCampo + "|" + longitudCampo + "|#";
+    }
+
+    public void listaCampos(String camposConcatenados) {
+        if (camposConcatenados.contains(",")) {
+            camposConcatenados = camposConcatenados.replaceAll(",", "");
+        }
+        String listaCampo = "";
+        String p[] = camposConcatenados.split("#");
+        for (int j = 0; j < p.length; j++) {
+            String q[] = p[j].split("\\|");
+//            for (int k = 0; k < q.length; k++) {
+//                listaCampos += "Campo " + q[0] + " de tipo " + q[1] + " con tamaño máx de " + q[2] + "\n";
+//            }
+            listaCampo += "Campo " + q[0] + " de tipo " + q[1] + " con tamaño máx de " + q[2] + "\n";
+        }
+        //System.out.println(listaCampos);
+        listarCampos = listaCampo;
+    }
+
+    public void creacionCampos() {
+        String numCamposInput = JOptionPane.showInputDialog(this, "Ingrese la cantidad de campos:");
+        numCampos = Integer.parseInt(numCamposInput);
+
+        for (int i = 0; i < numCampos; i++) {
+            String nombreCampoTemp = JOptionPane.showInputDialog(this, "Ingrese el nombre para el campo " + (i + 1) + " ");
+
+            String tipoCampoTemp = JOptionPane.showInputDialog(this, "Ingrese el tipo de campo para el campo " + nombreCampoTemp + "\n 1 = int,2 = String, 3 = double, 4 = boolean");
+            int tipoCampoDecodificado = Integer.parseInt(tipoCampoTemp);
+            String tipoDeCampoDefinitivo = "";
+            if (tipoCampoDecodificado == 1) {
+                tipoDeCampoDefinitivo = "int";
+            } else if (tipoCampoDecodificado == 2) {
+                tipoDeCampoDefinitivo = "char";
+            } else if (tipoCampoDecodificado == 3) {
+                tipoDeCampoDefinitivo = "double";
+            } else if (tipoCampoDecodificado == 4) {
+                tipoDeCampoDefinitivo = "boolean";
+            } else {
+                tipoCampoTemp = JOptionPane.showInputDialog(this, "Ingrese el tipo correcto de campo para el campo " + nombreCampoTemp + "\n 1 = int,2 = String, 3 = double, 4 = boolean");
+            }
+
+            String longitudCampoTemp = JOptionPane.showInputDialog(this, "Ingrese la longitud de campo para el campo (de 0 en adelante)" + nombreCampoTemp);
+            int longitudCampoIntTemp = Integer.parseInt(longitudCampoTemp);
+            while (longitudCampoIntTemp <= 0) {
+                longitudCampoTemp = JOptionPane.showInputDialog(this, "Ingrese la longitud de campo para el campo (de 0 en adelante)" + nombreCampoTemp);
+                longitudCampoIntTemp = Integer.parseInt(longitudCampoTemp);
+            }
+
+            camposDeterminados += nombreCampoTemp + "|" + tipoDeCampoDefinitivo + "|" + longitudCampoIntTemp + "|#";
+            listarCampos += "Campo " + nombreCampoTemp + " de tipo " + tipoDeCampoDefinitivo + " con tamaño máx de " + longitudCampoIntTemp + "\n";
+
+        }
+        camposDeterminados += ",";
+    }
+
+    private void btnCamposBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCamposBorrarActionPerformed
+        //BORRAR CAMPO
+        //System.out.println("llave es "+indiceLlavePrimariaDecodificado);
+        int numCampoBorrar = numCampoBorrar = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingresa número de campo a eliminar: "));
+        while (numCampoBorrar == indiceLlavePrimariaDecodificado) {
+            numCampoBorrar = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingresa número de campo a eliminar (distinto al que representa la llave): "));
+        }
+        String campos[] = camposDeterminados.split("#");
+        camposDeterminados = camposDeterminados.replace(campos[numCampoBorrar - 1] + "#", "");
+        //camposDeterminados += ",";
+        System.out.println(camposDeterminados);
+
+        listaCampos(camposDeterminados);
+    }//GEN-LAST:event_btnCamposBorrarActionPerformed
+
+    private void btnCamposModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCamposModificarActionPerformed
+        //MODIFICAR CAMPOS
+        System.out.println(metadata);
+        System.out.println(camposDeterminados);
+        System.out.println(indiceLlavePrimariaDecodificado);
+
+        int numCampoModificar = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingresa número de campo a modificar: "));          //VALIDAR
+        int opcionModificar = Integer.parseInt(JOptionPane.showInputDialog(this, "Qué vas a modificar?: \n 1: Nombre campo\n 2: Tipo variable\n 3: Longitud campo"));          //VALIDAR
+        String nuevoParametro = "";
+        if (opcionModificar == 1) {
+            nuevoParametro = JOptionPane.showInputDialog(this, "Ingresa nuevo nombre de campo: ");
+        } else if (opcionModificar == 2) {
+            nuevoParametro = JOptionPane.showInputDialog(this, "Ingresa nuevo tipo variable de campo: ");
+        } else if (opcionModificar == 3) {
+            nuevoParametro = JOptionPane.showInputDialog(this, "Ingresa nueva longitud de campo: ");
+        }
+
+        String campos[] = camposDeterminados.split("#");
+        String parametrosCampo[] = campos[numCampoModificar - 1].split("\\|");
+        camposDeterminados = camposDeterminados.replace(parametrosCampo[opcionModificar - 1], nuevoParametro);
+
+        camposDeterminados += ",";
+        System.out.println("Campos quedan " + camposDeterminados);
+        listaCampos(camposDeterminados);            //modifica el listarCampos
+
+    }//GEN-LAST:event_btnCamposModificarActionPerformed
+
+    private void btnCamposListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCamposListarActionPerformed
+        JOptionPane.showMessageDialog(this, listarCampos);
+    }//GEN-LAST:event_btnCamposListarActionPerformed
+
+    private void btnCamposCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCamposCrearActionPerformed
+
+        if (archivoFueAbierto == true) {
+            creacionCampos();
+        } else {
+            creacionCampos();
+
+            String indiceLlavePrimaria = JOptionPane.showInputDialog(this, "Ingrese un num desde 1 hasta " + numCampos);
+            indiceLlavePrimariaDecodificado = Integer.parseInt(indiceLlavePrimaria);
+            metadata += indiceLlavePrimaria + ",";
+        }
+
+    }//GEN-LAST:event_btnCamposCrearActionPerformed
+
+    private void btnArchivoNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArchivoNuevoActionPerformed
         // TODO add your handling code here:
         //NUEVO ARCHIVO        mostrar JOptionPane para ingresar nombre del archivo
         //String nombre = JOptionPane.showInputDialog("Ingresa nombre del archivo: ");
+        archivoAbierto();
         String nombreArchivo;
         camposDeterminados = "";
         listarCampos = "";
@@ -515,14 +663,12 @@ public class main extends javax.swing.JFrame {
             } catch (IOException ex) {
             }
         }
-    }//GEN-LAST:event_btnArchivoNuevoMouseClicked
+    }//GEN-LAST:event_btnArchivoNuevoActionPerformed
 
-    String metadata = "";
-    boolean archivoFueAbierto = false;
-
-    private void btnArchivoAbrirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnArchivoAbrirMouseClicked
+    private void btnArchivoAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArchivoAbrirActionPerformed
         // TODO add your handling code here:
         //ARBIR ARCHIVO
+        archivoAbierto();
         metadata = "";
         camposDeterminados = "";
         listarCampos = "";
@@ -587,8 +733,9 @@ public class main extends javax.swing.JFrame {
 
                         if (numLinea == 0) {                  //METADATA
                             metadata = linea;
-                            if(t.length>2)
+                            if (t.length > 2) {
                                 indiceLlavePrimariaDecodificado = Integer.parseInt(t[2]);
+                            }
                         }
                         if (numLinea == 1) {                //CAMPOS
                             String p[] = t[i].split("#");
@@ -631,249 +778,134 @@ public class main extends javax.swing.JFrame {
         }
         System.out.println(camposDeterminados);
         System.out.println("La metadata es: " + metadata);
-    }//GEN-LAST:event_btnArchivoAbrirMouseClicked
+    }//GEN-LAST:event_btnArchivoAbrirActionPerformed
 
-    public void actualizarCampos(String nombreCampo, String tipoCampo, int longitudCampo) {
-        camposDeterminados += nombreCampo + "|" + tipoCampo + "|" + longitudCampo + "|#";
-    }
-
-    public void listaCampos(String camposConcatenados) {
-        if (camposConcatenados.contains(",")) {
-            camposConcatenados = camposConcatenados.replaceAll(",", "");
-        }
-        String listaCampo = "";
-        String p[] = camposConcatenados.split("#");
-        for (int j = 0; j < p.length; j++) {
-            String q[] = p[j].split("\\|");
-//            for (int k = 0; k < q.length; k++) {
-//                listaCampos += "Campo " + q[0] + " de tipo " + q[1] + " con tamaño máx de " + q[2] + "\n";
-//            }
-            listaCampo += "Campo " + q[0] + " de tipo " + q[1] + " con tamaño máx de " + q[2] + "\n";
-        }
-        //System.out.println(listaCampos);
-        listarCampos = listaCampo;
-    }
-
-    public void creacionCampos() {
-        String numCamposInput = JOptionPane.showInputDialog(this, "Ingrese la cantidad de campos:");
-        numCampos = Integer.parseInt(numCamposInput);
-
-        for (int i = 0; i < numCampos; i++) {
-            String nombreCampoTemp = JOptionPane.showInputDialog(this, "Ingrese el nombre para el campo " + (i + 1) + " ");
-
-            String tipoCampoTemp = JOptionPane.showInputDialog(this, "Ingrese el tipo de campo para el campo " + nombreCampoTemp + "\n 1 = int,2 = String, 3 = double, 4 = boolean");
-            int tipoCampoDecodificado = Integer.parseInt(tipoCampoTemp);
-            String tipoDeCampoDefinitivo = "";
-            if (tipoCampoDecodificado == 1) {
-                tipoDeCampoDefinitivo = "int";
-            } else if (tipoCampoDecodificado == 2) {
-                tipoDeCampoDefinitivo = "char";
-            } else if (tipoCampoDecodificado == 3) {
-                tipoDeCampoDefinitivo = "double";
-            } else if (tipoCampoDecodificado == 4) {
-                tipoDeCampoDefinitivo = "boolean";
-            } else {
-                tipoCampoTemp = JOptionPane.showInputDialog(this, "Ingrese el tipo correcto de campo para el campo " + nombreCampoTemp + "\n 1 = int,2 = String, 3 = double, 4 = boolean");
-            }
-
-            String longitudCampoTemp = JOptionPane.showInputDialog(this, "Ingrese la longitud de campo para el campo (de 0 en adelante)" + nombreCampoTemp);
-            int longitudCampoIntTemp = Integer.parseInt(longitudCampoTemp);
-            while (longitudCampoIntTemp <= 0) {
-                longitudCampoTemp = JOptionPane.showInputDialog(this, "Ingrese la longitud de campo para el campo (de 0 en adelante)" + nombreCampoTemp);
-                longitudCampoIntTemp = Integer.parseInt(longitudCampoTemp);
-            }
-
-            camposDeterminados += nombreCampoTemp + "|" + tipoDeCampoDefinitivo + "|" + longitudCampoIntTemp + "|#";
-            listarCampos += "Campo " + nombreCampoTemp + " de tipo " + tipoDeCampoDefinitivo + " con tamaño máx de " + longitudCampoIntTemp + "\n";
-
-        }
-        camposDeterminados += ",";
-    }
-
-    private void btnCamposCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCamposCrearMouseClicked
-        // TODO add your handling code here:
-
-        if (archivoFueAbierto == true) {
-            creacionCampos();
-        } else {
-            creacionCampos();
-
-            String indiceLlavePrimaria = JOptionPane.showInputDialog(this, "Ingrese un num desde 1 hasta " + numCampos);
-            indiceLlavePrimariaDecodificado = Integer.parseInt(indiceLlavePrimaria);
-            metadata += indiceLlavePrimaria + ",";
-        }
-
-    }//GEN-LAST:event_btnCamposCrearMouseClicked
-
-    private void btnCamposListarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCamposListarMouseClicked
-        // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this, listarCampos);
-    }//GEN-LAST:event_btnCamposListarMouseClicked
-
-    private void btnArchivoSalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnArchivoSalvarMouseClicked
+    private void btnArchivoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArchivoSalvarActionPerformed
         //SALVAR ARCHIVO
-        if(fichero!=null){
+        if (fichero != null) {
 //            String nombreArchivo = "";
-    //        JFileChooser jfc = new JFileChooser("./");
-    //        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de Texto", "txt");
-    //        jfc.addChoosableFileFilter(filtro);
-    //        int seleccion = jfc.showSaveDialog(this);
+            //        JFileChooser jfc = new JFileChooser("./");
+            //        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de Texto", "txt");
+            //        jfc.addChoosableFileFilter(filtro);
+            //        int seleccion = jfc.showSaveDialog(this);
             FileWriter fw = null;
             BufferedWriter bw = null;
             //if (seleccion == JFileChooser.APPROVE_OPTION) {
-                try {
-                    //File fichero = null;
-    //                if (jfc.getFileFilter().getDescription().equals("Archivos de Texto")) {
-    //                    nombreArchivo = jfc.getSelectedFile().getName();// .getPath();
-    //                    //fichero = new File(jfc.getSelectedFile().getPath());
-    //
-    //                } else {
-    //                    nombreArchivo = jfc.getSelectedFile().getName(); //.getPath();
-    //                    //fichero = new File(jfc.getSelectedFile().getPath());
-    //                    //fichero = jfc.getSelectedFile();
-    //                }
-                    //fw = new FileWriter(fichero, true);
-                    fw = new FileWriter(fichero);
-                    bw = new BufferedWriter(fw);
+            try {
+                //File fichero = null;
+                //                if (jfc.getFileFilter().getDescription().equals("Archivos de Texto")) {
+                //                    nombreArchivo = jfc.getSelectedFile().getName();// .getPath();
+                //                    //fichero = new File(jfc.getSelectedFile().getPath());
+                //
+                //                } else {
+                //                    nombreArchivo = jfc.getSelectedFile().getName(); //.getPath();
+                //                    //fichero = new File(jfc.getSelectedFile().getPath());
+                //                    //fichero = jfc.getSelectedFile();
+                //                }
+                //fw = new FileWriter(fichero, true);
+                fw = new FileWriter(fichero);
+                bw = new BufferedWriter(fw);
 
-                    /*for (Vehiculo v : vehiculos) {        PRIMERA FORMA CON EL ARRAYLIST* NO FUNCIONA DEL TODO
+                /*for (Vehiculo v : vehiculos) {        PRIMERA FORMA CON EL ARRAYLIST* NO FUNCIONA DEL TODO
                         bw.write(v.getCodigo() + ";");
                         bw.write(v.getMarca()+ ";");
                         bw.write(v.getModelo()+ ";");
                         bw.write(v.getAno()+ ";");
                         bw.write(v.getPrecio()+ ";"+"\n");
                     }*/
-                    bw.write(metadata + "\n");
-                    if(!camposDeterminados.contains(","))
-                        camposDeterminados +=",";
-                    bw.write(camposDeterminados);
-    //                METADATA,header example,5/22/2021 9:19 PM,1,
-    //                PersonID|int|6|true|#PersonName|char|20|false|#PersonAge|int|3|false|#CityID|int|2|false|,
-    //                for (int i = 0; i < tabla_vehiculos.getRowCount(); i++) {
-    //                    bw.write((String) tabla_vehiculos.getValueAt(i, 0)+";");
-    //                    bw.write((String) tabla_vehiculos.getValueAt(i, 1)+";");
-    //                    bw.write((String) tabla_vehiculos.getValueAt(i, 2)+";");
-    //                    bw.write((String) tabla_vehiculos.getValueAt(i, 3)+";");
-    //                    bw.write((String) tabla_vehiculos.getValueAt(i, 4)+";"+"\n");
-    //                }
-
-    //                DefaultTableModel modelo = (DefaultTableModel) tabla_vehiculos1.getModel();
-    //                tabla_vehiculos.setModel(modelo);   //limpio la table
-                    //ta_1.setText("");
-                    bw.flush();
-                    JOptionPane.showMessageDialog(this, "Archivo guardado exitosamente en " + fichero.toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
+                bw.write(metadata + "\n");
+                if (!camposDeterminados.contains(",")) {
+                    camposDeterminados += ",";
                 }
+                bw.write(camposDeterminados);
+                //                METADATA,header example,5/22/2021 9:19 PM,1,
+                //                PersonID|int|6|true|#PersonName|char|20|false|#PersonAge|int|3|false|#CityID|int|2|false|,
+                //                for (int i = 0; i < tabla_vehiculos.getRowCount(); i++) {
+                //                    bw.write((String) tabla_vehiculos.getValueAt(i, 0)+";");
+                //                    bw.write((String) tabla_vehiculos.getValueAt(i, 1)+";");
+                //                    bw.write((String) tabla_vehiculos.getValueAt(i, 2)+";");
+                //                    bw.write((String) tabla_vehiculos.getValueAt(i, 3)+";");
+                //                    bw.write((String) tabla_vehiculos.getValueAt(i, 4)+";"+"\n");
+                //                }
 
-                try {
-                    bw.close();
-                    fw.close();
-                } catch (IOException ex) {
-                }
+                //                DefaultTableModel modelo = (DefaultTableModel) tabla_vehiculos1.getModel();
+                //                tabla_vehiculos.setModel(modelo);   //limpio la table
+                //ta_1.setText("");
+                bw.flush();
+                JOptionPane.showMessageDialog(this, "Archivo guardado exitosamente en " + fichero.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                bw.close();
+                fw.close();
+            } catch (IOException ex) {
+            }
             //}
-        } else
+        } else {
             JOptionPane.showMessageDialog(this, "No has abierto un archivo. Intenta nuevamente");
-    }//GEN-LAST:event_btnArchivoSalvarMouseClicked
-
-    private void btnCamposModificarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCamposModificarMouseClicked
-        //MODIFICAR CAMPOS
-        System.out.println(metadata);
-        System.out.println(camposDeterminados);
-        System.out.println(indiceLlavePrimariaDecodificado);
-
-        int numCampoModificar = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingresa número de campo a modificar: "));          //VALIDAR
-        int opcionModificar = Integer.parseInt(JOptionPane.showInputDialog(this, "Qué vas a modificar?: \n 1: Nombre campo\n 2: Tipo variable\n 3: Longitud campo"));          //VALIDAR
-        String nuevoParametro = "";
-        if (opcionModificar == 1) {
-            nuevoParametro = JOptionPane.showInputDialog(this, "Ingresa nuevo nombre de campo: ");
-        } else if (opcionModificar == 2) {
-            nuevoParametro = JOptionPane.showInputDialog(this, "Ingresa nuevo tipo variable de campo: ");
-        } else if (opcionModificar == 3) {
-            nuevoParametro = JOptionPane.showInputDialog(this, "Ingresa nueva longitud de campo: ");
         }
+    }//GEN-LAST:event_btnArchivoSalvarActionPerformed
 
-        String campos[] = camposDeterminados.split("#");
-        String parametrosCampo[] = campos[numCampoModificar - 1].split("\\|");
-        camposDeterminados = camposDeterminados.replace(parametrosCampo[opcionModificar - 1], nuevoParametro);
-
-        camposDeterminados += ",";
-        System.out.println("Campos quedan " + camposDeterminados);
-        listaCampos(camposDeterminados);            //modifica el listarCampos
-
-    }//GEN-LAST:event_btnCamposModificarMouseClicked
-
-    private void btnArchivoCerrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnArchivoCerrarMouseClicked
+    private void btnArchivoCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArchivoCerrarActionPerformed
         //CERRAR ARCHIVO
         int opcion = JOptionPane.showConfirmDialog(this, "¿Guardar Archivo?");
-        if(opcion==0 && fichero!=null){                                          //0:Sí quiere guargar
-            
+        if (opcion == 0 && fichero != null) {                                          //0:Sí quiere guargar
+
             //GUARDAR ARCHIVO
             FileWriter fw = null;
             BufferedWriter bw = null;
             try {
-            fw = new FileWriter(fichero);
-            bw = new BufferedWriter(fw);
-            bw.write(metadata + "\n");
-            if(!camposDeterminados.contains(","))
-                        camposDeterminados +=",";
-            bw.write(camposDeterminados);
-            bw.flush();
-            JOptionPane.showMessageDialog(this, "Archivo guardado exitosamente en " + fichero.toString());
+                fw = new FileWriter(fichero);
+                bw = new BufferedWriter(fw);
+                bw.write(metadata + "\n");
+                if (!camposDeterminados.contains(",")) {
+                    camposDeterminados += ",";
+                }
+                bw.write(camposDeterminados);
+                bw.flush();
+                JOptionPane.showMessageDialog(this, "Archivo guardado exitosamente en " + fichero.toString());
             } catch (Exception e) {
-                    e.printStackTrace();
+                e.printStackTrace();
             }
             try {
-                    bw.close();
-                    fw.close();
+                bw.close();
+                fw.close();
             } catch (IOException ex) {
             }
-            
+
             //REINICIAR VARIABLES GLOBALES
             metadata = "";
             camposDeterminados = "";
             listarCampos = "";
             indiceLlavePrimariaDecodificado = 0;
-            numCampos=0;
+            numCampos = 0;
             fichero = null;
-        } else if(opcion==0 && fichero==null){                                      //0: Si quiere guardar pero no ha abierto un archivo
+        } else if (opcion == 0 && fichero == null) {                                      //0: Si quiere guardar pero no ha abierto un archivo
             JOptionPane.showMessageDialog(this, "Primero debes abrir un archivo");
-        } else if(opcion==1){                                                       //1:No quiere guardar
+        } else if (opcion == 1) {                                                       //1:No quiere guardar
             //REINICIAR VARIABLES GLOBALES
             metadata = "";
             camposDeterminados = "";
             listarCampos = "";
             indiceLlavePrimariaDecodificado = 0;
-            numCampos=0;
+            numCampos = 0;
             fichero = null;
         }
-        if(opcion!=2 && fichero!=null){                                                              //2:Cancelar
+        if (opcion != 2 && fichero != null) {                                                              //2:Cancelar
             JOptionPane.showMessageDialog(this, "Archivo cerrado");
         }
-        
-    }//GEN-LAST:event_btnArchivoCerrarMouseClicked
+        archivoCerrado();
 
-    private void btnCamposBorrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCamposBorrarMouseClicked
-        //BORRAR CAMPO
-        //System.out.println("llave es "+indiceLlavePrimariaDecodificado);
-        int numCampoBorrar = numCampoBorrar = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingresa número de campo a eliminar: "));
-        while (numCampoBorrar == indiceLlavePrimariaDecodificado) {
-            numCampoBorrar = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingresa número de campo a eliminar (distinto al que representa la llave): "));
-        }
-        String campos[] = camposDeterminados.split("#");
-        camposDeterminados = camposDeterminados.replace(campos[numCampoBorrar - 1]+"#", "");
-        //camposDeterminados += ",";
-        System.out.println(camposDeterminados);
+    }//GEN-LAST:event_btnArchivoCerrarActionPerformed
 
-        listaCampos(camposDeterminados);
-    }//GEN-LAST:event_btnCamposBorrarMouseClicked
-    
     String camposDeterminados = "";
     String listarCampos = "";
     int indiceLlavePrimariaDecodificado;
-    int numCampos=0;
+    int numCampos = 0;
     File fichero = null;
-    
+
     /**
      * @param args the command line arguments
      */
