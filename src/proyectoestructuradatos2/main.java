@@ -87,7 +87,6 @@ public class main extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
 
         jD_Archivo.setMinimumSize(new java.awt.Dimension(489, 450));
-        jD_Archivo.setPreferredSize(new java.awt.Dimension(489, 450));
         jD_Archivo.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnArchivoAbrir.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
