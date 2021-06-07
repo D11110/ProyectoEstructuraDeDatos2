@@ -21,7 +21,7 @@ public class BNode {
         llave = new int[ordenArbol - 1];
         hijo = new BNode[ordenArbol];
         hoja = true;
-        cantLlaves = 0;
+        cantLlaves = ordenArbol-1;
     }
     
     //retorna el valor de la llave en la posición indicada

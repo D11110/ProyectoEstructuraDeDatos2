@@ -35,16 +35,14 @@ public class BTree {
 
     public void insertar(BTree T , int k) {
         root = T.root;
-        if (root.cantLlaves == 2*(orden)-1) {
+        if (root.cantLlaves == (orden)-1-1) {
             BNode s = new BNode(orden, root);
             s.hoja=false;
             s.cantLlaves =0;
             s.hijo[1] = root;
             T.split(s,root,1);
             insertNonfull(s, k);
-            //insert non full s,k
         } else {
-            //insert non full r,k
             insertNonfull(root, k);
         }
     }
