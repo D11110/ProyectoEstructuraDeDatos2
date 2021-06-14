@@ -212,6 +212,11 @@ public class main extends javax.swing.JFrame {
 
         btnRegistrosIntroducir.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
         btnRegistrosIntroducir.setText("Introducir registros");
+        btnRegistrosIntroducir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrosIntroducirActionPerformed(evt);
+            }
+        });
         jD_Registros.getContentPane().add(btnRegistrosIntroducir, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 95, 174, 39));
 
         btnRegistrosModificar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
@@ -305,7 +310,6 @@ public class main extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(600, 600));
-        setPreferredSize(new java.awt.Dimension(600, 600));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnMainMenuArchivo.setFont(new java.awt.Font("Eras Light ITC", 0, 36)); // NOI18N
@@ -898,6 +902,33 @@ public class main extends javax.swing.JFrame {
         archivoCerrado();
 
     }//GEN-LAST:event_btnArchivoCerrarActionPerformed
+
+    private void btnRegistrosIntroducirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrosIntroducirActionPerformed
+        // TODO add your handling code here:
+        ArrayList<String> nombresEnCampos = new ArrayList<String>();
+        ArrayList<String> tipoEnCampos = new ArrayList<String>();
+        ArrayList<Integer> tamEnCampos = new ArrayList<Integer>();
+
+        String p[] = camposDeterminados.split("#");
+        for (int j = 0; j < p.length; j++) {
+            String q[] = p[j].split("\\|");
+            for (int k = 0; k < q.length; k++) {
+                if (k == 0) {
+                    System.out.println("Nombre campo : " + q[k]);
+                    nombresEnCampos.add(q[k]);
+                }
+                if (k == 1) {
+                    System.out.println("Tipo de campo : " + q[k]);
+                    tipoEnCampos.add(q[k]);
+                }
+                if (k == 2) {
+                    System.out.println("Tamaño de campo : " + q[k]);
+                    tamEnCampos.add(Integer.valueOf(q[k]));
+                }
+            }
+        }
+
+    }//GEN-LAST:event_btnRegistrosIntroducirActionPerformed
 
     String camposDeterminados = "";
     String listarCampos = "";
