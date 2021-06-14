@@ -29,6 +29,75 @@ public class main extends javax.swing.JFrame {
     public main() {
         initComponents();
         archivoCerrado();
+        BTree t = new BTree(3);
+        System.out.println("Insertando 1");
+        t.insert(1);
+        t.traverse();
+        System.out.println();
+        System.out.println("Insertando 3");
+        t.insert(3);
+        t.traverse();
+        System.out.println();
+        System.out.println("Insertando 8");
+        t.insert(8);
+        t.traverse();
+        System.out.println();
+        System.out.println("Insertando 10");
+        t.insert(10);
+        t.traverse();
+        System.out.println();
+        System.out.println("Insertando 11");
+        t.insert(11);
+        t.traverse();
+        System.out.println();
+        System.out.println("Insertando 28");
+        t.insert(28);
+        t.traverse();
+        System.out.println();
+        System.out.println("Insertando 24");
+        t.insert(24);
+        t.traverse();
+        System.out.println();
+        System.out.println("Insertando 25");
+        t.insert(25);
+        t.traverse();
+        System.out.println();
+        System.out.println("Insertando 21");
+        t.insert(21);
+        t.traverse();
+        System.out.println();
+        System.out.println("Insertando 29");
+        t.insert(29);
+        t.traverse();
+        System.out.println();
+        System.out.println("Insertando 20");
+        t.insert(20);
+        t.traverse();
+        System.out.println();
+        System.out.println("Insertando 22");
+        t.insert(22);
+        t.traverse();
+        System.out.println();
+        System.out.println("Insertando 2");
+        t.insert(2);
+        t.traverse();
+        System.out.println();
+
+        t.remove(25);
+        System.out.println("Eliminando 25");
+        t.traverse();
+        System.out.println();
+
+        t.remove(28);
+        System.out.println("Eliminando 28");
+        t.traverse();
+        System.out.println();
+
+        t.remove(3);
+        System.out.println("Eliminando 3");
+        t.traverse();
+        System.out.println();
+
     }
 
     /**
@@ -668,12 +737,21 @@ public class main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnArchivoNuevoActionPerformed
 
+    public static String removeLastChar(String str) {
+        return removeLastChars(str, 1);
+    }
+
+    public static String removeLastChars(String str, int chars) {
+        return str.substring(0, str.length() - chars);
+    }
+
     private void btnArchivoAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArchivoAbrirActionPerformed
         // TODO add your handling code here:
         //ARBIR ARCHIVO
         archivoAbierto();
         metadata = "";
         camposDeterminados = "";
+        registrosDeterminados = "";
         listarCampos = "";
         archivoFueAbierto = true;
         fichero = null;
@@ -756,6 +834,10 @@ public class main extends javax.swing.JFrame {
                                     }
                                 }
                             }
+                        } else if (numLinea == 2) {
+
+                            registrosDeterminados = linea;
+                            registrosDeterminados = removeLastChar(registrosDeterminados);
                         } else {
                             //System.out.println(t[i]);
                         }
@@ -768,6 +850,7 @@ public class main extends javax.swing.JFrame {
                     listarCampos += "Campo " + nombreCampos.get(i) + " de tipo " + tipoDeCampo.get(i) + " con tamaño máx de " + tamañoCampo.get(i) + "\n";
                     actualizarCampos(nombreCampos.get(i), tipoDeCampo.get(i), tamañoCampo.get(i));
                 }
+                System.out.println(registrosDeterminados);
 
             }
         } catch (Exception e) {
@@ -820,7 +903,11 @@ public class main extends javax.swing.JFrame {
                 if (!camposDeterminados.contains(",")) {
                     camposDeterminados += ",";
                 }
-                bw.write(camposDeterminados);
+                bw.write(camposDeterminados + "\n");
+                if (!registrosDeterminados.contains(",")) {
+                    registrosDeterminados += ",";
+                }
+                bw.write(registrosDeterminados);
                 //                METADATA,header example,5/22/2021 9:19 PM,1,
                 //                PersonID|int|6|true|#PersonName|char|20|false|#PersonAge|int|3|false|#CityID|int|2|false|,
                 //                for (int i = 0; i < tabla_vehiculos.getRowCount(); i++) {
@@ -866,7 +953,11 @@ public class main extends javax.swing.JFrame {
                 if (!camposDeterminados.contains(",")) {
                     camposDeterminados += ",";
                 }
-                bw.write(camposDeterminados);
+                bw.write(camposDeterminados + "\n");
+                if (!registrosDeterminados.contains(",")) {
+                    registrosDeterminados += ",";
+                }
+                bw.write(registrosDeterminados);
                 bw.flush();
                 JOptionPane.showMessageDialog(this, "Archivo guardado exitosamente en " + fichero.toString());
             } catch (Exception e) {
@@ -905,7 +996,7 @@ public class main extends javax.swing.JFrame {
 
     private void btnRegistrosIntroducirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrosIntroducirActionPerformed
         // TODO add your handling code here:
-        ArrayList<String> nombresEnCampos = new ArrayList<String>();
+        ArrayList<String> nombresParaCampos = new ArrayList<String>();
         ArrayList<String> tipoEnCampos = new ArrayList<String>();
         ArrayList<Integer> tamEnCampos = new ArrayList<Integer>();
 
@@ -915,7 +1006,7 @@ public class main extends javax.swing.JFrame {
             for (int k = 0; k < q.length; k++) {
                 if (k == 0) {
                     System.out.println("Nombre campo : " + q[k]);
-                    nombresEnCampos.add(q[k]);
+                    nombresParaCampos.add(q[k]);
                 }
                 if (k == 1) {
                     System.out.println("Tipo de campo : " + q[k]);
@@ -928,10 +1019,94 @@ public class main extends javax.swing.JFrame {
             }
         }
 
+        String cantidadCampos = JOptionPane.showInputDialog("Ingrese la cantidad de registros que ingresara: ");
+        int cantRegistros = Integer.parseInt(cantidadCampos);
+        int cantCamposDeterminados = nombresParaCampos.size();
+
+        for (int j = 0; j < cantRegistros; j++) {
+            for (int i = 0; i < cantCamposDeterminados; i++) {
+                boolean pasa = false;
+                if (tipoEnCampos.get(i).equals("char")) {
+                    pasa = false;
+                    while (pasa == false) {
+                        String stringAInsertar = JOptionPane.showInputDialog("Ingrese el string para el campo " + nombresParaCampos.get(i) + " con size max de " + tamEnCampos.get(i));
+                        if (stringAInsertar.length() <= tamEnCampos.get(i)) {
+                            pasa = true;
+                            registrosDeterminados += stringAInsertar + "|";
+                        }
+                    }
+                } else if (tipoEnCampos.get(i).equals("int")) {
+                    pasa = false;
+                    while (pasa == false) {
+                        int intAInsertar = 0;
+                        try {
+                            String intAInsertarPre = JOptionPane.showInputDialog("Ingrese el valor para el campo " + nombresParaCampos.get(i) + " con size max de " + tamEnCampos.get(i));
+                            intAInsertar = Integer.parseInt(intAInsertarPre);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.out.println("No se pudo hacer la conversion de string a int");
+                        }
+                        if (String.valueOf(intAInsertar).length() <= tamEnCampos.get(i)) {
+                            pasa = true;
+                            registrosDeterminados += intAInsertar + "|";
+                        }
+                    }
+                } else if (tipoEnCampos.get(i).equals("boolean")) {
+                    pasa = false;
+                    while (pasa == false) {
+                        String strValorBoolean = JOptionPane.showInputDialog("Ingrese el valor para el campo " + nombresParaCampos.get(i) + " valores permitidos: 0 = false, 1 = true");
+                        int intValorBoolean = Integer.parseInt(strValorBoolean);
+                        if (intValorBoolean == 0 || intValorBoolean == 1) {
+                            if (intValorBoolean == 0) {
+                                registrosDeterminados += "false|";
+                            } else {
+                                registrosDeterminados += "true|";
+                            }
+                            pasa = true;
+                        }
+                    }
+                } else if (tipoEnCampos.get(i).equals("long")) {
+                    pasa = false;
+                    while (pasa == false) {
+                        long longAInsertar = 0;
+                        try {
+                            String longAInsertarPre = JOptionPane.showInputDialog("Ingrese el valor para el campo " + nombresParaCampos.get(i) + " con size max de " + tamEnCampos.get(i));
+                            longAInsertar = Long.valueOf(longAInsertarPre);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.out.println("No se pudo hacer la conversion de string a long");
+                        }
+                        if (String.valueOf(longAInsertar).length() <= tamEnCampos.get(i)) {
+                            pasa = true;
+                            registrosDeterminados += longAInsertar + "|";
+                        }
+                    }
+                } else if (tipoEnCampos.get(i).equals("double")) {
+                    pasa = false;
+                    while (pasa == false) {
+                        double doubleAInsertar = 0;
+                        try {
+                            String doubleAInsertarPre = JOptionPane.showInputDialog("Ingrese el valor para el campo " + nombresParaCampos.get(i) + " con size max de " + tamEnCampos.get(i));
+                            doubleAInsertar = Double.valueOf(doubleAInsertarPre);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.out.println("No se pudo hacer la conversion de string a double");
+                        }
+                        if (String.valueOf(doubleAInsertar).length() <= tamEnCampos.get(i)) {
+                            pasa = true;
+                            registrosDeterminados += doubleAInsertar + "|";
+                        }
+                    }
+                }
+            }
+            registrosDeterminados += "#";
+        }
+        System.out.println(registrosDeterminados);
     }//GEN-LAST:event_btnRegistrosIntroducirActionPerformed
 
     String camposDeterminados = "";
     String listarCampos = "";
+    String registrosDeterminados = "";
     int indiceLlavePrimariaDecodificado;
     int numCampos = 0;
     File fichero = null;
