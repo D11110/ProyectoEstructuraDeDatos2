@@ -290,14 +290,29 @@ public class main extends javax.swing.JFrame {
 
         btnRegistrosModificar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
         btnRegistrosModificar.setText("Modificar registros");
+        btnRegistrosModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrosModificarActionPerformed(evt);
+            }
+        });
         jD_Registros.getContentPane().add(btnRegistrosModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 143, 174, 39));
 
         btnRegistrosBuscar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
         btnRegistrosBuscar.setText("Buscar registros");
+        btnRegistrosBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrosBuscarActionPerformed(evt);
+            }
+        });
         jD_Registros.getContentPane().add(btnRegistrosBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 188, 174, 39));
 
         btnRegistrosBorrar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
         btnRegistrosBorrar.setText("Borrar registros");
+        btnRegistrosBorrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrosBorrarActionPerformed(evt);
+            }
+        });
         jD_Registros.getContentPane().add(btnRegistrosBorrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 233, 174, 39));
 
         btnRegistrosListar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
@@ -319,13 +334,18 @@ public class main extends javax.swing.JFrame {
         jD_Registros.getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, -1));
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoestructuradatos2/imgs/gradientarchivebg.png"))); // NOI18N
-        jD_Registros.getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, -1, -1));
+        jD_Registros.getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, -1, 440));
 
         jD_Indices.setMinimumSize(new java.awt.Dimension(400, 400));
         jD_Indices.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnIndicesCrear.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
         btnIndicesCrear.setText("Crear indices");
+        btnIndicesCrear.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnIndicesCrearMouseClicked(evt);
+            }
+        });
         jD_Indices.getContentPane().add(btnIndicesCrear, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 94, 163, 36));
 
         btnIndicesIndexar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
@@ -347,7 +367,7 @@ public class main extends javax.swing.JFrame {
         jD_Indices.getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, -1));
 
         jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoestructuradatos2/imgs/gradientarchivebg.png"))); // NOI18N
-        jD_Indices.getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, -10, -1, -1));
+        jD_Indices.getContentPane().add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(-40, 0, -1, -1));
 
         jD_Estandarizacion.setMinimumSize(new java.awt.Dimension(400, 400));
         jD_Estandarizacion.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -1104,12 +1124,122 @@ public class main extends javax.swing.JFrame {
         System.out.println(registrosDeterminados);
     }//GEN-LAST:event_btnRegistrosIntroducirActionPerformed
 
+    String leerRegistros(){
+        FileReader fr = null;
+        BufferedReader br = null;
+        
+        String registros="";
+//        int llavePrimaria = -1;
+        try {
+            fr = new FileReader(fichero);
+            br = new BufferedReader(fr);
+            String linea;
+            
+            int numLinea = 0;
+            while ((linea = br.readLine()) != null) {
+                String q[] = linea.split(",");
+                for (int i = 0; i < q.length; i++) {
+//                    if(numLinea == 0){
+//                        llavePrimaria = Integer.parseInt(q[2]);
+//                    }
+                    if (numLinea == 2) {                  //METADATA
+                        registros = q[i];
+                        registros = removeLastChar(registros);
+                    }
+                }
+                numLinea++;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            br.close();
+            fr.close();
+        } catch (IOException ex) {
+        }
+        
+        return registros;
+    }
+    
+    private void btnIndicesCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIndicesCrearMouseClicked
+        //CREAR INDICES QUE SERIA CREAR ARBOL
+        Tree = new BTree(5);
+        //abrir el archivo
+        
+        //File ficheroAbrir = new File(fichero);
+        String registros = leerRegistros();
+        String temp[] = metadata.split(",");
+        int llavePrimaria = Integer.parseInt(temp[2]);
+        
+        System.out.println();
+        System.out.println("Llave primaria: " + llavePrimaria);
+        System.out.println("Los registros son: " + registros);
+        
+        ArrayList<Integer> regs = new ArrayList<Integer>();
+        String m[] = registros.split("#");
+        for (int i = 0; i < m.length; i++) {
+            String n[] = m[i].split("\\|");
+            regs.add( Integer.parseInt(n[llavePrimaria-1]) );
+        }
+        
+        //System.out.println(regs);
+        for (int i = 0; i < regs.size(); i++) {
+            Tree.insert(regs.get(i));
+        }
+        Tree.traverse();
+    }//GEN-LAST:event_btnIndicesCrearMouseClicked
+
+    
+    private void btnRegistrosBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrosBuscarActionPerformed
+        //BUSCAR ARCHIVO
+        int llaveRegistro = Integer.parseInt( JOptionPane.showInputDialog(this, "Ingresa la llave del registro a buscar:") );
+        if( Tree.search(llaveRegistro)!=null){
+            JOptionPane.showMessageDialog(this, "El registro con llave "+ llaveRegistro +" sí existe");
+        } else{
+            JOptionPane.showMessageDialog(this, "El registro con llave "+ llaveRegistro +" no existe");
+        }
+    }//GEN-LAST:event_btnRegistrosBuscarActionPerformed
+
+    private void btnRegistrosBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrosBorrarActionPerformed
+        //BORRAR REGISTROS
+        int op = Integer.parseInt( JOptionPane.showInputDialog(this, "Eliminar registro en base a:\n 1. Llave \n 2. Crierio de campos") );
+        if(op==1){
+            int llaveRegistro = Integer.parseInt( JOptionPane.showInputDialog(this, "Ingresa la llave del registro a eliminar:") );
+            Tree.remove(llaveRegistro);
+            Tree.traverse();
+            
+            String registros = leerRegistros();
+        }
+    }//GEN-LAST:event_btnRegistrosBorrarActionPerformed
+
+    private void btnRegistrosModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrosModificarActionPerformed
+        //MODIFICAR ARCHIVO
+        int llaveRegistro = Integer.parseInt( JOptionPane.showInputDialog(this, "Ingresa la llave del registro a buscar:") );
+        if( Tree.search(llaveRegistro)!=null){                                                                  //si el registro existe
+            //aca le metes la parte de "q es lo q deseas modificar"         DANIELTRAVIESO
+            //recorda q vas a recivir un string tipo 
+            //      Daniel|11941247|801200100002|false|     el byteOffset es la pos del caracter D en todos los registro, y el legnth llega hasta ese | NO EL #
+            
+            
+            
+            
+            //digamos q para este punto ya está modificado el registro, entonces ahora lo modifico en memoria para luego modificarlo en el archivo
+            String registros = leerRegistros();
+            //registros.eliminar(byteoffset, byteoffset+tamañoRegistro)     eliminaria el registro en memoria
+            
+        } else{                                                                                                 //si el registro no existe
+            JOptionPane.showMessageDialog(this, "El registro con llave "+ llaveRegistro +" no existe.\n Intenta de nuevo");
+        }
+    }//GEN-LAST:event_btnRegistrosModificarActionPerformed
+
     String camposDeterminados = "";
     String listarCampos = "";
     String registrosDeterminados = "";
     int indiceLlavePrimariaDecodificado;
     int numCampos = 0;
     File fichero = null;
+    BTree Tree;
 
     /**
      * @param args the command line arguments

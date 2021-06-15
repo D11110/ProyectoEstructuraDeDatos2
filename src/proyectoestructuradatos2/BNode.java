@@ -1,5 +1,7 @@
 package proyectoestructuradatos2;
 
+import javax.swing.JOptionPane;
+
 public class BNode {
 
     int[] llaves; // claves de nodo
@@ -118,7 +120,8 @@ public class BNode {
             }
         } else {
             if (hoja) {
-                System.out.printf("The key %d is does not exist in the tree\n", k);
+                //System.out.printf("The key %d is does not exist in the tree\n", k);
+                //JOptionPane.showMessageDialog(this, "El registro con llave "+ k +" no existe");
                 return;
             }
 
