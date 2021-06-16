@@ -406,9 +406,7 @@ public class main extends javax.swing.JFrame {
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoestructuradatos2/imgs/gradientarchivebg.png"))); // NOI18N
         jD_Estandarizacion.getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(-50, -10, -1, -1));
 
-        jD_TablaListarRegistros.setMaximumSize(new java.awt.Dimension(800, 500));
         jD_TablaListarRegistros.setMinimumSize(new java.awt.Dimension(800, 500));
-        jD_TablaListarRegistros.setPreferredSize(new java.awt.Dimension(800, 500));
         jD_TablaListarRegistros.getContentPane().setLayout(null);
 
         tablaRegistrosListar.setModel(new javax.swing.table.DefaultTableModel(
@@ -1207,17 +1205,23 @@ public class main extends javax.swing.JFrame {
         System.out.println("Los registros son: " + registros);
 
         ArrayList<Integer> regs = new ArrayList<Integer>();
+        ArrayList<Integer> bytes = new ArrayList<Integer>();
+        ArrayList<Integer> lenghts = new ArrayList<Integer>();
         String m[] = registros.split("#");
         for (int i = 0; i < m.length; i++) {
             String n[] = m[i].split("\\|");
             regs.add(Integer.parseInt(n[llavePrimaria - 1]));
+            bytes.add(registros.indexOf(m[i]));
+            lenghts.add(m[i].length());
         }
 
         //System.out.println(regs);
         for (int i = 0; i < regs.size(); i++) {
-            Tree.insert(regs.get(i));
+            Tree.insert(regs.get(i),bytes.get(i),lenghts.get(i));
         }
         Tree.traverse();
+        System.out.println("");
+        Tree.raiz.traverse2();
     }//GEN-LAST:event_btnIndicesCrearMouseClicked
 
 

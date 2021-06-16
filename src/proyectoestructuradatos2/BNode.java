@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 
 public class BNode {
 
-    int[] llaves; // claves de nodo
+    Llave[] llaves; // claves de nodo
     int gradoMinimo; // El grado mínimo del nodo B-tree
     BNode[] hijos; // nodos secundarios
     int numLlaves; // El número de claves de nodos
@@ -14,29 +14,60 @@ public class BNode {
 
         this.gradoMinimo = grado;
         this.hoja = esHoja;
-        this.llaves = new int[2 * this.gradoMinimo - 1];
+        this.llaves = new Llave[2 * this.gradoMinimo - 1];
+        for (int i = 0; i < llaves.length; i++) {
+            llaves[i] = new Llave();
+        }
         this.hijos = new BNode[2 * this.gradoMinimo];
         this.numLlaves = 0;
     }
+    
+    public void insertNonFull(int k, int byteOff, int length) {
 
+        int i = numLlaves - 1;
+
+        if (hoja) {
+            while (i >= 0 && llaves[i].getIndice() > k) {
+                llaves[i + 1].indice = llaves[i].getIndice();
+                i--;
+            }
+            llaves[i + 1].indice = k;
+            llaves[i + 1].byteOff = byteOff;
+            llaves[i + 1].length = length;
+            
+            numLlaves = numLlaves + 1;
+        } else {
+            while (i >= 0 && llaves[i].getIndice() > k) {
+                i--;
+            }
+            if (hijos[i + 1].numLlaves == 2 * gradoMinimo - 1) {
+                splitChild(i + 1, hijos[i + 1]);
+                if (llaves[i + 1].getIndice() < k) {
+                    i++;
+                }
+            }
+            hijos[i + 1].insertNonFull(k, byteOff, length);
+        }
+    }
+    
     public void insertNonFull(int k) {
 
         int i = numLlaves - 1;
 
         if (hoja) {
-            while (i >= 0 && llaves[i] > k) {
-                llaves[i + 1] = llaves[i];
+            while (i >= 0 && llaves[i].getIndice() > k) {
+                llaves[i + 1].indice = llaves[i].getIndice();
                 i--;
             }
-            llaves[i + 1] = k;
+            llaves[i + 1].indice = k;
             numLlaves = numLlaves + 1;
         } else {
-            while (i >= 0 && llaves[i] > k) {
+            while (i >= 0 && llaves[i].getIndice() > k) {
                 i--;
             }
             if (hijos[i + 1].numLlaves == 2 * gradoMinimo - 1) {
                 splitChild(i + 1, hijos[i + 1]);
-                if (llaves[i + 1] < k) {
+                if (llaves[i + 1].getIndice() < k) {
                     i++;
                 }
             }
@@ -50,7 +81,7 @@ public class BNode {
         z.numLlaves = gradoMinimo - 1;
 
         for (int j = 0; j < gradoMinimo - 1; j++) {
-            z.llaves[j] = y.llaves[j + gradoMinimo];
+            z.llaves[j].indice = y.llaves[j + gradoMinimo].indice;
         }
         if (!y.hoja) {
             for (int j = 0; j < gradoMinimo; j++) {
@@ -65,9 +96,9 @@ public class BNode {
         hijos[i + 1] = z;
 
         for (int j = numLlaves - 1; j >= i; j--) {
-            llaves[j + 1] = llaves[j];
+            llaves[j + 1].indice = llaves[j].getIndice();
         }
-        llaves[i] = y.llaves[gradoMinimo - 1];
+        llaves[i].indice = y.llaves[gradoMinimo - 1].getIndice();
 
         numLlaves = numLlaves + 1;
     }
@@ -78,7 +109,21 @@ public class BNode {
             if (!hoja) {
                 hijos[i].traverse();
             }
-            System.out.printf(" %d", llaves[i]);
+            System.out.printf(" %d", llaves[i].getIndice());
+        }
+
+        if (!hoja) {
+            hijos[i].traverse();
+        }
+    }
+    
+    public void traverse2() {
+        int i;
+        for (i = 0; i < numLlaves; i++) {
+            if (!hoja) {
+                hijos[i].traverse();
+            }
+            System.out.print(llaves[i].getIndice()+"-"+llaves[i].getByteOff()+"-"+llaves[i].getLength()+" ");
         }
 
         if (!hoja) {
@@ -88,11 +133,11 @@ public class BNode {
 
     public BNode search(int key) {
         int i = 0;
-        while (i < numLlaves && key > llaves[i]) {
+        while (i < numLlaves && key > llaves[i].indice) {
             i++;
         }
 
-        if (llaves[i] == key) {
+        if (llaves[i].getIndice() == key) {
             return this;
         }
         if (hoja) {
@@ -103,7 +148,7 @@ public class BNode {
     
     public int buscarKey(int key) {
         int i = 0;
-        while (i < numLlaves && llaves[i] < key) {
+        while (i < numLlaves && llaves[i].getIndice() < key) {
             ++i;
         }
         return i;
@@ -112,7 +157,7 @@ public class BNode {
     public void remove(int k) {
 
         int i = buscarKey(k);
-        if (i < numLlaves && llaves[i] == k) {
+        if (i < numLlaves && llaves[i].getIndice() == k) {
             if (hoja) {
                 removeEnHoja(i);
             } else {
@@ -141,22 +186,22 @@ public class BNode {
     public void removeEnHoja(int i) {
 
         for (int j = i + 1; j < numLlaves; ++j) {
-            llaves[j - 1] = llaves[j];
+            llaves[j - 1].indice = llaves[j].getIndice();
         }
         numLlaves--;
     }
 
     public void removeNonHoja(int i) {
 
-        int k = llaves[i];
+        int k = llaves[i].getIndice();
 
         if (hijos[i].numLlaves >= gradoMinimo) {
             int pred = getPredecesor(i);
-            llaves[i] = pred;
+            llaves[i].indice = pred;
             hijos[i].remove(pred);
         } else if (hijos[i + 1].numLlaves >= gradoMinimo) {
             int succ = getSucesor(i);
-            llaves[i] = succ;
+            llaves[i].indice = succ;
             hijos[i + 1].remove(succ);
         } else {
             merge(i);
@@ -169,7 +214,7 @@ public class BNode {
         while (!cur.hoja) {
             cur = cur.hijos[cur.numLlaves];
         }
-        return cur.llaves[cur.numLlaves - 1];
+        return cur.llaves[cur.numLlaves - 1].getIndice();
     }
 
     public int getSucesor(int i) {
@@ -177,7 +222,7 @@ public class BNode {
         while (!cur.hoja) {
             cur = cur.hijos[0];
         }
-        return cur.llaves[0];
+        return cur.llaves[0].getIndice();
     }
 
     public void llenar(int i) {
@@ -200,7 +245,7 @@ public class BNode {
         BNode sibling = hijos[i - 1];
 
         for (int j = child.numLlaves - 1; j >= 0; --j) {
-            child.llaves[j + 1] = child.llaves[j];
+            child.llaves[j + 1].indice = child.llaves[j].getIndice();
         }
 
         if (!child.hoja) {
@@ -209,12 +254,12 @@ public class BNode {
             }
         }
 
-        child.llaves[0] = llaves[i - 1];
+        child.llaves[0].indice = llaves[i - 1].getIndice();
         if (!child.hoja) {
             child.hijos[0] = sibling.hijos[sibling.numLlaves];
         }
 
-        llaves[i - 1] = sibling.llaves[sibling.numLlaves - 1];
+        llaves[i - 1].indice = sibling.llaves[sibling.numLlaves - 1].getIndice();
         child.numLlaves += 1;
         sibling.numLlaves -= 1;
     }
@@ -224,16 +269,16 @@ public class BNode {
         BNode child = hijos[idx];
         BNode sibling = hijos[idx + 1];
 
-        child.llaves[child.numLlaves] = llaves[idx];
+        child.llaves[child.numLlaves].indice = llaves[idx].getIndice();
 
         if (!child.hoja) {
             child.hijos[child.numLlaves + 1] = sibling.hijos[0];
         }
 
-        llaves[idx] = sibling.llaves[0];
+        llaves[idx].indice = sibling.llaves[0].getIndice();
 
         for (int i = 1; i < sibling.numLlaves; ++i) {
-            sibling.llaves[i - 1] = sibling.llaves[i];
+            sibling.llaves[i - 1].indice = sibling.llaves[i].getIndice();
         }
 
         if (!sibling.hoja) {
@@ -250,10 +295,10 @@ public class BNode {
         BNode hijo = hijos[i];
         BNode hermano = hijos[i + 1];
 
-        hijo.llaves[gradoMinimo - 1] = llaves[i];
+        hijo.llaves[gradoMinimo - 1].indice = llaves[i].getIndice();
 
         for (int j = 0; j < hermano.numLlaves; ++j) {
-            hijo.llaves[j + gradoMinimo] = hermano.llaves[j];
+            hijo.llaves[j + gradoMinimo].indice = hermano.llaves[j].getIndice();
         }
 
         if (!hijo.hoja) {
@@ -263,7 +308,7 @@ public class BNode {
         }
 
         for (int j = i + 1; j < numLlaves; ++j) {
-            llaves[j - 1] = llaves[j];
+            llaves[j - 1].indice = llaves[j].getIndice();
         }
         for (int j = i + 2; j <= numLlaves; ++j) {
             hijos[j - 1] = hijos[j];

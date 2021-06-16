@@ -13,11 +13,17 @@ public class Llave {
     int indice;
     int length;
     int byteOff;
-
-    public Llave(int indice, int length, int byteOff) {
+    
+    public Llave(){
+        this.indice = -1;
+        this.length = -1;
+        this.byteOff = -1;
+    }
+    
+    public Llave(int indice, int byteOff, int length) {
         this.indice = indice;
-        this.length = length;
         this.byteOff = byteOff;
+        this.length = length;
     }
 
     public Llave(int indice) {
