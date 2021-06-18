@@ -16,7 +16,7 @@ public class BTree {
         }
     }
 
-    public BNode search(int key) {
+    public Llave search(int key) {
         return raiz == null ? null : raiz.search(key);
     }
     

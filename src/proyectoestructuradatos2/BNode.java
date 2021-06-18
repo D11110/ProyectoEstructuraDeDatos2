@@ -130,21 +130,36 @@ public class BNode {
             hijos[i].traverse();
         }
     }
-
-    public BNode search(int key) {
+    
+    public Llave search(int key) {
         int i = 0;
         while (i < numLlaves && key > llaves[i].indice) {
             i++;
         }
 
         if (llaves[i].getIndice() == key) {
-            return this;
+            return llaves[i];
         }
         if (hoja) {
             return null;
         }
         return hijos[i].search(key);
     }
+    
+//    public BNode search(int key) {
+//        int i = 0;
+//        while (i < numLlaves && key > llaves[i].indice) {
+//            i++;
+//        }
+//
+//        if (llaves[i].getIndice() == key) {
+//            return this;
+//        }
+//        if (hoja) {
+//            return null;
+//        }
+//        return hijos[i].search(key);
+//    }
     
     public int buscarKey(int key) {
         int i = 0;

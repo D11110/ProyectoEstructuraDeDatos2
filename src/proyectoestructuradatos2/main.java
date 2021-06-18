@@ -778,6 +778,16 @@ public class main extends javax.swing.JFrame {
 //                tabla_vehiculos.setModel(modelo);   //limpio la table
                 //ta_1.setText("");
                 bw.flush();
+
+                //CREAR ARCHIVO DE AVAILIST
+                File ficheroAvail = new File("./" + nombreArchivo + "_availList.txt");
+                try {
+                    // A partir del objeto File creamos el fichero físicamente
+                    if (ficheroAvail.createNewFile()) {
+                    }
+                } catch (IOException ioe) {
+                    ioe.printStackTrace();
+                }
                 JOptionPane.showMessageDialog(this, "Archivo guardado excitosamente en " + fichero.toString());
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1148,6 +1158,7 @@ public class main extends javax.swing.JFrame {
                     }
                 }
             }
+            
             registrosDeterminados += "#";
         }
         System.out.println(registrosDeterminados);
@@ -1189,6 +1200,21 @@ public class main extends javax.swing.JFrame {
 
         return registros;
     }
+    
+    public void sobreescribirRegistro(String registroInsertar, String registros){
+        availList.construirAvail(fichero.getName().toString().replace(".txt", "_availList.txt"), availList);
+        DLLNode nodoIntentar = availList.head;
+        for (int i = 0; i < availList.length(); i++) {
+            if(registroInsertar.length()<=(nodoIntentar).tamaño)
+                registros = registros.substring(0, nodoIntentar.byteOff)+registroInsertar+registros.substring(nodoIntentar.byteOff+nodoIntentar.tamaño,registros.length());
+            else
+                nodoIntentar = nodoIntentar.next;
+            
+            if(nodoIntentar==null)
+                break;
+        }
+        System.out.println("NODO YA REEMPLADAZO: " + registros);
+    }
 
     private void btnIndicesCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIndicesCrearMouseClicked
         //CREAR INDICES QUE SERIA CREAR ARBOL
@@ -1222,6 +1248,8 @@ public class main extends javax.swing.JFrame {
         Tree.traverse();
         System.out.println("");
         Tree.raiz.traverse2();
+        
+        JOptionPane.showMessageDialog(this, "Indices creados exitosamente.");
     }//GEN-LAST:event_btnIndicesCrearMouseClicked
 
 
@@ -1238,12 +1266,29 @@ public class main extends javax.swing.JFrame {
     private void btnRegistrosBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrosBorrarActionPerformed
         //BORRAR REGISTROS
         int op = Integer.parseInt(JOptionPane.showInputDialog(this, "Eliminar registro en base a:\n 1. Llave \n 2. Crierio de campos"));
+        Llave llaveEliminar;
         if (op == 1) {
             int llaveRegistro = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingresa la llave del registro a eliminar:"));
-            Tree.remove(llaveRegistro);
-            Tree.traverse();
-
-            String registros = leerRegistros();
+            llaveEliminar = Tree.search(llaveRegistro);
+            if(llaveEliminar!=null){
+                Tree.remove(llaveRegistro);
+                Tree.traverse();
+                
+                availList.addLast(llaveEliminar.getByteOff(), llaveEliminar.getLength());
+                if(availList.length()>=2)
+                    availList.sort();
+                availList.saveAvail(fichero.getName().toString().replace(".txt", "_availList.txt"));
+                //String registros = leerRegistros();
+                
+                //el guardado solo es temporal
+                availList.removeLast();
+                
+                String registros = leerRegistros();
+                registros = registros.substring(0, llaveEliminar.byteOff)+"*"+registros.substring(llaveEliminar.byteOff+1, registros.length());
+                System.out.println(registros);
+                registrosDeterminados = registros;
+            }
+            
         }
     }//GEN-LAST:event_btnRegistrosBorrarActionPerformed
 
@@ -1293,13 +1338,15 @@ public class main extends javax.swing.JFrame {
     private void btnRegistrosModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrosModificarActionPerformed
         //MODIFICAR ARCHIVO
         int llaveRegistro = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingresa la llave del registro a buscar:"));
-        if (Tree.search(llaveRegistro) != null) {                                                                  //si el registro existe
+        Llave llaveRegistros = Tree.search(llaveRegistro);
+        if (llaveRegistros != null) {                                                                  //si el registro existe
             //aca le metes la parte de "q es lo q deseas modificar"         DANIELTRAVIESO
             //recorda q vas a recivir un string tipo 
             //      Daniel|11941247|801200100002|false|     el byteOffset es la pos del caracter D en todos los registro, y el legnth llega hasta ese | NO EL #
             //AQUI SE RECIBE EL OFFSET, DESPUES MEDIANTE EL OFFSET CON LA LINEA DE REGISTRO SE OBTIENE EL REGISTRO A MODIFICAR POR AHORA ESTA EN DURO AQUI ABAJO
-            String stringRecibida = "Daniel|11941247|0801200100002|false|";
-
+            //String stringRecibida = "Daniel|11941247|0801200100002|false|";
+            String stringRecibida = leerRegistros().substring(llaveRegistros.byteOff, llaveRegistros.byteOff+llaveRegistros.length);
+            System.out.println(stringRecibida);
             actualizarReglasDeCampos();
 
             String t[] = stringRecibida.split("\\|");
@@ -1368,7 +1415,7 @@ public class main extends javax.swing.JFrame {
             }
 
             //digamos q para este punto ya está modificado el registro, entonces ahora lo modifico en memoria para luego modificarlo en el archivo
-            String registros = leerRegistros();
+            String registrosActualizados = leerRegistros().replace(stringRecibida, nuevoRegistro);
             //registros.eliminar(byteoffset, byteoffset+tamañoRegistro)     eliminaria el registro en memoria
 
         } else {                                                                                                 //si el registro no existe
@@ -1447,6 +1494,7 @@ public class main extends javax.swing.JFrame {
     int numCampos = 0;
     File fichero = null;
     BTree Tree;
+    DoublyLinkedList availList = new DoublyLinkedList();
 
     /**
      * @param args the command line arguments
