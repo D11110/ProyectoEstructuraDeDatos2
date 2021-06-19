@@ -29,6 +29,8 @@ public class BNode {
         if (hoja) {
             while (i >= 0 && llaves[i].getIndice() > k) {
                 llaves[i + 1].indice = llaves[i].getIndice();
+                llaves[i + 1].byteOff = llaves[i].getByteOff();
+                llaves[i + 1].length = llaves[i].getLength();
                 i--;
             }
             llaves[i + 1].indice = k;
@@ -50,32 +52,32 @@ public class BNode {
         }
     }
 
-    public void insertNonFull(int k) {
-
-        int i = numLlaves - 1;
-
-        if (hoja) {
-            while (i >= 0 && llaves[i].getIndice() > k) {
-                llaves[i + 1].indice = llaves[i].getIndice();
-                llaves[i + 1].byteOff = llaves[i].getByteOff();
-                llaves[i + 1].length = llaves[i].getLength();
-                i--;
-            }
-            llaves[i + 1].indice = k;
-            numLlaves = numLlaves + 1;
-        } else {
-            while (i >= 0 && llaves[i].getIndice() > k) {
-                i--;
-            }
-            if (hijos[i + 1].numLlaves == 2 * gradoMinimo - 1) {
-                splitChild(i + 1, hijos[i + 1]);
-                if (llaves[i + 1].getIndice() < k) {
-                    i++;
-                }
-            }
-            hijos[i + 1].insertNonFull(k);
-        }
-    }
+//    public void insertNonFull(int k) {
+//
+//        int i = numLlaves - 1;
+//
+//        if (hoja) {
+//            while (i >= 0 && llaves[i].getIndice() > k) {
+//                llaves[i + 1].indice = llaves[i].getIndice();
+//                llaves[i + 1].byteOff = llaves[i].getByteOff();
+//                llaves[i + 1].length = llaves[i].getLength();
+//                i--;
+//            }
+//            llaves[i + 1].indice = k;
+//            numLlaves = numLlaves + 1;
+//        } else {
+//            while (i >= 0 && llaves[i].getIndice() > k) {
+//                i--;
+//            }
+//            if (hijos[i + 1].numLlaves == 2 * gradoMinimo - 1) {
+//                splitChild(i + 1, hijos[i + 1]);
+//                if (llaves[i + 1].getIndice() < k) {
+//                    i++;
+//                }
+//            }
+//            hijos[i + 1].insertNonFull(k);
+//        }
+//    }
 
     public void splitChild(int i, BNode y) {
 
@@ -129,13 +131,13 @@ public class BNode {
         int i;
         for (i = 0; i < numLlaves; i++) {
             if (!hoja) {
-                hijos[i].traverse();
+                hijos[i].traverse2();
             }
             System.out.print(llaves[i].getIndice() + "-" + llaves[i].getByteOff() + "-" + llaves[i].getLength() + " ");
         }
 
         if (!hoja) {
-            hijos[i].traverse();
+            hijos[i].traverse2();
         }
     }
 

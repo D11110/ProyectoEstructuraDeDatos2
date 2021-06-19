@@ -1,3 +1,3 @@
 METADATA,prueba2,2,
 nombreEstudiante|char|8|#numCuenta|int|8|#noIdentidad|long|13|#graduado|boolean|2|#,
-Daniel|11941247|0801200100002|false|#*saac|12011215|0801200000002|false|#Manuel|11941243|0701200100002|false|#papo|12011212|801|false|#
+Daniel|11941247|0801200100002|false|#Isaac|12011215|0801200000002|false|#Manuel|11941243|0701200100002|false|#papo|12011212|801|false|#
