@@ -359,6 +359,11 @@ public class main extends javax.swing.JFrame {
 
         btnIndicesIndexar.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
         btnIndicesIndexar.setText("Re-indexar indices");
+        btnIndicesIndexar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIndicesIndexarActionPerformed(evt);
+            }
+        });
         jD_Indices.getContentPane().add(btnIndicesIndexar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 136, -1, 36));
 
         btnIndicesSalir.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
@@ -673,7 +678,7 @@ public class main extends javax.swing.JFrame {
         //BORRAR CAMPO
         //System.out.println("llave es "+indiceLlavePrimariaDecodificado);
         int numCampoBorrar = numCampoBorrar = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingresa número de campo a eliminar: "));
-        while (numCampoBorrar == indiceLlavePrimariaDecodificado) {
+        while (numCampoBorrar == indiceLlavePrimariaDecodificado || numCampoBorrar == indiceLlavePrimariaDecodificado) {
             numCampoBorrar = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingresa número de campo a eliminar (distinto al que representa la llave): "));
         }
         String campos[] = camposDeterminados.split("#");
@@ -689,6 +694,7 @@ public class main extends javax.swing.JFrame {
         System.out.println(metadata);
         System.out.println(camposDeterminados);
         System.out.println(indiceLlavePrimariaDecodificado);
+        System.out.println(indiceLlaveSecundariaDecodificado);
 
         int numCampoModificar = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingresa número de campo a modificar: "));          //VALIDAR
         int opcionModificar = Integer.parseInt(JOptionPane.showInputDialog(this, "Qué vas a modificar?: \n 1: Nombre campo\n 2: Tipo variable\n 3: Longitud campo"));          //VALIDAR
@@ -724,7 +730,15 @@ public class main extends javax.swing.JFrame {
 
             String indiceLlavePrimaria = JOptionPane.showInputDialog(this, "Ingrese un num desde 1 hasta " + numCampos + " para seleccionar la llave primaria de los campos.");
             indiceLlavePrimariaDecodificado = Integer.parseInt(indiceLlavePrimaria);
-            metadata += indiceLlavePrimaria + ",";
+            
+            //int input = JOptionPane.showConfirmDialog(null, "Tenemos llave secundaria?");     // 0=yes, 1=no, 2=cancel
+            String indiceLlaveSecundaria = indiceLlavePrimaria;
+            while(indiceLlaveSecundaria==indiceLlavePrimaria){
+                    indiceLlaveSecundaria = JOptionPane.showInputDialog(this, "Ingrese un num desde 1 hasta " + numCampos + " para seleccionar la llave secundaria de los campos. Diferente a "+indiceLlavePrimaria);
+            }
+            indiceLlaveSecundariaDecodificado = Integer.parseInt(indiceLlaveSecundaria);
+            
+            metadata += indiceLlavePrimaria + "," + indiceLlaveSecundaria+ ",";
         }
 
     }//GEN-LAST:event_btnCamposCrearActionPerformed
@@ -882,6 +896,9 @@ public class main extends javax.swing.JFrame {
                             metadata = linea;
                             if (t.length > 2) {
                                 indiceLlavePrimariaDecodificado = Integer.parseInt(t[2]);
+                            }
+                            if (t.length > 3) {
+                                indiceLlaveSecundariaDecodificado = Integer.parseInt(t[3]);
                             }
                         }
                         if (numLinea == 1) {                //CAMPOS
@@ -1043,6 +1060,7 @@ public class main extends javax.swing.JFrame {
             camposDeterminados = "";
             listarCampos = "";
             indiceLlavePrimariaDecodificado = 0;
+            indiceLlaveSecundariaDecodificado = 0;
             numCampos = 0;
             fichero = null;
         } else if (opcion == 0 && fichero == null) {                                      //0: Si quiere guardar pero no ha abierto un archivo
@@ -1053,6 +1071,7 @@ public class main extends javax.swing.JFrame {
             camposDeterminados = "";
             listarCampos = "";
             indiceLlavePrimariaDecodificado = 0;
+            indiceLlaveSecundariaDecodificado = 0;
             numCampos = 0;
             fichero = null;
         }
@@ -1278,8 +1297,9 @@ public class main extends javax.swing.JFrame {
 
         //File ficheroAbrir = new File(fichero);
         String registros = leerRegistros();
-        String temp[] = metadata.split(",");
-        int llavePrimaria = Integer.parseInt(temp[2]);
+//        String temp[] = metadata.split(",");
+//        int llavePrimaria = Integer.parseInt(temp[2]);
+        int llavePrimaria = indiceLlavePrimariaDecodificado;
 
         System.out.println();
         System.out.println("Llave primaria: " + llavePrimaria);
@@ -1584,10 +1604,51 @@ public class main extends javax.swing.JFrame {
         jD_TablaListarRegistros.setVisible(false);
     }//GEN-LAST:event_btnCerrarDialogoTablaActionPerformed
 
+    private void btnIndicesIndexarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIndicesIndexarActionPerformed
+        //REINDEXAR INDICES
+        String registros = leerRegistros();
+        String temp[] = metadata.split(",");
+        int llavePrimaria = Integer.parseInt(temp[2]);
+        int llaveSecundaria = Integer.parseInt(temp[3]);
+        
+        if(indiceLlavePrimariaDecodificado==llavePrimaria)
+            indiceLlavePrimariaDecodificado = llaveSecundaria;
+        else
+            indiceLlavePrimariaDecodificado = llavePrimaria;
+        
+        Tree = new BTree(5);
+        
+        System.out.println();
+        System.out.println("Llave primaria: " + indiceLlavePrimariaDecodificado);
+        System.out.println("Los registros son: " + registros);
+
+        ArrayList<Integer> regs = new ArrayList<Integer>();
+        ArrayList<Integer> bytes = new ArrayList<Integer>();
+        ArrayList<Integer> lenghts = new ArrayList<Integer>();
+        String m[] = registros.split("#");
+        for (int i = 0; i < m.length; i++) {
+            String n[] = m[i].split("\\|");
+            regs.add(Integer.parseInt(n[indiceLlavePrimariaDecodificado - 1]));
+            bytes.add(registros.indexOf(m[i]));
+            lenghts.add(m[i].length());
+        }
+
+        //System.out.println(regs);
+        for (int i = 0; i < regs.size(); i++) {
+            Tree.insert(regs.get(i), bytes.get(i), lenghts.get(i));
+        }
+        Tree.traverse();
+        System.out.println("");
+        Tree.raiz.traverse2();
+
+        JOptionPane.showMessageDialog(this, "Indices creados exitosamente.");
+    }//GEN-LAST:event_btnIndicesIndexarActionPerformed
+
     String camposDeterminados = "";
     String listarCampos = "";
     String registrosDeterminados = "";
     int indiceLlavePrimariaDecodificado;
+    int indiceLlaveSecundariaDecodificado;
     int numCampos = 0;
     File fichero = null;
     BTree Tree;
