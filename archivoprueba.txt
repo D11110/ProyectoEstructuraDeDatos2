@@ -1,0 +1,2 @@
+METADATA,archivoprueba,2,
+nombre|char|20|#noIdentidad|char|13|#,

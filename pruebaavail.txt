@@ -1,0 +1,2 @@
+METADATA,pruebaavail,2,
+nombre|char|20|#noCuenta|long|8|#,
