@@ -730,15 +730,15 @@ public class main extends javax.swing.JFrame {
 
             String indiceLlavePrimaria = JOptionPane.showInputDialog(this, "Ingrese un num desde 1 hasta " + numCampos + " para seleccionar la llave primaria de los campos.");
             indiceLlavePrimariaDecodificado = Integer.parseInt(indiceLlavePrimaria);
-            
+
             //int input = JOptionPane.showConfirmDialog(null, "Tenemos llave secundaria?");     // 0=yes, 1=no, 2=cancel
             String indiceLlaveSecundaria = indiceLlavePrimaria;
-            while(indiceLlaveSecundaria==indiceLlavePrimaria){
-                    indiceLlaveSecundaria = JOptionPane.showInputDialog(this, "Ingrese un num desde 1 hasta " + numCampos + " para seleccionar la llave secundaria de los campos. Diferente a "+indiceLlavePrimaria);
+            while (indiceLlaveSecundaria == indiceLlavePrimaria) {
+                indiceLlaveSecundaria = JOptionPane.showInputDialog(this, "Ingrese un num desde 1 hasta " + numCampos + " para seleccionar la llave secundaria de los campos. Diferente a " + indiceLlavePrimaria);
             }
             indiceLlaveSecundariaDecodificado = Integer.parseInt(indiceLlaveSecundaria);
-            
-            metadata += indiceLlavePrimaria + "," + indiceLlaveSecundaria+ ",";
+
+            metadata += indiceLlavePrimaria + "," + indiceLlaveSecundaria + ",";
         }
 
     }//GEN-LAST:event_btnCamposCrearActionPerformed
@@ -959,9 +959,8 @@ public class main extends javax.swing.JFrame {
             //        int seleccion = jfc.showSaveDialog(this);
             FileWriter fw = null;
             BufferedWriter bw = null;
-            FileReader fr = null;
-            BufferedReader br = null;
             String linea;
+            String reg = leerRegistros();
             //if (seleccion == JFileChooser.APPROVE_OPTION) {
             try {
                 //File fichero = null;
@@ -991,9 +990,6 @@ public class main extends javax.swing.JFrame {
                 }
                 bw.write(camposDeterminados + "\n");
 
-                String reg = leerRegistros();
-                
-
                 bw.write(reg);
                 //                METADATA,header example,5/22/2021 9:19 PM,1,
                 //                PersonID|int|6|true|#PersonName|char|20|false|#PersonAge|int|3|false|#CityID|int|2|false|,
@@ -1018,6 +1014,7 @@ public class main extends javax.swing.JFrame {
                 bw.close();
                 fw.close();
             } catch (IOException ex) {
+                ex.printStackTrace();
             }
             //}
         } else {
@@ -1242,12 +1239,15 @@ public class main extends javax.swing.JFrame {
             int numLinea = 0;
             while ((linea = br.readLine()) != null) {
                 String q[] = linea.split(",");
+                int am = q.length;
+                System.out.println("meirda");
                 for (int i = 0; i < q.length; i++) {
 //                    if(numLinea == 0){
 //                        llavePrimaria = Integer.parseInt(q[2]);
 //                    }
                     if (numLinea == 2) {                  //METADATA
-
+                        System.out.println(q[0]);
+                        System.out.println(q[i]);
                         registros = q[0];
 
                     }
@@ -1345,12 +1345,11 @@ public class main extends javax.swing.JFrame {
         if (op == 1) {
             int llaveRegistro = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingresa la llave del registro a eliminar:"));
             llaveEliminar = Tree.search(llaveRegistro);
-            
+
             if (llaveEliminar != null) {
-                
-                
+
                 System.out.println(llaveEliminar.getByteOff() + " 0");
-                
+
                 availList.addLast(llaveEliminar.getByteOff(), llaveEliminar.getLength());
                 if (availList.length() >= 2) {
                     availList.sort();
@@ -1364,10 +1363,10 @@ public class main extends javax.swing.JFrame {
                 String registros = leerRegistros();
                 registros = registros.substring(0, llaveEliminar.getByteOff()) + "*" + registros.substring(llaveEliminar.getByteOff() + 1, registros.length());
                 System.out.println(registros);
-                
+
                 Tree.remove(llaveRegistro);
                 Tree.traverse();
-                
+
                 FileWriter fw = null;
                 BufferedWriter bw = null;
                 try {
@@ -1615,14 +1614,15 @@ public class main extends javax.swing.JFrame {
         String temp[] = metadata.split(",");
         int llavePrimaria = Integer.parseInt(temp[2]);
         int llaveSecundaria = Integer.parseInt(temp[3]);
-        
-        if(indiceLlavePrimariaDecodificado==llavePrimaria)
+
+        if (indiceLlavePrimariaDecodificado == llavePrimaria) {
             indiceLlavePrimariaDecodificado = llaveSecundaria;
-        else
+        } else {
             indiceLlavePrimariaDecodificado = llavePrimaria;
-        
+        }
+
         Tree = new BTree(5);
-        
+
         System.out.println();
         System.out.println("Llave primaria: " + indiceLlavePrimariaDecodificado);
         System.out.println("Los registros son: " + registros);
