@@ -1345,10 +1345,12 @@ public class main extends javax.swing.JFrame {
         if (op == 1) {
             int llaveRegistro = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingresa la llave del registro a eliminar:"));
             llaveEliminar = Tree.search(llaveRegistro);
+            
             if (llaveEliminar != null) {
-                Tree.remove(llaveRegistro);
-                Tree.traverse();
-
+                
+                
+                System.out.println(llaveEliminar.getByteOff() + " 0");
+                
                 availList.addLast(llaveEliminar.getByteOff(), llaveEliminar.getLength());
                 if (availList.length() >= 2) {
                     availList.sort();
@@ -1360,9 +1362,12 @@ public class main extends javax.swing.JFrame {
                 availList.removeLast();
 
                 String registros = leerRegistros();
-                registros = registros.substring(0, llaveEliminar.byteOff) + "*" + registros.substring(llaveEliminar.byteOff + 1, registros.length());
+                registros = registros.substring(0, llaveEliminar.getByteOff()) + "*" + registros.substring(llaveEliminar.getByteOff() + 1, registros.length());
                 System.out.println(registros);
-
+                
+                Tree.remove(llaveRegistro);
+                Tree.traverse();
+                
                 FileWriter fw = null;
                 BufferedWriter bw = null;
                 try {
