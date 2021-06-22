@@ -77,6 +77,7 @@ public class main extends javax.swing.JFrame {
         btnRegistrosListar = new javax.swing.JButton();
         btnRegistrosSalir = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         jD_Indices = new javax.swing.JDialog();
         btnIndicesCrear = new javax.swing.JButton();
@@ -285,6 +286,18 @@ public class main extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Registros");
         jD_Registros.getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, -1, -1));
+
+        jButton1.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
+        jButton1.setText("Cruzar registros");
+        jButton1.setMaximumSize(new java.awt.Dimension(135, 29));
+        jButton1.setMinimumSize(new java.awt.Dimension(135, 29));
+        jButton1.setPreferredSize(new java.awt.Dimension(135, 29));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jD_Registros.getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, 170, 30));
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proyectoestructuradatos2/imgs/gradientarchivebg.png"))); // NOI18N
         jD_Registros.getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 0, -1, 440));
@@ -670,6 +683,18 @@ public class main extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, listarCampos);
     }//GEN-LAST:event_btnCamposListarActionPerformed
 
+    int MAX_VALUE = 2147483647;
+    int MIN_VALUE = -2147483648;
+    
+    public void leerCamposDesdeMemoria(){
+        String campos = camposDeterminados;
+        campos = removeLastChar(campos);
+        String p[] = campos.split("#");
+        for (int i = 0; i < p.length; i++) {
+            
+        }
+    }
+
     private void btnCamposCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCamposCrearActionPerformed
 //if (numLinea == 0) {                  //METADATA
 //                            metadata = linea;
@@ -703,7 +728,7 @@ public class main extends javax.swing.JFrame {
                 numLinea++;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Hubo un error al leer la metadata del archivo.", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
 
         try {
@@ -721,8 +746,12 @@ public class main extends javax.swing.JFrame {
         } else {
             creacionCampos();
 
+            JOptionPane.showConfirmDialog(this, "Tener en cuenta que llave primaria no puede pasar de los limites numericos del entero.");
+
             String indiceLlavePrimaria = JOptionPane.showInputDialog(this, "Ingrese un num desde 1 hasta " + numCampos + " para seleccionar la llave primaria de los campos.");
             indiceLlavePrimariaDecodificado = Integer.parseInt(indiceLlavePrimaria);
+            
+            
 
             //int input = JOptionPane.showConfirmDialog(null, "Tenemos llave secundaria?");     // 0=yes, 1=no, 2=cancel
             String indiceLlaveSecundaria = indiceLlavePrimaria;
@@ -1259,8 +1288,8 @@ public class main extends javax.swing.JFrame {
 
         return registros;
     }
-    
-    public void escribirRegistros(String registros){
+
+    public void escribirRegistros(String registros) {
         FileWriter fw = null;
         BufferedWriter bw = null;
         try {
@@ -1419,7 +1448,7 @@ public class main extends javax.swing.JFrame {
         ArrayList<Integer> lenghts = new ArrayList<Integer>();
         String m[] = registros.split("#");
         for (int i = 0; i < m.length; i++) {
-            if(m[i].charAt(0)!='*'){
+            if (m[i].charAt(0) != '*') {
                 String n[] = m[i].split("\\|");
                 regs.add(Integer.parseInt(n[llavePrimaria - 1]));
                 bytes.add(registros.indexOf(m[i]));
@@ -1460,7 +1489,7 @@ public class main extends javax.swing.JFrame {
             if (llaveEliminar != null) {
 
                 System.out.println(llaveEliminar.getByteOff() + " 0");
-                
+
                 availList.addLast(llaveEliminar.getByteOff(), llaveEliminar.getLength());
                 if (availList.length() >= 2) {
                     availList.sort();
@@ -1481,17 +1510,17 @@ public class main extends javax.swing.JFrame {
                 escribirRegistros(registros);
             }
 
-        } else if(op==2){
+        } else if (op == 2) {
             int op2 = Integer.parseInt(JOptionPane.showInputDialog(this, "Eliminar registros en base a:\n 1. Menor a llave ingresada \n 2. Mayor a llave ingresada"));
             int llaveIgresada = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingresa llave de referencia: "));
             String registros = leerRegistros();
             String[] registroIndividual = registros.split("#");
             for (int i = 0; i < registroIndividual.length; i++) {
                 String[] temp = registroIndividual[i].split("\\|");
-                int llaveRegistro = Integer.parseInt(temp[indiceLlavePrimariaDecodificado-1]);
-                if(op2==1 && llaveRegistro<llaveIgresada){
+                int llaveRegistro = Integer.parseInt(temp[indiceLlavePrimariaDecodificado - 1]);
+                if (op2 == 1 && llaveRegistro < llaveIgresada) {
                     llaveEliminar = Tree.search(llaveRegistro);
-                    
+
                     availList.addLast(llaveEliminar.getByteOff(), llaveEliminar.getLength());
                     if (availList.length() >= 2) {
                         availList.sort();
@@ -1501,15 +1530,15 @@ public class main extends javax.swing.JFrame {
 
                     //el guardado solo es temporal
                     availList.removeLast();
-                    
+
                     registros = registros.substring(0, llaveEliminar.getByteOff()) + "*" + registros.substring(llaveEliminar.getByteOff() + 1, registros.length());
                     Tree.remove(llaveRegistro);
                     Tree.traverse();
 
                     escribirRegistros(registros);
-                } else if(op2==2 && llaveRegistro>llaveIgresada){
+                } else if (op2 == 2 && llaveRegistro > llaveIgresada) {
                     llaveEliminar = Tree.search(llaveRegistro);
-                    
+
                     availList.addLast(llaveEliminar.getByteOff(), llaveEliminar.getLength());
                     if (availList.length() >= 2) {
                         availList.sort();
@@ -1519,7 +1548,7 @@ public class main extends javax.swing.JFrame {
 
                     //el guardado solo es temporal
                     availList.removeLast();
-                    
+
                     registros = registros.substring(0, llaveEliminar.getByteOff()) + "*" + registros.substring(llaveEliminar.getByteOff() + 1, registros.length());
                     Tree.remove(llaveRegistro);
                     Tree.traverse();
@@ -1530,11 +1559,11 @@ public class main extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnRegistrosBorrarActionPerformed
 
-    ArrayList<String> nombreCampos = new ArrayList<String>();
-    ArrayList<String> tipoDeCampo = new ArrayList<String>();
-    ArrayList<Integer> tamañoCampo = new ArrayList<Integer>();
+    ArrayList<String> nombreCamposDesdeArchivo = new ArrayList();
+    ArrayList<String> tipoDeCampoDesdeArchivo = new ArrayList();
+    ArrayList<Integer> tamañoCampoDesdeArchivo = new ArrayList();
 
-    public void actualizarReglasDeCampos() {
+    public void actualizarReglasDeCampos() { // actualiza la definicion de los campos en memoria leyendolo directamente desde el archivo, utilizado en modificar registros, y listar campos.
         try {
             FileReader fr = null;
             BufferedReader br = null;
@@ -1553,13 +1582,13 @@ public class main extends javax.swing.JFrame {
                             String q[] = p[j].split("\\|");
                             for (int k = 0; k < q.length; k++) {
                                 if (k == 0) {
-                                    nombreCampos.add(q[k]);
+                                    nombreCamposDesdeArchivo.add(q[k]);
                                 }
                                 if (k == 1) {
-                                    tipoDeCampo.add(q[k]);
+                                    tipoDeCampoDesdeArchivo.add(q[k]);
                                 }
                                 if (k == 2) {
-                                    tamañoCampo.add(Integer.valueOf(q[k]));
+                                    tamañoCampoDesdeArchivo.add(Integer.valueOf(q[k]));
                                 }
                             }
                         }
@@ -1574,7 +1603,6 @@ public class main extends javax.swing.JFrame {
     }
 
     private void btnRegistrosModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrosModificarActionPerformed
-        //MODIFICAR ARCHIVO
         int llaveRegistro = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingresa la llave del registro a buscar:"));
         Llave llaveRegistros = Tree.search(llaveRegistro);
         if (llaveRegistros != null) {                                                                  //si el registro existe
@@ -1595,16 +1623,16 @@ public class main extends javax.swing.JFrame {
             int indiceRegistroAEditar = Integer.parseInt(JOptionPane.showInputDialog(aux + "\nIngrese el indice del campo que desea modificar del registro:"));
             boolean pasa = false;
             while (!pasa) {
-                if (tipoDeCampo.get(indiceRegistroAEditar).equals("char")) {
-                    String stringNuevaARegistro = JOptionPane.showInputDialog("Ingrese la nueva string con size max de " + tamañoCampo.get(indiceRegistroAEditar) + ": ");
-                    if (stringNuevaARegistro.length() <= tamañoCampo.get(indiceRegistroAEditar)) {
+                if (tipoDeCampoDesdeArchivo.get(indiceRegistroAEditar).equals("char")) {
+                    String stringNuevaARegistro = JOptionPane.showInputDialog("Ingrese la nueva string con size max de " + tamañoCampoDesdeArchivo.get(indiceRegistroAEditar) + ": ");
+                    if (stringNuevaARegistro.length() <= tamañoCampoDesdeArchivo.get(indiceRegistroAEditar)) {
                         pasa = true;
                         t[indiceRegistroAEditar] = stringNuevaARegistro;
                     }
-                } else if (tipoDeCampo.get(indiceRegistroAEditar).equals("int")) {
+                } else if (tipoDeCampoDesdeArchivo.get(indiceRegistroAEditar).equals("int")) {
                     try {
-                        int enteroNuevoARegistro = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el nuevo int con size max de " + tamañoCampo.get(indiceRegistroAEditar) + ": "));
-                        if (String.valueOf(enteroNuevoARegistro).length() <= tamañoCampo.get(indiceRegistroAEditar)) {
+                        int enteroNuevoARegistro = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el nuevo int con size max de " + tamañoCampoDesdeArchivo.get(indiceRegistroAEditar) + ": "));
+                        if (String.valueOf(enteroNuevoARegistro).length() <= tamañoCampoDesdeArchivo.get(indiceRegistroAEditar)) {
                             pasa = true;
                             t[indiceRegistroAEditar] = String.valueOf(enteroNuevoARegistro);
                         }
@@ -1612,10 +1640,10 @@ public class main extends javax.swing.JFrame {
                         e.printStackTrace();
                         JOptionPane.showMessageDialog(this, "El int que se ingreso no es valido");
                     }
-                } else if (tipoDeCampo.get(indiceRegistroAEditar).equals("long")) {
+                } else if (tipoDeCampoDesdeArchivo.get(indiceRegistroAEditar).equals("long")) {
                     try {
-                        long longNuevoARegistro = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el nuevo long con size max de " + tamañoCampo.get(indiceRegistroAEditar) + ": "));
-                        if (String.valueOf(longNuevoARegistro).length() <= tamañoCampo.get(indiceRegistroAEditar)) {
+                        long longNuevoARegistro = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el nuevo long con size max de " + tamañoCampoDesdeArchivo.get(indiceRegistroAEditar) + ": "));
+                        if (String.valueOf(longNuevoARegistro).length() <= tamañoCampoDesdeArchivo.get(indiceRegistroAEditar)) {
                             pasa = true;
                             t[indiceRegistroAEditar] = String.valueOf(longNuevoARegistro);
                         }
@@ -1623,10 +1651,10 @@ public class main extends javax.swing.JFrame {
                         e.printStackTrace();
                         JOptionPane.showMessageDialog(this, "El long que se ingreso no es valido");
                     }
-                } else if (tipoDeCampo.get(indiceRegistroAEditar).equals("double")) {
+                } else if (tipoDeCampoDesdeArchivo.get(indiceRegistroAEditar).equals("double")) {
                     try {
-                        double doubleNuevoARegistro = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el nuevo double con size max de " + tamañoCampo.get(indiceRegistroAEditar) + ": "));
-                        if (String.valueOf(doubleNuevoARegistro).length() <= tamañoCampo.get(indiceRegistroAEditar)) {
+                        double doubleNuevoARegistro = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el nuevo double con size max de " + tamañoCampoDesdeArchivo.get(indiceRegistroAEditar) + ": "));
+                        if (String.valueOf(doubleNuevoARegistro).length() <= tamañoCampoDesdeArchivo.get(indiceRegistroAEditar)) {
                             pasa = true;
                             t[indiceRegistroAEditar] = String.valueOf(doubleNuevoARegistro);
                         }
@@ -1634,7 +1662,7 @@ public class main extends javax.swing.JFrame {
                         e.printStackTrace();
                         JOptionPane.showMessageDialog(this, "El long que se ingreso no es valido");
                     }
-                } else if (tipoDeCampo.get(indiceRegistroAEditar).equals("boolean")) {
+                } else if (tipoDeCampoDesdeArchivo.get(indiceRegistroAEditar).equals("boolean")) {
                     int valorBooleanoNuevoARegistro = Integer.parseInt(JOptionPane.showInputDialog("Ingrese 0=false 1=true"));
                     if (valorBooleanoNuevoARegistro == 0) {
                         t[indiceRegistroAEditar] = "false";
@@ -1745,8 +1773,8 @@ public class main extends javax.swing.JFrame {
         System.out.println("\n" + previewRegistros);
         DefaultTableModel tabla = ((DefaultTableModel) tablaRegistrosListar.getModel());
         actualizarReglasDeCampos();
-        tabla.setColumnCount(nombreCampos.size());
-        tabla.setColumnIdentifiers(nombreCampos.toArray(new String[tipoDeCampo.size()]));
+        tabla.setColumnCount(nombreCamposDesdeArchivo.size());
+        tabla.setColumnIdentifiers(nombreCamposDesdeArchivo.toArray(new String[tipoDeCampoDesdeArchivo.size()]));
 
         String[] registrosIndividuales = previewRegistros.split("#");
 
@@ -1790,7 +1818,7 @@ public class main extends javax.swing.JFrame {
         ArrayList<Integer> lenghts = new ArrayList<Integer>();
         String m[] = registros.split("#");
         for (int i = 0; i < m.length; i++) {
-            if(m[i].charAt(0)!='*'){
+            if (m[i].charAt(0) != '*') {
                 String n[] = m[i].split("\\|");
                 regs.add(Integer.parseInt(n[indiceLlavePrimariaDecodificado - 1]));
                 bytes.add(registros.indexOf(m[i]));
@@ -1910,13 +1938,134 @@ public class main extends javax.swing.JFrame {
             e.printStackTrace();
         }
 
-        JOptionPane.showMessageDialog(this, "Se ha estandarizado correctamente a excel");
+        JOptionPane.showMessageDialog(this, "Se han estandarizado correctamente los registros a excel");
     }
 
     private void btnEstandExportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstandExportExcelActionPerformed
         // TODO add your handling code here:
         writeExcel();
     }//GEN-LAST:event_btnEstandExportExcelActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//        
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     String camposDeterminados = "";
     String listarCampos = "";
@@ -2001,6 +2150,7 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JButton btnRegistrosListar;
     private javax.swing.JButton btnRegistrosModificar;
     private javax.swing.JButton btnRegistrosSalir;
+    private javax.swing.JButton jButton1;
     private javax.swing.JDialog jD_Archivo;
     private javax.swing.JDialog jD_Campos;
     private javax.swing.JDialog jD_Estandarizacion;
