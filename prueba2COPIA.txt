@@ -1,3 +1,3 @@
 METADATA,prueba2,2,3,
 nombreEstudiante|char|9|#numCuenta|int|8|#telefono|int|8|#graduado|boolean|2|#,
-Dan|1194585|31658974|false|#Isaac|12011215|31697191|true|#Petronila|12011212|31697195|false|#
+Dan|1194585|31658974|false|#isac|12011200|31312325|true|#Petronila|12011216|31697195|false|#Jose|12012323|23230000|true|

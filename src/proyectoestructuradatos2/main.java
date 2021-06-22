@@ -1259,6 +1259,35 @@ public class main extends javax.swing.JFrame {
 
         return registros;
     }
+    
+    public void escribirRegistros(String registros){
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        try {
+
+            fw = new FileWriter(fichero);
+            bw = new BufferedWriter(fw);
+
+            bw.write(metadata + "\n");
+            if (!camposDeterminados.contains(",")) {
+                camposDeterminados += ",";
+            }
+            bw.write(camposDeterminados + "\n");
+
+            bw.write(registros);
+
+            bw.flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            bw.close();
+            fw.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 
 //    public String sobreescribirRegistro(String registroInsertar, String registros) {
 //        availList.construirAvail(fichero.getName().toString().replace(".txt", "_availList.txt"), availList);
@@ -1337,6 +1366,7 @@ public class main extends javax.swing.JFrame {
     }
 
     public String sobreescribirRegistro(String registroInsertar, String registros) {
+        availList = new DoublyLinkedList();
         availList.construirAvail(fichero.getName().toString().replace(".txt", "_availList.txt"), availList);
         DLLNode nodoIntentar = availList.head;
         if (registros == "" || availList.length() == 0) {
@@ -1389,10 +1419,12 @@ public class main extends javax.swing.JFrame {
         ArrayList<Integer> lenghts = new ArrayList<Integer>();
         String m[] = registros.split("#");
         for (int i = 0; i < m.length; i++) {
-            String n[] = m[i].split("\\|");
-            regs.add(Integer.parseInt(n[llavePrimaria - 1]));
-            bytes.add(registros.indexOf(m[i]));
-            lenghts.add(m[i].length());
+            if(m[i].charAt(0)!='*'){
+                String n[] = m[i].split("\\|");
+                regs.add(Integer.parseInt(n[llavePrimaria - 1]));
+                bytes.add(registros.indexOf(m[i]));
+                lenghts.add(m[i].length());
+            }
         }
 
         //System.out.println(regs);
@@ -1428,7 +1460,7 @@ public class main extends javax.swing.JFrame {
             if (llaveEliminar != null) {
 
                 System.out.println(llaveEliminar.getByteOff() + " 0");
-
+                
                 availList.addLast(llaveEliminar.getByteOff(), llaveEliminar.getLength());
                 if (availList.length() >= 2) {
                     availList.sort();
@@ -1446,34 +1478,55 @@ public class main extends javax.swing.JFrame {
                 Tree.remove(llaveRegistro);
                 Tree.traverse();
 
-                FileWriter fw = null;
-                BufferedWriter bw = null;
-                try {
-
-                    fw = new FileWriter(fichero);
-                    bw = new BufferedWriter(fw);
-
-                    bw.write(metadata + "\n");
-                    if (!camposDeterminados.contains(",")) {
-                        camposDeterminados += ",";
-                    }
-                    bw.write(camposDeterminados + "\n");
-
-                    bw.write(registros);
-
-                    bw.flush();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    bw.close();
-                    fw.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+                escribirRegistros(registros);
             }
 
+        } else if(op==2){
+            int op2 = Integer.parseInt(JOptionPane.showInputDialog(this, "Eliminar registros en base a:\n 1. Menor a llave ingresada \n 2. Mayor a llave ingresada"));
+            int llaveIgresada = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingresa llave de referencia: "));
+            String registros = leerRegistros();
+            String[] registroIndividual = registros.split("#");
+            for (int i = 0; i < registroIndividual.length; i++) {
+                String[] temp = registroIndividual[i].split("\\|");
+                int llaveRegistro = Integer.parseInt(temp[indiceLlavePrimariaDecodificado-1]);
+                if(op2==1 && llaveRegistro<llaveIgresada){
+                    llaveEliminar = Tree.search(llaveRegistro);
+                    
+                    availList.addLast(llaveEliminar.getByteOff(), llaveEliminar.getLength());
+                    if (availList.length() >= 2) {
+                        availList.sort();
+                    }
+                    availList.saveAvail(fichero.getName().toString().replace(".txt", "_availList.txt"));
+                    //String registros = leerRegistros();
+
+                    //el guardado solo es temporal
+                    availList.removeLast();
+                    
+                    registros = registros.substring(0, llaveEliminar.getByteOff()) + "*" + registros.substring(llaveEliminar.getByteOff() + 1, registros.length());
+                    Tree.remove(llaveRegistro);
+                    Tree.traverse();
+
+                    escribirRegistros(registros);
+                } else if(op2==2 && llaveRegistro>llaveIgresada){
+                    llaveEliminar = Tree.search(llaveRegistro);
+                    
+                    availList.addLast(llaveEliminar.getByteOff(), llaveEliminar.getLength());
+                    if (availList.length() >= 2) {
+                        availList.sort();
+                    }
+                    availList.saveAvail(fichero.getName().toString().replace(".txt", "_availList.txt"));
+                    //String registros = leerRegistros();
+
+                    //el guardado solo es temporal
+                    availList.removeLast();
+                    
+                    registros = registros.substring(0, llaveEliminar.getByteOff()) + "*" + registros.substring(llaveEliminar.getByteOff() + 1, registros.length());
+                    Tree.remove(llaveRegistro);
+                    Tree.traverse();
+
+                    escribirRegistros(registros);
+                }
+            }
         }
     }//GEN-LAST:event_btnRegistrosBorrarActionPerformed
 
@@ -1737,10 +1790,12 @@ public class main extends javax.swing.JFrame {
         ArrayList<Integer> lenghts = new ArrayList<Integer>();
         String m[] = registros.split("#");
         for (int i = 0; i < m.length; i++) {
-            String n[] = m[i].split("\\|");
-            regs.add(Integer.parseInt(n[indiceLlavePrimariaDecodificado - 1]));
-            bytes.add(registros.indexOf(m[i]));
-            lenghts.add(m[i].length());
+            if(m[i].charAt(0)!='*'){
+                String n[] = m[i].split("\\|");
+                regs.add(Integer.parseInt(n[indiceLlavePrimariaDecodificado - 1]));
+                bytes.add(registros.indexOf(m[i]));
+                lenghts.add(m[i].length());
+            }
         }
 
         //System.out.println(regs);
