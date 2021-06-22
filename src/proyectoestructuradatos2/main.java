@@ -5,9 +5,11 @@
  */
 package proyectoestructuradatos2;
 
+import java.awt.Font;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,6 +18,16 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.*;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.IndexedColors;
 
 /**
  *
@@ -29,74 +41,6 @@ public class main extends javax.swing.JFrame {
     public main() {
         initComponents();
         archivoCerrado();
-//        BTree t = new BTree(3);
-//        System.out.println("Insertando 1");
-//        t.insert(1);
-//        t.traverse();
-//        System.out.println();
-//        System.out.println("Insertando 3");
-//        t.insert(3);
-//        t.traverse();
-//        System.out.println();
-//        System.out.println("Insertando 8");
-//        t.insert(8);
-//        t.traverse();
-//        System.out.println();
-//        System.out.println("Insertando 10");
-//        t.insert(10);
-//        t.traverse();
-//        System.out.println();
-//        System.out.println("Insertando 11");
-//        t.insert(11);
-//        t.traverse();
-//        System.out.println();
-//        System.out.println("Insertando 28");
-//        t.insert(28);
-//        t.traverse();
-//        System.out.println();
-//        System.out.println("Insertando 24");
-//        t.insert(24);
-//        t.traverse();
-//        System.out.println();
-//        System.out.println("Insertando 25");
-//        t.insert(25);
-//        t.traverse();
-//        System.out.println();
-//        System.out.println("Insertando 21");
-//        t.insert(21);
-//        t.traverse();
-//        System.out.println();
-//        System.out.println("Insertando 29");
-//        t.insert(29);
-//        t.traverse();
-//        System.out.println();
-//        System.out.println("Insertando 20");
-//        t.insert(20);
-//        t.traverse();
-//        System.out.println();
-//        System.out.println("Insertando 22");
-//        t.insert(22);
-//        t.traverse();
-//        System.out.println();
-//        System.out.println("Insertando 2");
-//        t.insert(2);
-//        t.traverse();
-//        System.out.println();
-//
-//        t.remove(25);
-//        System.out.println("Eliminando 25");
-//        t.traverse();
-//        System.out.println();
-//
-//        t.remove(28);
-//        System.out.println("Eliminando 28");
-//        t.traverse();
-//        System.out.println();
-//
-//        t.remove(3);
-//        System.out.println("Eliminando 3");
-//        t.traverse();
-//        System.out.println();
 
     }
 
@@ -388,6 +332,11 @@ public class main extends javax.swing.JFrame {
 
         btnEstandExportExcel.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
         btnEstandExportExcel.setText("Exportar excel");
+        btnEstandExportExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEstandExportExcelActionPerformed(evt);
+            }
+        });
         jD_Estandarizacion.getContentPane().add(btnEstandExportExcel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 84, 229, 39));
 
         btnEstandXMLSchema.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
@@ -722,8 +671,52 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCamposListarActionPerformed
 
     private void btnCamposCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCamposCrearActionPerformed
+//if (numLinea == 0) {                  //METADATA
+//                            metadata = linea;
+//                            if (t.length > 2) {
+//                                indiceLlavePrimariaDecodificado = Integer.parseInt(t[2]);
+//                            }
+//                            if (t.length > 3) {
+//                                indiceLlaveSecundariaDecodificado = Integer.parseInt(t[3]);
+//                            }
+//                        }
 
-        if (archivoFueAbierto == true) {
+        FileReader fr = null;
+        BufferedReader br = null;
+        boolean yaHayMetadata = false;
+
+        try {
+            fr = new FileReader(fichero);
+            br = new BufferedReader(fr);
+            String linea;
+
+            int numLinea = 0;
+            while ((linea = br.readLine()) != null) {
+                String q[] = linea.split(",");
+                for (int i = 0; i < q.length; i++) {
+                    if (numLinea == 0) {
+                        if (q.length > 2) {
+                            yaHayMetadata = true;
+                        }
+                    }
+                }
+                numLinea++;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            br.close();
+            fr.close();
+        } catch (IOException ex) {
+        }
+
+//        if (archivoFueAbierto == true) {
+//            creacionCampos();
+////        } else 
+        if (yaHayMetadata) {
+            removeLastChar(camposDeterminados);
             creacionCampos();
         } else {
             creacionCampos();
@@ -872,9 +865,9 @@ public class main extends javax.swing.JFrame {
 //                }
 //                tabla_vehiculos.setModel(modeloSetear);     //le seteo el modelo q contiene todas las nuevas rows
                 int numLinea = 0;
-                ArrayList<String> nameCampos = new ArrayList<String>();
-                ArrayList<String> tipoCampo = new ArrayList<String>();
-                ArrayList<Integer> sizeCampo = new ArrayList<Integer>();
+                ArrayList<String> nameCampos = new ArrayList();
+                ArrayList<String> tipoCampo = new ArrayList();
+                ArrayList<Integer> sizeCampo = new ArrayList();
 //                ArrayList<Object> campos = new ArrayList<Object>();
 //                campos.add("hola");
 //                campos.add(7);
@@ -1111,7 +1104,12 @@ public class main extends javax.swing.JFrame {
         int cantRegistros = Integer.parseInt(cantidadCampos);
         int cantCamposDeterminados = nombresParaCampos.size();
 
+        String registrosPEscritura = "";
+        String reg = "";
+
         for (int j = 0; j < cantRegistros; j++) {
+            reg = leerRegistros();
+            registroDeterminado = "";
             for (int i = 0; i < cantCamposDeterminados; i++) {
                 boolean pasa = false;
                 if (tipoEnCampos.get(i).equals("char")) {
@@ -1187,39 +1185,34 @@ public class main extends javax.swing.JFrame {
                     }
                 }
             }
-            registroDeterminado += "#";
+            registrosPEscritura = sobreescribirRegistro(registroDeterminado, reg);
 
-        }
-        String reg = leerRegistros();
-        System.out.println("ESTOS SON LOS ACTUALES: " + reg);
-        String registrosPEscritura = sobreescribirRegistro(registroDeterminado, reg);
-        System.out.println("ESTO ES LO QUE SE ESCRIBE :  " + registrosPEscritura);
+            FileWriter fw = null;
+            BufferedWriter bw = null;
+            try {
 
-        FileWriter fw = null;
-        BufferedWriter bw = null;
-        try {
+                fw = new FileWriter(fichero);
+                bw = new BufferedWriter(fw);
 
-            fw = new FileWriter(fichero);
-            bw = new BufferedWriter(fw);
+                bw.write(metadata + "\n");
+                if (!camposDeterminados.contains(",")) {
+                    camposDeterminados += ",";
+                }
+                bw.write(camposDeterminados + "\n");
 
-            bw.write(metadata + "\n");
-            if (!camposDeterminados.contains(",")) {
-                camposDeterminados += ",";
+                bw.write(registrosPEscritura);
+
+                bw.flush();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            bw.write(camposDeterminados + "\n");
 
-            bw.write(registrosPEscritura);
-
-            bw.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        try {
-            bw.close();
-            fw.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            try {
+                bw.close();
+                fw.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
 
         JOptionPane.showMessageDialog(this, "Ingresado exitosamente");
@@ -1267,20 +1260,105 @@ public class main extends javax.swing.JFrame {
         return registros;
     }
 
+//    public String sobreescribirRegistro(String registroInsertar, String registros) {
+//        availList.construirAvail(fichero.getName().toString().replace(".txt", "_availList.txt"), availList);
+//        DLLNode nodoIntentar = availList.head;
+//        if (registros == "" || availList.length() == 0) {
+//            registroInsertar += "#";
+//            registros += registroInsertar;
+//        } else {
+//            for (int i = 0; i < availList.length(); i++) {
+//                if (registroInsertar.length() <= (nodoIntentar).tamaño) {
+//                    registros = registros.substring(0, nodoIntentar.byteOff) + registroInsertar + registros.substring(nodoIntentar.byteOff + nodoIntentar.tamaño, registros.length());
+//                } else {
+//                    nodoIntentar = nodoIntentar.next;
+//                }
+//
+//                if (nodoIntentar == null) {
+//                    registroInsertar += "#";
+//                    registros += registroInsertar;
+//                    break;
+//                }
+//            }
+//        }
+//
+//        System.out.println("NODO YA REEMPLADAZO: " + registros);
+//        return registros;
+//    }
+    public String leerAvail(String nombreArchivo) {
+        String linea = "";
+        FileReader fr = null;
+        BufferedReader br = null;
+        File fichero = new File(nombreArchivo);
+        try {
+            fr = new FileReader(fichero);
+            br = new BufferedReader(fr);
+
+            linea = br.readLine();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            br.close();
+            fr.close();
+        } catch (IOException ex) {
+        }
+
+        return linea;
+    }
+
+    public void salvarAvail(String nombreArchivo, String stringGuardar) {
+        if (nombreArchivo != null || !nombreArchivo.equals("")) {
+            File fichero = new File(nombreArchivo);
+
+            FileWriter fw = null;
+            BufferedWriter bw = null;
+            FileReader fr = null;
+            BufferedReader br = null;
+            try {
+                fw = new FileWriter(fichero);
+                bw = new BufferedWriter(fw);
+                bw.write(stringGuardar);
+                bw.flush();
+                //JOptionPane.showMessageDialog(this, "Archivo guardado exitosamente en " + fichero.toString());
+                System.out.println("Se actualizó el archivo de availList");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                bw.close();
+                fw.close();
+            } catch (IOException ex) {
+            }
+
+        }
+    }
+
     public String sobreescribirRegistro(String registroInsertar, String registros) {
         availList.construirAvail(fichero.getName().toString().replace(".txt", "_availList.txt"), availList);
         DLLNode nodoIntentar = availList.head;
         if (registros == "" || availList.length() == 0) {
+            registroInsertar += "#";
             registros += registroInsertar;
         } else {
             for (int i = 0; i < availList.length(); i++) {
                 if (registroInsertar.length() <= (nodoIntentar).tamaño) {
                     registros = registros.substring(0, nodoIntentar.byteOff) + registroInsertar + registros.substring(nodoIntentar.byteOff + nodoIntentar.tamaño, registros.length());
+
+                    //lee el archivo de avail
+                    String avail = leerAvail(fichero.getName().toString().replace(".txt", "_availList.txt"));
+                    avail = avail.replace(Integer.toString(nodoIntentar.byteOff) + "|" + Integer.toString(nodoIntentar.tamaño) + "|#", "");
+                    salvarAvail(fichero.getName().toString().replace(".txt", "_availList.txt"), avail);
+
                 } else {
                     nodoIntentar = nodoIntentar.next;
                 }
 
                 if (nodoIntentar == null) {
+                    registroInsertar += "#";
+                    registros += registroInsertar;
                     break;
                 }
             }
@@ -1289,6 +1367,7 @@ public class main extends javax.swing.JFrame {
         System.out.println("NODO YA REEMPLADAZO: " + registros);
         return registros;
     }
+
 
     private void btnIndicesCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnIndicesCrearMouseClicked
         //CREAR INDICES QUE SERIA CREAR ARBOL
@@ -1452,7 +1531,6 @@ public class main extends javax.swing.JFrame {
             //AQUI SE RECIBE EL OFFSET, DESPUES MEDIANTE EL OFFSET CON LA LINEA DE REGISTRO SE OBTIENE EL REGISTRO A MODIFICAR POR AHORA ESTA EN DURO AQUI ABAJO
             //String stringRecibida = "Daniel|11941247|0801200100002|false|";
             String stringRecibida = leerRegistros().substring(llaveRegistros.byteOff, llaveRegistros.byteOff + llaveRegistros.length);
-            System.out.println(stringRecibida);
             actualizarReglasDeCampos();
 
             String t[] = stringRecibida.split("\\|");
@@ -1520,9 +1598,36 @@ public class main extends javax.swing.JFrame {
                 nuevoRegistro += t[i] + "|";
             }
 
-            //digamos q para este punto ya está modificado el registro, entonces ahora lo modifico en memoria para luego modificarlo en el archivo
+            Tree.remove(llaveRegistro);
+
             String registrosActualizados = leerRegistros().replace(stringRecibida, nuevoRegistro);
-            //registros.eliminar(byteoffset, byteoffset+tamañoRegistro)     eliminaria el registro en memoria
+
+            FileWriter fw = null;
+            BufferedWriter bw = null;
+            try {
+
+                fw = new FileWriter(fichero);
+                bw = new BufferedWriter(fw);
+
+                bw.write(metadata + "\n");
+                if (!camposDeterminados.contains(",")) {
+                    camposDeterminados += ",";
+                }
+                bw.write(camposDeterminados + "\n");
+
+                bw.write(registrosActualizados);
+
+                bw.flush();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            try {
+                bw.close();
+                fw.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
 
         } else {                                                                                                 //si el registro no existe
             JOptionPane.showMessageDialog(this, "El registro con llave " + llaveRegistro + " no existe.\n Intenta de nuevo");
@@ -1648,6 +1753,115 @@ public class main extends javax.swing.JFrame {
 
         JOptionPane.showMessageDialog(this, "Indices creados exitosamente.");
     }//GEN-LAST:event_btnIndicesIndexarActionPerformed
+
+    public void writeExcel() {
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = workbook.createSheet();
+
+        FileReader fr = null;
+        BufferedReader br = null;
+
+        ArrayList<String> nombreEnCampos = new ArrayList();
+        ArrayList<String> tipoEnCampos = new ArrayList();
+        ArrayList<Integer> sizeEnCampos = new ArrayList();
+
+        String nombreArchivo = fichero.getName();
+        nombreArchivo = nombreArchivo.substring(0, nombreArchivo.length() - 4);
+
+        try {
+            fr = new FileReader(fichero);
+            br = new BufferedReader(fr);
+            String linea;
+
+            int numLinea = 0;
+            while ((linea = br.readLine()) != null) {
+                String q[] = linea.split(",");
+                for (int i = 0; i < q.length; i++) {
+                    if (numLinea == 0) {
+                        if (i == 1) {
+                            nombreArchivo = q[i];
+                        }
+                    } else if (numLinea == 1) {
+                        String p[] = q[i].split("#");
+                        for (int j = 0; j < p.length; j++) {
+                            String c[] = p[j].split("\\|");
+                            for (int k = 0; k < c.length; k++) {
+                                if (k == 0) {
+                                    nombreEnCampos.add(c[k]);
+                                }
+                                if (k == 1) {
+                                    tipoEnCampos.add(c[k]);
+                                }
+                                if (k == 2) {
+                                    sizeEnCampos.add(Integer.valueOf(c[k]));
+                                }
+                            }
+                        }
+                    }
+                }
+                numLinea++;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            br.close();
+            fr.close();
+        } catch (IOException ex) {
+        }
+
+        workbook.setSheetName(0, nombreArchivo);
+
+        String[] headers = new String[nombreEnCampos.size()];
+        for (int i = 0; i < nombreEnCampos.size(); i++) {
+            headers[i] = nombreEnCampos.get(i);
+        }
+
+        CellStyle headerStyle = workbook.createCellStyle();
+        HSSFFont font = workbook.createFont();
+        font.setBold(true);
+        headerStyle.setFont(font);
+
+        CellStyle style = workbook.createCellStyle();
+        style.setFillForegroundColor(IndexedColors.LIGHT_YELLOW.getIndex());
+        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+        HSSFRow headerRow = sheet.createRow(0);
+        for (int i = 0; i < headers.length; ++i) {
+            String header = headers[i];
+            HSSFCell cell = headerRow.createCell(i);
+            cell.setCellStyle(headerStyle);
+            cell.setCellValue(header);
+        }
+
+        String registros = leerRegistros();
+
+        String[] p = registros.split("#");
+        for (int j = 0; j < p.length; j++) {
+            HSSFRow dataRow = sheet.createRow(j + 1);
+            String[] t = p[j].split("\\|");
+            for (int k = 0; k < t.length; k++) {
+                dataRow.createCell(k).setCellValue(t[k]);
+            }
+        }
+
+        try {
+
+            FileOutputStream file = new FileOutputStream(nombreArchivo + ".xls");
+            workbook.write(file);
+            file.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JOptionPane.showMessageDialog(this, "Se ha estandarizado correctamente a excel");
+    }
+
+    private void btnEstandExportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstandExportExcelActionPerformed
+        // TODO add your handling code here:
+        writeExcel();
+    }//GEN-LAST:event_btnEstandExportExcelActionPerformed
 
     String camposDeterminados = "";
     String listarCampos = "";
