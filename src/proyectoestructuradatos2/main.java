@@ -18,6 +18,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.parsers.DocumentBuilder;
 import org.apache.poi.*;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -28,6 +29,17 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.IndexedColors;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
 /**
  *
@@ -354,6 +366,11 @@ public class main extends javax.swing.JFrame {
 
         btnEstandXMLSchema.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
         btnEstandXMLSchema.setText("Exportar XML con Schema");
+        btnEstandXMLSchema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEstandXMLSchemaActionPerformed(evt);
+            }
+        });
         jD_Estandarizacion.getContentPane().add(btnEstandXMLSchema, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 134, -1, 39));
 
         btnEstandSalir.setFont(new java.awt.Font("Eras Light ITC", 0, 18)); // NOI18N
@@ -622,11 +639,26 @@ public class main extends javax.swing.JFrame {
                 tipoCampoTemp = JOptionPane.showInputDialog(this, "Ingrese el tipo correcto de campo para el campo " + nombreCampoTemp + "\n 1 = int,2 = String, 3 = double, 4 = boolean");
             }
 
-            String longitudCampoTemp = JOptionPane.showInputDialog(this, "Ingrese la longitud de campo para el campo (de 0 en adelante)" + nombreCampoTemp);
+            String longitudCampoTemp = JOptionPane.showInputDialog(this, "Ingrese la longitud de campo para el campo (de 0 en adelante) " + nombreCampoTemp);
             int longitudCampoIntTemp = Integer.parseInt(longitudCampoTemp);
-            while (longitudCampoIntTemp <= 0) {
-                longitudCampoTemp = JOptionPane.showInputDialog(this, "Ingrese la longitud de campo para el campo (de 0 en adelante)" + nombreCampoTemp);
-                longitudCampoIntTemp = Integer.parseInt(longitudCampoTemp);
+            boolean verificacionLongitud = false;
+            while (!verificacionLongitud) {
+                if (tipoDeCampoDefinitivo.equals("int")) {
+                    if (longitudCampoIntTemp >= 10) {
+                        longitudCampoTemp = JOptionPane.showInputDialog(this, "El size de este campo, es mayor a lo que los enteros soportan numericamente, intenta con otro size");
+                        longitudCampoIntTemp = Integer.parseInt(longitudCampoTemp);
+                    } else {
+                        verificacionLongitud = true;
+                    }
+                } else {
+                    if (longitudCampoIntTemp <= 0) {
+                        longitudCampoTemp = JOptionPane.showInputDialog(this, "Ingrese la longitud correcta de campo para el campo (de 0 en adelante) " + nombreCampoTemp);
+                        longitudCampoIntTemp = Integer.parseInt(longitudCampoTemp);
+                    } else {
+                        verificacionLongitud = true;
+                    }
+                }
+
             }
 
             camposDeterminados += nombreCampoTemp + "|" + tipoDeCampoDefinitivo + "|" + longitudCampoIntTemp + "|#";
@@ -685,13 +717,26 @@ public class main extends javax.swing.JFrame {
 
     int MAX_VALUE = 2147483647;
     int MIN_VALUE = -2147483648;
-    
-    public void leerCamposDesdeMemoria(){
+
+    ArrayList<String> nombresCamposEnMemoria = new ArrayList();
+    ArrayList<String> tiposCamposEnMemoria = new ArrayList();
+    ArrayList<Integer> sizeCamposEnMemoria = new ArrayList();
+
+    public void leerCamposDesdeMemoria() {
         String campos = camposDeterminados;
         campos = removeLastChar(campos);
         String p[] = campos.split("#");
         for (int i = 0; i < p.length; i++) {
-            
+            String t[] = p[i].split("\\|");
+            for (int j = 0; j < t.length; j++) {
+                if (j == 0) {
+                    nombresCamposEnMemoria.add(t[j]);
+                } else if (j == 1) {
+                    tiposCamposEnMemoria.add(t[j]);
+                } else if (j == 2) {
+                    sizeCamposEnMemoria.add(Integer.parseInt(t[j]));
+                }
+            }
         }
     }
 
@@ -746,21 +791,26 @@ public class main extends javax.swing.JFrame {
         } else {
             creacionCampos();
 
-            JOptionPane.showConfirmDialog(this, "Tener en cuenta que llave primaria no puede pasar de los limites numericos del entero.");
+            JOptionPane.showMessageDialog(this, "Tener en cuenta que la llave primaria tiene que ser de tipo entero.", "Llave primaria", JOptionPane.OK_OPTION);
 
             String indiceLlavePrimaria = JOptionPane.showInputDialog(this, "Ingrese un num desde 1 hasta " + numCampos + " para seleccionar la llave primaria de los campos.");
             indiceLlavePrimariaDecodificado = Integer.parseInt(indiceLlavePrimaria);
-            
-            
+            leerCamposDesdeMemoria();
 
-            //int input = JOptionPane.showConfirmDialog(null, "Tenemos llave secundaria?");     // 0=yes, 1=no, 2=cancel
-            String indiceLlaveSecundaria = indiceLlavePrimaria;
-            while (indiceLlaveSecundaria == indiceLlavePrimaria) {
-                indiceLlaveSecundaria = JOptionPane.showInputDialog(this, "Ingrese un num desde 1 hasta " + numCampos + " para seleccionar la llave secundaria de los campos. Diferente a " + indiceLlavePrimaria);
+            if (!tiposCamposEnMemoria.get(indiceLlavePrimariaDecodificado - 1).equals("int")) {
+                JOptionPane.showMessageDialog(this, "Ingrese un campo que sea de tipo entero para poder utilizarlo como llave primaria.", "ERROR EN LLAVE PRIMARIA", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Vuelva a ingresar los campos.", "ERROR EN LLAVE PRIMARIA", JOptionPane.WARNING_MESSAGE);
+                camposDeterminados = "";
+            } else {
+                String indiceLlaveSecundaria = indiceLlavePrimaria;
+                while (indiceLlaveSecundaria == indiceLlavePrimaria) {
+                    indiceLlaveSecundaria = JOptionPane.showInputDialog(this, "Ingrese un num desde 1 hasta " + numCampos + " para seleccionar la llave secundaria de los campos. Diferente a " + indiceLlavePrimaria);
+                }
+                indiceLlaveSecundariaDecodificado = Integer.parseInt(indiceLlaveSecundaria);
+
+                metadata += indiceLlavePrimaria + "," + indiceLlaveSecundaria + ",";
+                JOptionPane.showMessageDialog(this, "Definicion de campos creada exitosamente.", "Operacion exitosa", JOptionPane.PLAIN_MESSAGE);
             }
-            indiceLlaveSecundariaDecodificado = Integer.parseInt(indiceLlaveSecundaria);
-
-            metadata += indiceLlavePrimaria + "," + indiceLlaveSecundaria + ",";
         }
 
     }//GEN-LAST:event_btnCamposCrearActionPerformed
@@ -2067,6 +2117,86 @@ public class main extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    public void crearXML() {
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            DOMImplementation implementation = builder.getDOMImplementation();
+            String nombreArchivo = fichero.getName();
+            nombreArchivo = nombreArchivo.substring(0, nombreArchivo.length() - 4);
+            Document documento = implementation.createDocument(null, nombreArchivo, null);
+            documento.setXmlVersion("1.0");
+
+            FileReader fr = new FileReader(fichero);
+            BufferedReader br = new BufferedReader(fr);
+            String linea;
+            int numLinea = 0;
+            ArrayList<String> nameCampos = new ArrayList();
+            ArrayList<String> tipoCampo = new ArrayList();
+            ArrayList<Integer> sizeCampo = new ArrayList();
+
+            while ((linea = br.readLine()) != null) {
+                String t[] = linea.split(",");
+                for (int i = 0; i < t.length; i++) {
+
+                    if (numLinea == 1) {
+                        String p[] = t[i].split("#");
+                        for (int j = 0; j < p.length; j++) {
+                            String q[] = p[j].split("\\|");
+                            for (int k = 0; k < q.length; k++) {
+                                if (k == 0) {
+                                    nameCampos.add(q[k]);
+                                }
+                                if (k == 1) {
+                                    tipoCampo.add(q[k]);
+                                }
+                                if (k == 2) {
+                                    sizeCampo.add(Integer.valueOf(q[k]));
+                                }
+                            }
+                        }
+                    }
+                }
+                numLinea++;
+            }
+            Element registros = documento.createElement("registros");
+            String reg = leerRegistros();
+            String[] a = reg.split("#");
+
+            for (int i = 0; i < a.length; i++) {
+                Element registro = documento.createElement("registro");
+                String[] o = a[i].split("\\|");
+                for (int j = 0; j < o.length; j++) {
+                    Element tipoDeDato = documento.createElement(nameCampos.get(j));
+                    Text textDato = documento.createTextNode(o[j]);
+                    tipoDeDato.appendChild(textDato);
+                    registro.appendChild(tipoDeDato);
+                }
+                registros.appendChild(registro);
+            }
+            
+
+            documento.getDocumentElement().appendChild(registros);
+
+            Source source = new DOMSource(documento);
+            Result result = new StreamResult(new File(nombreArchivo + ".xslt"));
+
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.transform(source, result);
+            
+            JOptionPane.showMessageDialog(this, "Se exporto el archivo correctamente", "Exito en operacion", JOptionPane.PLAIN_MESSAGE);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Hubo un error con los datos en el archivo, verifique si no esta dañado.", "Error en el archivo", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
+    private void btnEstandXMLSchemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEstandXMLSchemaActionPerformed
+        // TODO add your handling code here:
+        crearXML();
+    }//GEN-LAST:event_btnEstandXMLSchemaActionPerformed
+
     String camposDeterminados = "";
     String listarCampos = "";
     String registrosDeterminados = "";
@@ -2088,7 +2218,7 @@ public class main extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
 
