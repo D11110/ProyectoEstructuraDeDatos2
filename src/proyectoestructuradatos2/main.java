@@ -1996,125 +1996,200 @@ public class main extends javax.swing.JFrame {
         writeExcel();
     }//GEN-LAST:event_btnEstandExportExcelActionPerformed
 
+    public void abrirSegundoArchivo(){
+        String infoGuardar="";
+        String nombreNuevoArchivo = fichero.getName().replace(".txt", "")+"_";
+        
+        String metadata2 = "";
+//        String camposDeterminados2 = "";
+//        String registrosDeterminados2 = "";
+//        String listarCampos2 = "";
+        int indiceLlavePrimariaDecodificado2;
+        int indiceLlaveSecundariaDecodificado2;
+        boolean existenRegistros = false;
+//        archivoFueAbierto = true;
+        File fichero2 = null;
+        File ficheroAbrir = null;
+        FileReader fr = null;
+        BufferedReader br = null;
+        
+        ArrayList<String> nameCampos2 = new ArrayList();
+        ArrayList<String> tipoCampo2 = new ArrayList();
+        ArrayList<Integer> sizeCampo2 = new ArrayList();
+        
+        try {
+            JFileChooser jfc = new JFileChooser("./");
+            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de Texto", "txt");
+            FileNameExtensionFilter filtro2 = new FileNameExtensionFilter("Imagenes", "jpg", "png", "bmp");
+            jfc.setFileFilter(filtro);
+            jfc.addChoosableFileFilter(filtro2);
+            int seleccion = jfc.showOpenDialog(this);
+            if (seleccion == JFileChooser.APPROVE_OPTION) {
+                ficheroAbrir = jfc.getSelectedFile();
+                
+                fichero2 = ficheroAbrir;                             //se actualiza que el nuevo fichero global es este
+                nombreNuevoArchivo += ficheroAbrir.getName().replace(".txt", "");
+                
+                fr = new FileReader(ficheroAbrir);
+                br = new BufferedReader(fr);
+                String linea;
+                int numLinea = 0;
+                
+                while ((linea = br.readLine()) != null) {
+                    String t[] = linea.split(",");
+                    for (int i = 0; i < t.length; i++) {
+
+                        if (numLinea == 0) {                  //METADATA
+                            metadata2 = linea;
+                            if (t.length > 2) {
+                                indiceLlavePrimariaDecodificado2 = Integer.parseInt(t[2]);
+                            }
+                            if (t.length > 3) {
+                                indiceLlaveSecundariaDecodificado2 = Integer.parseInt(t[3]);
+                            }
+                        }
+                        if (numLinea == 1) {                //CAMPOS
+                            String p[] = t[i].split("#");
+                            for (int j = 0; j < p.length; j++) {
+                                String q[] = p[j].split("\\|");
+                                for (int k = 0; k < q.length; k++) {
+                                    if (k == 0) {
+                                        nameCampos2.add(q[k]);
+                                    }
+                                    if (k == 1) {
+                                        tipoCampo2.add(q[k]);
+                                    }
+                                    if (k == 2) {
+                                        sizeCampo2.add(Integer.valueOf(q[k]));
+                                    }
+                                }
+                            }
+                        } else if(numLinea==2) {            //REGISTROS
+                            existenRegistros = true;
+                        }
+                    }
+
+                    numLinea++;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
+            br.close();
+            fr.close();
+        } catch (IOException ex) {
+        }
+        
+        //INTERPRETO LOS CAMPOS QUE TENGO EN EL ARCHIVO ACTUAL
+        ArrayList<String> nombresParaCampos = new ArrayList<String>();
+        ArrayList<String> tipoEnCampos = new ArrayList<String>();
+        ArrayList<Integer> tamEnCampos = new ArrayList<Integer>();
+        String camposAUsar = camposDeterminados;
+        camposAUsar = removeLastChar(camposAUsar);
+
+        String p[] = camposAUsar.split("#");
+        for (int j = 0; j < p.length; j++) {
+            String q[] = p[j].split("\\|");
+            for (int k = 0; k < q.length; k++) {
+                if (k == 0) {
+                    System.out.println("Nombre campo : " + q[k]);
+                    nombresParaCampos.add(q[k]);
+                }
+                if (k == 1) {
+                    System.out.println("Tipo de campo : " + q[k]);
+                    tipoEnCampos.add(q[k]);
+                }
+                if (k == 2) {
+                    System.out.println("Tamaño de campo : " + q[k]);
+                    tamEnCampos.add(Integer.valueOf(q[k]));
+                }
+            }
+        }
+        
+        //COMPARO LOS CAMPOS Y VEO LOS QUE CUMPLAN LAS CONDICIONES
+        ArrayList<String> camposNominados = new ArrayList<String>();
+        
+        String campos ="";
+        int cant =0;
+        int mayor=nameCampos2.size();               //2
+        int menor=nombresParaCampos.size();         //8
+        if(mayor<menor){
+            menor = nameCampos2.size();
+            mayor = nombresParaCampos.size();
+        }
+        
+        for (int i = 0; i < nameCampos2.size(); i++) {
+            for (int j = 0; j < nombresParaCampos.size(); j++) {
+                //if(nombresParaCampos.get(i).equals(nameCampos2.get(i)) && tipoEnCampos.get(i).equals(tipoCampo2.get(i)) && tamEnCampos.get(i).equals(sizeCampo2.get(i))){
+                if(nameCampos2.get(i).equals(nombresParaCampos.get(j)) && tipoCampo2.get(i).equals(tipoEnCampos.get(j)) && sizeCampo2.get(i).equals(tamEnCampos.get(j))){
+                    camposNominados.add(nameCampos2.get(i)+"|"+tipoCampo2.get(i)+"|"+sizeCampo2.get(i)+"|#");
+                    if(menor==nameCampos2.size())
+                        campos += Integer.toString(cant)+". " + camposNominados.get(i) +"\n";
+                    else if(menor==nombresParaCampos.size())
+                        campos += Integer.toString(cant)+". " + camposNominados.get(j) +"\n";
+                    cant++;
+                }
+            }
+            
+        }
+        
+//        ArrayList<Integer> camposSeleccionados = new ArrayList<Integer>();
+        JOptionPane.showMessageDialog(this, "Se encontraron "+camposNominados.size()+" campos comunes. Son: \n"+campos);
+        int input;
+        int tempCant=0;
+        for (int i = 0; i < camposNominados.size(); i++) {
+            input = Integer.parseInt(JOptionPane.showInputDialog(this, "Deseas guardar este campo?: \n"+camposNominados.get(i)+"\n0. No\n"+"1. Sí"));
+            if(input==0 && tempCant!=0)
+                camposNominados.remove(i);
+            else
+                tempCant++;
+        }
+        
+        infoGuardar += "METADATA,"+nombreNuevoArchivo+","+"\n";
+        for (int i = 0; i < camposNominados.size(); i++) {
+            infoGuardar += camposNominados.get(i);
+        }
+        infoGuardar += ",";
+        System.out.println(infoGuardar);
+        
+        //CREAR ARCHIVO
+        FileWriter fw = null;
+        BufferedWriter bw = null;
+        FileWriter fw2 = null;
+        BufferedWriter bw2 = null;
+        File ficheroNuevo = new File(nombreNuevoArchivo + ".txt");
+        File ficheroNuevoAvail = new File(nombreNuevoArchivo + "_availList.txt");
+        try {
+            fw = new FileWriter(ficheroNuevo);
+            bw = new BufferedWriter(fw);
+            bw.write(infoGuardar);
+            bw.flush();
+            
+            fw2 = new FileWriter(ficheroNuevoAvail);
+            bw2 = new BufferedWriter(fw);
+            bw2.write("");
+            bw2.flush();
+            JOptionPane.showMessageDialog(this, "Archivo guardado exitosamente en " + ficheroNuevo.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            bw.close();
+            fw.close();
+            bw2.close();
+            fw2.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        
+    }
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//        
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
+        JOptionPane.showMessageDialog(this, "Selecciona el segundo archivo con el que querés hacer sopa de mondongo");
+        abrirSegundoArchivo();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     public void crearXML() {
