@@ -1,2 +1,0 @@
-METADATA,productos,1,
-marca|char|20|#presio|int|4|#,

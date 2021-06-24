@@ -1,3 +1,0 @@
-METADATA,mierdapruiebaultima,2,3,
-nombre|char|20|#noCuenta|int|9|#telefono|long|8|#,
-daniel|11941247|32748581|#*iguelon|12732123|98804328|#jamil|11741234|98989898|#pedro|12041234|87878787|#jose|11841234|32323232|#

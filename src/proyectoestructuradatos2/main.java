@@ -1227,6 +1227,10 @@ public class main extends javax.swing.JFrame {
                     fw.close();
                 } catch (IOException ex) {
                 }
+                
+                btnCamposBorrar.setEnabled(false);
+                btnCamposCrear.setEnabled(false);
+                btnCamposModificar.setEnabled(false);
             }
 
             JOptionPane.showMessageDialog(this, "Ingresado exitosamente", "Exito", JOptionPane.PLAIN_MESSAGE);
