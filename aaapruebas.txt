@@ -1,3 +1,0 @@
-METADATA,aaapruebas,2,1,
-nombre|char|20|#noCuenta|long|8|#,
-daniel|11941247|#juan|11941234|#jose|11741235|#manuel|12141234|#sergio|11841234|#

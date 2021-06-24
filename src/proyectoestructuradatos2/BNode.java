@@ -1,6 +1,5 @@
 package proyectoestructuradatos2;
 
-import javax.swing.JOptionPane;
 
 public class BNode {
 
@@ -52,32 +51,6 @@ public class BNode {
         }
     }
 
-//    public void insertNonFull(int k) {
-//
-//        int i = numLlaves - 1;
-//
-//        if (hoja) {
-//            while (i >= 0 && llaves[i].getIndice() > k) {
-//                llaves[i + 1].indice = llaves[i].getIndice();
-//                llaves[i + 1].byteOff = llaves[i].getByteOff();
-//                llaves[i + 1].length = llaves[i].getLength();
-//                i--;
-//            }
-//            llaves[i + 1].indice = k;
-//            numLlaves = numLlaves + 1;
-//        } else {
-//            while (i >= 0 && llaves[i].getIndice() > k) {
-//                i--;
-//            }
-//            if (hijos[i + 1].numLlaves == 2 * gradoMinimo - 1) {
-//                splitChild(i + 1, hijos[i + 1]);
-//                if (llaves[i + 1].getIndice() < k) {
-//                    i++;
-//                }
-//            }
-//            hijos[i + 1].insertNonFull(k);
-//        }
-//    }
 
     public void splitChild(int i, BNode y) {
 
@@ -156,20 +129,6 @@ public class BNode {
         return hijos[i].search(key);
     }
 
-//    public BNode search(int key) {
-//        int i = 0;
-//        while (i < numLlaves && key > llaves[i].indice) {
-//            i++;
-//        }
-//
-//        if (llaves[i].getIndice() == key) {
-//            return this;
-//        }
-//        if (hoja) {
-//            return null;
-//        }
-//        return hijos[i].search(key);
-//    }
     public int buscarKey(int key) {
         int i = 0;
         while (i < numLlaves && llaves[i].getIndice() < key) {
@@ -189,8 +148,7 @@ public class BNode {
             }
         } else {
             if (hoja) {
-                //System.out.printf("The key %d is does not exist in the tree\n", k);
-                //JOptionPane.showMessageDialog(this, "El registro con llave "+ k +" no existe");
+
                 return;
             }
 
